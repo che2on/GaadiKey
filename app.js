@@ -1,7 +1,7 @@
   var restify = require('restify');
 var mongojs = require("mongojs");
 
-var ip_addr = 'gaadikey.in';
+var ip_addr = '54.200.41.80';
 var port    =  '80';
 
 var connection_string = '127.0.0.1:27017/myapp';
