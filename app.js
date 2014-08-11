@@ -1,7 +1,7 @@
   var restify = require('restify');
 var mongojs = require("mongojs");
 
-var ip_addr = '127.0.0.1';
+var ip_addr = 'gaadikey.in';
 var port    =  '80';
 
 var connection_string = '127.0.0.1:27017/myapp';
@@ -19,6 +19,17 @@ server.use(restify.CORS());
 server.listen(port ,ip_addr, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
+
+
+/*
+var app = express();
+app
+.use(express.vhost('accounts.tweetaly.st', require('./node-login/app.js').app))
+.use(express.vhost('tweetaly.st', require('./tweetalystpro/app.js').app))
+.use(express.vhost('blog.tweetaly.st', require('./blog/app.js').app))
+.use(express.vhost('tv.tweetaly.st', require('./tv/app.js').app ))
+.listen(80);
+*/
 
 
 var PATH = '/jobs'
