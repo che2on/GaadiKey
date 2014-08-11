@@ -16,7 +16,7 @@ server.use(restify.queryParser());
 server.use(restify.bodyParser());
 server.use(restify.CORS());
  
-server.listen(port ,ip_addr, function(){
+server.listen(port, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
 
