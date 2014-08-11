@@ -1,10 +1,10 @@
   var restify = require('restify');
 var mongojs = require("mongojs");
 
-var ip_addr = '54.200.41.80';
-var port    =  '3009';
+var ip_addr = '127.0.0.1';
+var port    =  '80';
 
-var connection_string = '54.200.41.80/myapp';
+var connection_string = '127.0.0.1:27017/myapp';
 var db = mongojs(connection_string, ['myapp']);
 var jobs = db.collection("jobs")
  
