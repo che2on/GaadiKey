@@ -1,10 +1,10 @@
   var restify = require('restify');
 var mongojs = require("mongojs");
 
-var ip_addr = 'gaadikey.in';
+var ip_addr = '54.200.41.80';
 var port    =  '3009';
 
-var connection_string = 'gaadikey.in/myapp';
+var connection_string = '54.200.41.80/myapp';
 var db = mongojs(connection_string, ['myapp']);
 var jobs = db.collection("jobs")
  
