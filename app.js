@@ -2,7 +2,7 @@
 var mongojs = require("mongojs");
 
 var ip_addr = 'gaadikey.in';
-var port    =  '3000';
+var port    =  '3009';
 
 var connection_string = 'gaadikey.in/myapp';
 var db = mongojs(connection_string, ['myapp']);
