@@ -70,7 +70,7 @@ function postNewContact(req, res, next) {
     userObject.title = req.params.title;
     userObject.description = req.params.description;
     userObject.location = req.params.location;
-    userObject.phonebook = req.params.contactsMeta;
+    userObject.phonebook = req.params.contactdetails;
     userObject.postedOn  = new Date();
     res.setHeader('Access-Control-Allow-Origin','*');
     contacts.save(userObject , function(err , success){
