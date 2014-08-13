@@ -6,8 +6,9 @@ var port    =  '80';
 
 var connection_string = '127.0.0.1:27017/myapp';
 var db = mongojs(connection_string, ['myapp']);
-var jobs = db.collection("jobs")
- 
+var jobs = db.collection("jobs");
+var contacts = db.collection("contacts");
+
 var server = restify.createServer({
     name : "myapp"
 });
@@ -37,6 +38,52 @@ server.get({path : PATH , version : '0.0.1'} , findAllJobs);
 server.get({path : PATH +'/:jobId' , version : '0.0.1'} , findJob);
 server.post({path : PATH , version: '0.0.1'} ,postNewJob);
 server.del({path : PATH +'/:jobId' , version: '0.0.1'} ,deleteJob);
+
+
+var CONTACTS_PATH = '/contacts'
+server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
+server.post({path: CONTACTS_PATH, version: '0.0.1'} , postNewContact);
+
+
+
+function findAllContacts(req, res, next) {
+
+    res.setHeader('Access-Control-Allow-Origin','*');
+    contacts.find().limit(20).sort({postedOn : -1} , function(err , success){
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(200 , success);
+            return next();
+        }else{
+            return next(err);
+        }
+ 
+    });
+
+}
+
+
+function postNewContact(req, res, next) {
+
+    var userObject = { };
+    userObject.title = req.params.title;
+    userObject.description = req.params.description;
+    userObject.location = req.params.location;
+    userObject.phonebook = req.params.contactsMeta;
+    userObject.postedOn  = new Date();
+    res.setHeader('Access-Control-Allow-Origin','*');
+    contacts.save(userObject , function(err , success){
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(201 , userObject);
+            return next();
+        }else{
+            return next(err);
+        }
+    });
+}
 
 
 function findAllJobs(req, res , next){
