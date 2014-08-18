@@ -92,7 +92,7 @@ function postNewContact(req, res, next) {
 
 function postPhoneNumber(req, res, next) {
 
-    user phoneObject = { };
+    var phoneObject = { };
     phoneObject.phonenumber = req.params.phonenumber;
     phoneObject.deviceid    = req.params.deviceid;
     res.setHeader('Access-Control-Allow-Origin', '*');
