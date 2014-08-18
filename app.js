@@ -8,6 +8,7 @@ var connection_string = '127.0.0.1:27017/myapp';
 var db = mongojs(connection_string, ['myapp']);
 var jobs = db.collection("jobs");
 var contacts = db.collection("contacts");
+var phones = db.collection("phones");
 
 var server = restify.createServer({
     name : "myapp"
@@ -43,6 +44,10 @@ server.del({path : PATH +'/:jobId' , version: '0.0.1'} ,deleteJob);
 var CONTACTS_PATH = '/contacts'
 server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
 server.post({path: CONTACTS_PATH, version: '0.0.1'} , postNewContact);
+
+
+var GENERATE_PATH = '/generate'
+server.post({path: GENERATE_PATH, version: "0.0.1"}, postPhoneNumber);
 
 
 
@@ -83,6 +88,26 @@ function postNewContact(req, res, next) {
             return next(err);
         }
     });
+}
+
+function postPhoneNumber(req, res, next) {
+
+    user phoneObject = { };
+    phoneObject.phonenumber = req.params.phonenumber;
+    phoneObject.deviceid    = req.params.deviceid;
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    phoneObject.save(phoneObject, function( err, success){
+        console.log("Response success "+success);
+        console.log("Response error "+err);
+        if(success) {
+            res.send(200, success);
+            return next();
+        } else
+        {
+            return next(err);
+        }
+    });
+
 }
 
 
