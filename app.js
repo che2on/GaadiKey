@@ -63,6 +63,15 @@ function checkForPIN(req, res, next)
     {
         console.log("Error is "+err);
         console.log("The doc is "+doc);
+        if(doc)
+        {
+            res.send(200 , doc) ;
+            return next();
+        }
+        else
+        {
+            return next(err);
+        }
     });
 
 
