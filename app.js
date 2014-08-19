@@ -49,8 +49,33 @@ server.post({path: CONTACTS_PATH, version: '0.0.1'} , postNewContact);
 var GENERATE_PATH = '/generate'
 server.post({path: GENERATE_PATH, version: "0.0.1"}, postPhoneNumber);
 
+var GENERATED_PATH = '/generated'
+serrver.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 
 
+
+function checkForPIN(req, res, next)
+{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    phones.findOne({phonenumber:req.params.phonenumber}, function(err, doc)
+    {
+        cosole.log("Error is "+err);
+        console.log("The doc is "+doc);
+    })
+
+
+}
+
+
+
+
+function verify(req, res, next)
+{
+
+    res.setHeader('Access-Control-Allow-Origin', '*');
+
+
+}
 function findAllContacts(req, res, next) {
 
     res.setHeader('Access-Control-Allow-Origin','*');
@@ -100,10 +125,12 @@ function postPhoneNumber(req, res, next) {
         console.log("Response success "+success);
         console.log("Response error "+err);
         if(success) {
+            console.log("Success saving the phone number "+phoneObject);
             res.send(200, success);
             return next();
         } else
         {
+            console.log("Error saving the phone number "+phoneObject);
             return next(err);
         }
     });
