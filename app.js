@@ -50,7 +50,7 @@ var GENERATE_PATH = '/generate'
 server.post({path: GENERATE_PATH, version: "0.0.1"}, postPhoneNumber);
 
 var GENERATED_PATH = '/generated'
-serrver.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
+server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 
 
 
