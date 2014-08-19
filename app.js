@@ -61,7 +61,7 @@ function checkForPIN(req, res, next)
     res.setHeader('Access-Control-Allow-Origin', '*');
     phones.find(function(err, doc)
     {
-        cosole.log("Error is "+err);
+        console.log("Error is "+err);
         console.log("The doc is "+doc);
     });
 
