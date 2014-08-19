@@ -56,6 +56,8 @@ server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 
 function checkForPIN(req, res, next)
 {
+
+    console.log("Request for checking PIN received from the phone number "+req.params.phonenumber);
     res.setHeader('Access-Control-Allow-Origin', '*');
     phones.findOne({phonenumber:req.params.phonenumber}, function(err, doc)
     {
