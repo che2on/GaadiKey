@@ -59,11 +59,11 @@ function checkForPIN(req, res, next)
 
     console.log("Request for checking PIN received from the phone number "+req.params.phonenumber);
     res.setHeader('Access-Control-Allow-Origin', '*');
-    phones.find({}, function(err, doc)
+    phones.find( {}, {}, function(err, doc)
     {
         cosole.log("Error is "+err);
         console.log("The doc is "+doc);
-    })
+    });
 
 
 }
