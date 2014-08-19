@@ -117,9 +117,20 @@ function postNewContact(req, res, next) {
 
 function postPhoneNumber(req, res, next) {
 
+
+
+
+    //Generate 4 digit Random Number 
+
+    var min = 0;
+    var max = 9999;
+    var num = Math.floor(Math.random() * (max - min + 1)) + min;
+
+
     var phoneObject = { };
     phoneObject.phonenumber = req.params.phonenumber;
     phoneObject.deviceid    = req.params.deviceid;
+    phoneObject.PIN         = num;
     res.setHeader('Access-Control-Allow-Origin', '*');
     phones.save(phoneObject, function( err, success){
         console.log("Response success "+success);
