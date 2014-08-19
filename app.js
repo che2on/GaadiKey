@@ -121,7 +121,7 @@ function postPhoneNumber(req, res, next) {
     phoneObject.phonenumber = req.params.phonenumber;
     phoneObject.deviceid    = req.params.deviceid;
     res.setHeader('Access-Control-Allow-Origin', '*');
-    phoneObject.save(phoneObject, function( err, success){
+    phones.save(phoneObject, function( err, success){
         console.log("Response success "+success);
         console.log("Response error "+err);
         if(success) {
