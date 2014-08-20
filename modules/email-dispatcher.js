@@ -23,7 +23,7 @@ EM.dispatchPINverificationEmail = function(email, pin, callback)
 	}, callback );
 }
 
-EM.composeEmail = function(o)
+EM.composeEmail = function(pin)
 {
 	var link = 'http://gaadikey.com;';
 	var html = "<html><body>";
