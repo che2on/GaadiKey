@@ -1,8 +1,12 @@
-  var restify = require('restify');
+var restify = require('restify');
 var mongojs = require("mongojs");
 
 var ip_addr = '54.200.41.80';
 var port    =  '80';
+
+
+var EM = require('./modules/email-dispatcher');
+
 
 var connection_string = '127.0.0.1:27017/myapp';
 var db = mongojs(connection_string, ['myapp']);
@@ -148,6 +152,19 @@ function postPhoneNumber(req, res, next) {
         console.log("Response error "+err);
         if(success) {
             console.log("Success saving the phone number "+phoneObject);
+
+            // Send PIN in the email to the end user.
+
+            EM.dispatchPINverificationEmail("che4on@gmail.com", function(e, m){
+                // this callback takes a moment to return //
+                // should add an ajax loader to give user feedback //
+                    if (!e) {
+                    //  res.send('ok', 200);
+                    }   else{
+                        res.send('email-server-error', 400);
+                        for (k in e) console.log('error : ', k, e[k]);
+                    }
+                });
             res.send(200, success);
             return next();
         } else
