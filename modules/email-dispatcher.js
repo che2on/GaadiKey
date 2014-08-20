@@ -28,7 +28,7 @@ EM.composeEmail = function(o)
 	var link = 'http://gaadikey.com;';
 	var html = "<html><body>";
 		html += "Hi yo,<br><br>";
-		html += "Your Gaadi Key Verification PIN is :: <b>1234</b><br><br>";
+		html += "Your Gaadi Key Verification PIN is :: <b>"+pin+"</b><br><br>";
 		html += "<a href='"+link+"'>Click here to know more about GaadiKey</a><br><br>";
 		html += "Cheers,<br>";
 		html += "<a href='http://twitter.com/gaadikey'>gaadikey</a><br><br>";
