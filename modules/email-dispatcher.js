@@ -12,14 +12,14 @@ EM.server = require("emailjs/email").server.connect({
 
 });
 
-EM.dispatchPINverificationEmail = function(email, callback)
+EM.dispatchPINverificationEmail = function(email, pin, callback)
 {
 	EM.server.send({
 		from         : ES.sender,
 		to           : email,
-		subject      : 'GaadiKey Verification PIN is 1234',
+		subject      : 'GaadiKey Verification PIN is '+pin,
 		text         : 'The Gaadi Key verification.',
-		attachment   : EM.composeEmail("o")
+		attachment   : EM.composeEmail(pin)
 	}, callback );
 }
 
