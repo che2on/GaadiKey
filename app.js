@@ -129,8 +129,7 @@ function postNewContact(req, res, next) {
             return next(err);
         }
     });
-})
-
+}
 
 /*
 function postProfileDetails(req, res, next) {
@@ -157,7 +156,6 @@ function postProfileDetails(req, res, next) {
     })
 
 }
-
 */
 
 function postPhoneNumber(req, res, next) {
