@@ -13,6 +13,7 @@ var db = mongojs(connection_string, ['myapp']);
 var jobs = db.collection("jobs");
 var contacts = db.collection("contacts");
 var phones = db.collection("phones");
+//var profiles = db.collection("profiles");
 
 var server = restify.createServer({
     name : "myapp"
@@ -128,7 +129,36 @@ function postNewContact(req, res, next) {
             return next(err);
         }
     });
+})
+
+
+/*
+function postProfileDetails(req, res, next) {
+
+    var profileObject = { };
+    profileObject.vehicletype = req.params.vehicletype;
+    profileObject.vehiclename = req.params.vehiclename;
+    profileObject.profilepic = req.params.profilepic;
+    profileObject.gaadipic  = req.params.gaadipic;
+    profileObject.gaadimsg  = req.params.gaadimsg;
+    profileObject.modifiedOn = new Data();
+    res.setHeader('Access-Control-Allow-Origin' , '*');
+    profiles.save(profileObject, function(err , success) {
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(201, profileObject);
+            return next();
+        }
+        else
+        {
+            return nexy
+        }
+    })
+
 }
+
+*/
 
 function postPhoneNumber(req, res, next) {
 
