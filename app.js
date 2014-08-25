@@ -247,8 +247,8 @@ function registerAsVerified(req, res, next )
                 });
 
 
-           // res.send(200 , doc) ;
-           // return next();
+           //res.send(200 , doc) ;
+           return next();
         }
         else
         {
