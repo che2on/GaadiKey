@@ -216,7 +216,7 @@ function registerAsVerified(req, res, next )
     {
         console.log("Error is "+err);
         console.log("The doc is "+doc);
-        if(doc!=null)
+        if(doc==null)
         {
             // since  the document is null we have to register this user. 
             // the profile object insertion code has to be present here.!! 
