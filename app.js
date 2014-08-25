@@ -219,7 +219,7 @@ function registerAsVerified(req, res, next )
     profileObject.phonenumber   = req.params.phonenumber;
     profileObject.deviceid      = req.params.deviceid;
     profileObject.notifyid      = req.params.notifyid;
-    profileObject.modifiedOn      = new Data();
+    profileObject.modifiedOn      = new Date();
     res.setHeader('Access-Control-Allow-Origin' , '*');
     gaadikey_users.save(profileObject, function(err , success) {
         console.log('Response success '+success);
