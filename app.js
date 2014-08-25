@@ -210,12 +210,13 @@ function postPhoneNumber(req, res, next) {
 
 function registerAsVerified(req, res, next )
 {
-
+    console.log("Phone number is  "+req.params.phonenumber);
 
     gaadikey_users.findOne( {phonenumber:req.params.phonenumber}, function(err, doc)
     {
         console.log("Error is "+err);
         console.log("The doc is "+doc);
+        console.log("Something is going freaking wrong");
         if(doc)
         {
             res.send(200 , doc) ;
@@ -223,7 +224,8 @@ function registerAsVerified(req, res, next )
         }
         else
         {
-            //return next(err);
+                return next(err);
+                /*
                 var profileObject = { };
                 profileObject.vehicletype   = req.params.vehicletype;
                 profileObject.vehiclename   = req.params.vehiclename;
@@ -247,6 +249,8 @@ function registerAsVerified(req, res, next )
                         return next(err);
                     }
                 })
+
+                */
 
 
         }
