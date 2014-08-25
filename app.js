@@ -210,29 +210,51 @@ function postPhoneNumber(req, res, next) {
 
 function registerAsVerified(req, res, next )
 {
-    var profileObject = { };
-    profileObject.vehicletype   = req.params.vehicletype;
-    profileObject.vehiclename   = req.params.vehiclename;
-    profileObject.profilepic    = req.params.profilepic;
-    profileObject.gaadipic      = req.params.gaadipic;
-    profileObject.gaadimsg      = req.params.gaadimsg;
-    profileObject.phonenumber   = req.params.phonenumber;
-    profileObject.deviceid      = req.params.deviceid;
-    profileObject.notifyid      = req.params.notifyid;
-    profileObject.modifiedOn      = new Date();
-    res.setHeader('Access-Control-Allow-Origin' , '*');
-    gaadikey_users.save(profileObject, function(err , success) {
-        console.log('Response success '+success);
-        console.log('Response error '+err);
-        if(success){
-            res.send(201, profileObject);
+
+
+    gaadikey_users.findOne( {phonenumber:req.params.phonenumber}, function(err, doc)
+    {
+        console.log("Error is "+err);
+        console.log("The doc is "+doc);
+        if(doc)
+        {
+            res.send(404 , doc) ;
             return next();
         }
         else
         {
-            return next(err);
+            //return next(err);
+                var profileObject = { };
+                profileObject.vehicletype   = req.params.vehicletype;
+                profileObject.vehiclename   = req.params.vehiclename;
+                profileObject.profilepic    = req.params.profilepic;
+                profileObject.gaadipic      = req.params.gaadipic;
+                profileObject.gaadimsg      = req.params.gaadimsg;
+                profileObject.phonenumber   = req.params.phonenumber;
+                profileObject.deviceid      = req.params.deviceid;
+                profileObject.notifyid      = req.params.notifyid;
+                profileObject.modifiedOn      = new Date();
+                res.setHeader('Access-Control-Allow-Origin' , '*');
+                gaadikey_users.save(profileObject, function(err , success) {
+                    console.log('Response success '+success);
+                    console.log('Response error '+err);
+                    if(success){
+                        res.send(201, profileObject);
+                        return next();
+                    }
+                    else
+                    {
+                        return next(err);
+                    }
+                })
+
+
         }
-    })
+    });
+
+
+
+
 
 }
 
