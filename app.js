@@ -216,16 +216,16 @@ function registerAsVerified(req, res, next )
     {
         console.log("Error is "+err);
         console.log("The doc is "+doc);
-        console.log("Something is going freaking wrong");
-        if(doc)
+        if(doc!=null)
         {
             res.send(200 , doc) ;
             return next();
         }
         else
         {
-                return next(err);
-                /*
+               // return next(err);
+                
+                console.log("this number is not registered yet");
                 var profileObject = { };
                 profileObject.vehicletype   = req.params.vehicletype;
                 profileObject.vehiclename   = req.params.vehiclename;
@@ -246,11 +246,12 @@ function registerAsVerified(req, res, next )
                     }
                     else
                     {
+                        console.log("error in profile object insertion")
                         return next(err);
                     }
-                })
+                });
 
-                */
+                
 
 
         }
