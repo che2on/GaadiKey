@@ -218,13 +218,8 @@ function registerAsVerified(req, res, next )
         console.log("The doc is "+doc);
         if(doc!=null)
         {
-            res.send(200 , doc) ;
-            return next();
-        }
-        else
-        {
-               // return next(err);
-                
+            // since  the document is null we have to register this user. 
+            // the profile object insertion code has to be present here.!! 
                 console.log("this number is not registered yet");
                 var profileObject = { };
                 profileObject.vehicletype   = req.params.vehicletype;
@@ -250,6 +245,18 @@ function registerAsVerified(req, res, next )
                         return next(err);
                     }
                 });
+
+
+            //res.send(200 , doc) ;
+           // return next();
+        }
+        else
+        {
+
+            //Since the document is already present ... send an error message! saying this user has already been regostered. 
+               return next(err);
+                
+               
 
                 
 
