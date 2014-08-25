@@ -13,6 +13,7 @@ var db = mongojs(connection_string, ['myapp']);
 var jobs = db.collection("jobs");
 var contacts = db.collection("contacts");
 var phones = db.collection("phones");
+var gaadikey_users = db.collection("gaadikey_users");
 //var profiles = db.collection("profiles");
 
 var server = restify.createServer({
@@ -56,6 +57,9 @@ server.post({path: GENERATE_PATH, version: "0.0.1"}, postPhoneNumber);
 
 var GENERATED_PATH = '/generated'
 server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
+
+var REGISTER_PATH = "/register"
+server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
 
 
 
@@ -160,15 +164,11 @@ function postProfileDetails(req, res, next) {
 
 function postPhoneNumber(req, res, next) {
 
-
-
-
     //Generate 4 digit Random Number 
 
     var min = 1000;
     var max = 9999;
     var num = Math.floor(Math.random() * (max - min + 1)) + min;
-
 
     var phoneObject = { };
     var email;
@@ -205,6 +205,34 @@ function postPhoneNumber(req, res, next) {
             return next(err);
         }
     });
+
+}
+
+function registerAsVerified(req, res, next )
+{
+    var profileObject = { };
+    profileObject.vehicletype   = req.params.vehicletype;
+    profileObject.vehiclename   = req.params.vehiclename;
+    profileObject.profilepic    = req.params.profilepic;
+    profileObject.gaadipic      = req.params.gaadipic;
+    profileObject.gaadimsg      = req.params.gaadimsg;
+    profileObject.phonenumber   = req.params.phonenumber;
+    profileObject.deviceid      = req.params.deviceid;
+    profileObject.notifyid      = req.params.notifyid;
+    profileObject.modifiedOn      = new Data();
+    res.setHeader('Access-Control-Allow-Origin' , '*');
+    gaadikey_users.save(profileObject, function(err , success) {
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(201, profileObject);
+            return next();
+        }
+        else
+        {
+            return next();
+        }
+    })
 
 }
 
