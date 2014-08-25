@@ -230,7 +230,7 @@ function registerAsVerified(req, res, next )
         }
         else
         {
-            return next();
+            return next(err);
         }
     })
 
