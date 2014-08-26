@@ -99,19 +99,23 @@ function notifyView(req, res, next)
         console.log("The doc is "+success);
         if(success)
         {
-            // if(doc.os=="android")
-            // {
-            //     console.log("This user is an android user");
-            // }
-            // else
-            // {
-            //     console.log("This user is not an android user");
-            // }
+            if(success.os=="android")
+            {
+                console.log("This user is an android user");
+            }
+            else
+            {
+                console.log("This user is not an android user");
+            }
 
             res.send(200 , success) ;
             return next();
         }
+        else
+        {
             return next(err);
+
+        }
 
     })
 
