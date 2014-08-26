@@ -14,6 +14,7 @@ var jobs = db.collection("jobs");
 var contacts = db.collection("contacts");
 var phones = db.collection("phones");
 var gaadikey_users = db.collection("gaadikey_users");
+var dummycontacts = db.collection("dummycontacts");
 //var profiles = db.collection("profiles");
 
 var server = restify.createServer({
@@ -61,7 +62,9 @@ server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 var REGISTER_PATH = "/register"
 server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
 
-
+var DUMMY_CONTACTS_PATH =  "/dummycontacts"
+server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
+server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact); 
 
 function checkForPIN(req, res, next)
 {
@@ -96,10 +99,28 @@ function verify(req, res, next)
 
 
 }
+
 function findAllContacts(req, res, next) {
 
     res.setHeader('Access-Control-Allow-Origin','*');
     contacts.find().limit(20).sort({postedOn : -1} , function(err , success){
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(200 , success);
+            return next();
+        }else{
+            return next(err);
+        }
+ 
+    });
+
+}
+
+function dummyContacts(req, res, next) {
+
+    res.setHeader('Access-Control-Allow-Origin','*');
+    dummycontacts.find().limit(20).sort({Name : -1} , function(err , success){
         console.log('Response success '+success);
         console.log('Response error '+err);
         if(success){
@@ -282,6 +303,23 @@ function findAllJobs(req, res , next){
     });
  
 }
+
+
+function findAllJobs(req, res , next){
+    res.setHeader('Access-Control-Allow-Origin','*');
+    jobs.find().limit(20).sort({postedOn : -1} , function(err , success){
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(200 , success);
+            return next();
+        }else{
+            return next(err);
+        }
+ 
+    });
+ 
+}
  
 function findJob(req, res , next){
     res.setHeader('Access-Control-Allow-Origin','*');
@@ -316,6 +354,29 @@ function postNewJob(req , res , next){
         }
     });
 }
+
+function postNewDummyContact(req , res , next){
+    var dummyContact = {};
+    dummyContact.Name =     req.params.Name;
+    dummyContact.ImgUrl =   req.params.ImgUrl;
+    dummyContact.Des =      req.params.Des;
+    dummyContact.gkey=      req.params.gkey;  
+    res.setHeader('Access-Control-Allow-Origin','*');
+ 
+    dummyContacts.save(dummyContact , function(err , success){
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(201 , job);
+            return next();
+        }else{
+            return next(err);
+        }
+    });
+}
+
+
+
  
 function deleteJob(req , res , next){
     res.setHeader('Access-Control-Allow-Origin','*');
