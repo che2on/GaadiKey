@@ -367,7 +367,7 @@ function postNewDummyContact(req , res , next){
         console.log('Response success '+success);
         console.log('Response error '+err);
         if(success){
-            res.send(201 , job);
+            res.send(201 , dummyContact);
             return next();
         }else{
             return next(err);
