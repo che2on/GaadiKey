@@ -15,7 +15,7 @@ var contacts = db.collection("contacts");
 var phones = db.collection("phones");
 var gaadikey_users = db.collection("gaadikey_users");
 var dummycontacts = db.collection("dummycontacts");
-var lookup = db.collection("lookup");
+var lookup = db.collection("lookup_yo");
 //var profiles = db.collection("profiles");
 
 var server = restify.createServer({
