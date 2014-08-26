@@ -76,7 +76,9 @@ function notifyView(req, res, next)
 {
     console.log("View Notification Request Received ");
     res.setHeader('Access-Control-Allow-Origin', '*');
-    lookup.findOne( { gkey:req.params.sendto}, function(err, doc)
+    console.log("The sendto request is "+req.params.sendto);
+    var strsendto = ""+req.params.sendto;
+    lookup.findOne( { gkey:strsendto}, function(err, doc)
     {
         console.log("Error is "+err);
         console.log("The doc is "+doc);
