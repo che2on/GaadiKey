@@ -99,11 +99,10 @@ function notifyView(req, res, next)
             res.send(200 , success) ;
             return next();
         }
-        else
-        {
-            return next(err);
 
-        }
+        console.log("Throwing Error "+err);
+        
+            return next(err);
 
     })
 
