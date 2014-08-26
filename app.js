@@ -78,29 +78,28 @@ function notifyView(req, res, next)
     res.setHeader('Access-Control-Allow-Origin', '*');
     console.log("The sendto request is "+req.params.sendto);
     var strsendto = ""+req.params.sendto;
-    lookup.findOne( { gkey:strsendto}, function(err, doc)
+    lookup.findOne( { gkey:strsendto}, function(err, success)
     {
         console.log("Error is "+err);
-        console.log("The doc is "+doc);
-        if(doc)
+        console.log("The doc is "+success);
+        if(success)
         {
-            if(doc.os=="android")
-            {
-                console.log("This user is an android user");
-            }
-            else
-            {
-                console.log("This user is not an android user");
-            }
+            // if(doc.os=="android")
+            // {
+            //     console.log("This user is an android user");
+            // }
+            // else
+            // {
+            //     console.log("This user is not an android user");
+            // }
 
-            res.send(200 , doc) ;
+            res.send(200 , success) ;
             return next();
         }
-        else
-        {
             return next(err);
-        }
-    });
+
+    })
+
 }
 
 function checkForPIN(req, res, next)
