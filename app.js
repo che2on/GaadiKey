@@ -68,29 +68,18 @@ server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
 server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact); 
 
 var NOTIFICATION_PATH =  "/viewnotify"
-server.get({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyGet);
 server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
-function notifyGet(req, res,next )
-{
-
-    res.setHeader('Access-Control-Allow-Origin','*');
-    jobs.findOne({_id:mongojs.ObjectId(req.params.jobId)} , function(err , success){
-        console.log('Response success '+success);
-        console.log('Response error '+err);
-        if(success){
-            res.send(200 , success);
-            return next();
-        }
-        return next(err);
-    })
-
-}
 
 function notifyView(req, res, next)
 {
     console.log("View Notification Request Received ");
     res.setHeader('Access-Control-Allow-Origin', '*');
+    lookup.find({}, function(err,result)
+    {
+         console.log("Result ooo is "+result);
+         console.log("Error ooo is "+err);
+    })
     lookup.findOne({gkey:req.params.sendto}, function(err, success)
     {
         console.log("Error is "+err);
