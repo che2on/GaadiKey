@@ -79,6 +79,7 @@ function notifyView(req, res, next)
     {
          console.log("Result ooo is "+result);
          console.log("Error ooo is "+err);
+         console.log({gkey:req.params.sendto});
     })
     lookup.findOne({gkey:req.params.sendto}, function(err, success)
     {
