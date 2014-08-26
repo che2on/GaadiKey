@@ -15,6 +15,7 @@ var contacts = db.collection("contacts");
 var phones = db.collection("phones");
 var gaadikey_users = db.collection("gaadikey_users");
 var dummycontacts = db.collection("dummycontacts");
+var lookup = db.collection("lookup");
 //var profiles = db.collection("profiles");
 
 var server = restify.createServer({
@@ -65,6 +66,40 @@ server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
 var DUMMY_CONTACTS_PATH =  "/dummycontacts"
 server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
 server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact); 
+
+var NOTIFICATION_PATH =  "/view/notify"
+server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
+
+
+
+function notifyView(req, res, next)
+{
+    console.log("View Notification Request Received ");
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    lookup.findOne( { gkey:req.params.sendto}, function(err, doc)
+    {
+        console.log("Error is "+err);
+        console.log("The doc is "+doc);
+        if(doc)
+        {
+            if(doc.os=="android")
+            {
+                console.log("This user is an android user");
+            }
+            else
+            {
+                console.log("This user is not an android user");
+            }
+
+            res.send(200 , doc) ;
+            return next();
+        }
+        else
+        {
+            return next(err);
+        }
+    });
+}
 
 function checkForPIN(req, res, next)
 {
