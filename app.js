@@ -68,9 +68,24 @@ server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
 server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact); 
 
 var NOTIFICATION_PATH =  "/viewnotify"
+server.get({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyGet);
 server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
+function notifyGet(req, res,next )
+{
 
+    res.setHeader('Access-Control-Allow-Origin','*');
+    jobs.findOne({_id:mongojs.ObjectId(req.params.jobId)} , function(err , success){
+        console.log('Response success '+success);
+        console.log('Response error '+err);
+        if(success){
+            res.send(200 , success);
+            return next();
+        }
+        return next(err);
+    })
+
+}
 
 function notifyView(req, res, next)
 {
@@ -78,7 +93,7 @@ function notifyView(req, res, next)
     res.setHeader('Access-Control-Allow-Origin', '*');
     console.log("The sendto request is "+req.params.sendto);
     var strsendto = ""+req.params.sendto;
-    lookup.findOne( { gkey:strsendto}, function(err, success)
+    lookup.findOne({gkey:strsendto}, function(err, success)
     {
         console.log("Error is "+err);
         console.log("The doc is "+success);
