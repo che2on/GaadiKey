@@ -101,8 +101,8 @@ function notifyView(req, res, next)
         }
 
         console.log("Throwing Error "+err);
-        
-            return next(err);
+            res.send(404 , success) ;
+            //return next(err);
 
     })
 
