@@ -363,7 +363,7 @@ function postNewDummyContact(req , res , next){
     dummyContact.gkey=      req.params.gkey;  
     res.setHeader('Access-Control-Allow-Origin','*');
  
-    dummyContacts.save(dummyContact , function(err , success){
+    dummycontacts.save(dummyContact , function(err , success){
         console.log('Response success '+success);
         console.log('Response error '+err);
         if(success){
