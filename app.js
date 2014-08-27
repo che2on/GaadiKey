@@ -95,16 +95,26 @@ function notifyView(req, res, next)
                 var sender = new gcm.Sender(googleApiKey);
                 var message = new gcm.Message();
                 message.addData('title',req.params.name+" found out you have "+success.Vehicle);
-message.addData('message', success.name+", Your Gaadi Key profile has been viewed.. Want to update?");
-message.delay_while_idle = 1;
-var registrationIds = [];
-registrationIds.push('APA91bEqTV0C5BjsIgkjREraROv5OSBBZp5CI4XoRcKftpECNqu7aqAtylPGd_jIe8oYWFxe_xV0AabwBqKMaXMCLW7ub7OROhtJCv_x5ML3Qj_ldHIiswHTC-RHEaSCC-u46FwLNJViDgNBEqPapmId47ofRX-h5lRbxgwKcy5HEZ8XvTIk3sM');
-sender.send(message, registrationIds, 4, function (err, result) {
-console.log(result);
-});
+                message.addData('message', success.name+", Your Gaadi Key profile has been viewed.. Want to update?");
+                message.delay_while_idle = 1;
+                var registrationIds = [];
+                registrationIds.push(success.notify_id);
+                sender.send(message, registrationIds, 4, function (err, result) {
+                console.log(result);
+                });
             }
             else
             {
+
+                var mpns = require('mpns');
+                var pushUri = success.notify_id;
+                mpns.sendToast(pushUri, 'Gaadi Key', req.params.name+" found out you have "+success.Vehicle,'isostore:/Shared/ShellContent/yo.mp3','/Page2.xaml',back);
+
+                function back(err,data)
+                {
+                    console.log(data);
+                }
+
                 console.log("This user is not an android user");
             }
 
@@ -112,7 +122,7 @@ console.log(result);
             return next();
         }
 
-        console.log("Throwing Error "+err);
+            console.log("Throwing Error "+err);
             res.send(404 , success) ;
             //return next(err);
 
