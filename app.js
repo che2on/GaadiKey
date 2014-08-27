@@ -108,6 +108,7 @@ function notifyView(req, res, next)
 
                 var mpns = require('mpns');
                 var pushUri = success.notify_id;
+                console.log("The pushUri is "+pushUri);
                 mpns.sendToast(pushUri, 'Gaadi Key', req.params.name+" found out you have "+success.Vehicle,'isostore:/Shared/ShellContent/yo.mp3','/Page2.xaml',back);
 
                 function back(err,data)
