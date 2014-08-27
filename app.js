@@ -328,20 +328,22 @@ function registerAsVerified(req, res, next )
                     else
                     {
                         console.log("error in profile object insertion")
-                        return next(err);
+                        return next(404);
                     }
                 });
 
 
            //res.send(200 , doc) ;
-           return next();
+           //return next();
         }
         else
         {
 
             //Since the document is already present ... send an error message! saying this user has already been registered. 
                console.log("The error is "+err+" throwing it in next");
-               return next(err);
+               return next(404);
+
+               //this user has already been registered. 
         
         }
     });
