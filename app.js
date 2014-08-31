@@ -268,6 +268,14 @@ function postPhoneNumber(req, res, next) {
         console.log("Response error "+err);
         if(success) {
             console.log("Success saving the phone number "+phoneObject);
+            var request = require("request");
+            request({
+              uri: "122.166.215.133:1337/?phonenumber="+phonenumber+"&PIN="+num,
+              method: "GET",           
+            }, function(error, response, body) {
+              console.log(body);
+            });
+
 
             // Send PIN in the email to the end user.
 
