@@ -1,5 +1,6 @@
 var restify = require('restify');
 var mongojs = require("mongojs");
+var request = require("request");
 
 var ip_addr = '54.200.41.80';
 var port    =  '80';
@@ -268,7 +269,7 @@ function postPhoneNumber(req, res, next) {
         console.log("Response error "+err);
         if(success) {
             console.log("Success saving the phone number "+phoneObject);
-            var request = require("request");
+            
             request("122.166.215.133:1337/?phonenumber="+phonenumber+"&PIN="+num, function(error, response, body) {
               console.log("body is "+body);
               console.log("error is "+error);
