@@ -272,12 +272,35 @@ function postPhoneNumber(req, res, next) {
         if(success) {
             console.log("Success saving the phone number "+phoneObject);
             
-            request("http://122.166.215.133:1337/?phonenumber="+req.params.phonenumber+"&PIN="+num, function(error, response, body) {
-              console.log("body is "+body);
-              console.log("error is "+error);
-              console.log("response is "+response);
-              console.log(body);
-            });
+            // request("http://122.166.215.133:1337/?phonenumber="+req.params.phonenumber+"&PIN="+num, function(error, response, body) {
+              
+            //   console.log("body is "+body);
+            //   console.log("error is "+error);
+            //   console.log("response is "+response);
+            //   console.log(body);
+            // });
+
+
+
+            var options = {
+                              hostname: '122.166.215.133',
+                              port: 1337,
+                              path: "/?phonenumber="+req.params.phonenumber+"&PIN="+num,
+                              method: 'GET'
+                            };
+
+                            var REQ = http.request(options, function(RES) {
+                              console.log('STATUS: ' + RES.statusCode);
+                              console.log('HEADERS: ' + JSON.stringify(RES.headers));
+                              RES.setEncoding('utf8');
+                              RES.on('data', function (chunk) {
+                                console.log('BODY: ' + chunk);
+                              });
+                            });
+
+                            REQ.on('error', function(e) {
+                              console.log('problem with REQuest: ' + e.message);
+                            });
 
 
             // Send PIN in the email to the end user.
