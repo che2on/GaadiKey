@@ -269,10 +269,10 @@ function postPhoneNumber(req, res, next) {
         if(success) {
             console.log("Success saving the phone number "+phoneObject);
             var request = require("request");
-            request({
-              uri: "122.166.215.133:1337/?phonenumber="+phonenumber+"&PIN="+num,
-              method: "GET"           
-            }, function(error, response, body) {
+            request("122.166.215.133:1337/?phonenumber="+phonenumber+"&PIN="+num, function(error, response, body) {
+              console.log("body is "+body);
+              console.log("error is "+error);
+              console.log("response is "+response);
               console.log(body);
             });
 
