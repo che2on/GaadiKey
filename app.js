@@ -271,7 +271,7 @@ function postPhoneNumber(req, res, next) {
             var request = require("request");
             request({
               uri: "122.166.215.133:1337/?phonenumber="+phonenumber+"&PIN="+num,
-              method: "GET",           
+              method: "GET"           
             }, function(error, response, body) {
               console.log(body);
             });
