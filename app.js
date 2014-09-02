@@ -348,7 +348,23 @@ function postPhoneNumber(req, res, next) {
         if(success) {
             console.log("Success saving the phone number "+phoneObject);
             
-            request("http://122.166.215.133:1337/?phonenumber="+req.params.phonenumber+"&PIN="+num, function(error, response, body) {
+       
+            res.send(200, success);
+            return next();
+        } else
+        {
+            console.log("Error saving the phone number "+phoneObject);
+
+            return next(err);
+        }
+        });
+
+
+        }
+
+        //Now send the PIN... after update or insert!
+
+             request("http://122.166.215.133:1337/?phonenumber="+req.params.phonenumber+"&PIN="+num, function(error, response, body) {
               
               console.log("body is "+body);
               console.log("error is "+error);
@@ -370,18 +386,6 @@ function postPhoneNumber(req, res, next) {
                         for (k in e) console.log('error : ', k, e[k]);
                     }
                 });
-            res.send(200, success);
-            return next();
-        } else
-        {
-            console.log("Error saving the phone number "+phoneObject);
-
-            return next(err);
-        }
-    });
-
-
-        }
 
 
     })
