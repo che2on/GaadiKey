@@ -455,7 +455,7 @@ function registerAsVerified(req, res, next )
 
                  }};
             var query =  { phonenumber: req.params.phonenumber };
-            phones.update(query, update, function(err, result)
+            gaadikey_users.update(query, update, function(err, result)
                 {
                         if(err) { throw err; }
 
