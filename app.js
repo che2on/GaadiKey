@@ -56,6 +56,9 @@ var CONTACTS_PATH = '/contacts'
 server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
 server.post({path: CONTACTS_PATH, version: '0.0.1'} , postNewContact);
 
+var CONTACTS2_PATH ="/submitcontacts"
+server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetwork );
+
 
 var GENERATE_PATH = '/generate'
 server.post({path: GENERATE_PATH, version: "0.0.1"}, postPhoneNumber);
@@ -168,7 +171,8 @@ function verify(req, res, next)
 
 }
 
-function findAllContacts(req, res, next) {
+function findAllContacts(req, res, next) 
+{
 
     res.setHeader('Access-Control-Allow-Origin','*');
     contacts.find().limit(20).sort({postedOn : -1} , function(err , success){
@@ -187,8 +191,24 @@ function findAllContacts(req, res, next) {
 
 function dummyContacts(req, res, next) {
 
+    // res.setHeader('Access-Control-Allow-Origin','*');
+    // dummycontacts.find().limit(20).sort({Name : -1} , function(err , success){
+    //     console.log('Response success '+success);
+    //     console.log('Response error '+err);
+    //     if(success){
+    //         res.send(200 , success);
+    //         return next();
+    //     }else{
+    //         return next(err);
+    //     }
+ 
+    // });
+
+
+    var phno = req.phonenumber;
     res.setHeader('Access-Control-Allow-Origin','*');
-    dummycontacts.find().limit(20).sort({Name : -1} , function(err , success){
+    var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
+    phoneNetworkContacts.find().limit(20).sort({postedOn : -1} , function(err , success){
         console.log('Response success '+success);
         console.log('Response error '+err);
         if(success){
@@ -199,6 +219,7 @@ function dummyContacts(req, res, next) {
         }
  
     });
+
 
 }
 
@@ -222,6 +243,28 @@ function postNewContact(req, res, next) {
             return next(err);
         }
     });
+}
+
+function postPhoneNetwork(req, res, next) 
+{
+    var phno = req.params.phonenumber;
+    var book  = req.params.book;
+    var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
+    phoneNetworkContacts.save(book , function(err, success ) {
+       
+        if(success)
+        {
+             console.log("Phone network contacts saved.");
+             res.send(200, {} );
+             return next();
+        }
+        else
+        {
+            res.send(404);
+            return next();
+        }
+    }
+
 }
 
 /*
@@ -386,11 +429,6 @@ function registerAsVerified(req, res, next )
         
         }
     });
-
-
-
-
-
 }
 
 
