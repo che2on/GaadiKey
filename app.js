@@ -247,28 +247,34 @@ function postNewContact(req, res, next) {
 
 function postPhoneNetwork(req, res, next) 
 {
+    var count =0;
     var phno = req.params.phonenumber;
     var phobj = { };
     phobj.book  = req.params.book;
-    req.params.book.forEach(function(entry) {
-        console.log(entry);
-    });
-    
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
-    phoneNetworkContacts.save(phobj , function(err, success ) {
+    req.params.book.forEach(function(entry) {
+        count++;
+        console.log(entry);
+        phoneNetworkContacts.save(entry , function(err, success ) {
        
         if(success)
         {
              console.log("Phone network contacts saved.");
+             if(req.params.book.length == count)
              res.send(200, {} );
              return next();
         }
         else
         {
-            res.send(404);
+            //res.send(404);
             return next();
         }
     });
+
+    });
+
+    
+   
 
 }
 
