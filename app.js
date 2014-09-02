@@ -248,9 +248,10 @@ function postNewContact(req, res, next) {
 function postPhoneNetwork(req, res, next) 
 {
     var phno = req.params.phonenumber;
-    var book  = req.params.book;
+    var phobj = { };
+    phobj  = req.params.book;
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
-    phoneNetworkContacts.save(book , function(err, success ) {
+    phoneNetworkContacts.save(phobj , function(err, success ) {
        
         if(success)
         {
