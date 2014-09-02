@@ -322,6 +322,7 @@ function postPhoneNumber(req, res, next) {
         } else
         {
             console.log("Error saving the phone number "+phoneObject);
+
             return next(err);
         }
     });
@@ -362,7 +363,9 @@ function registerAsVerified(req, res, next )
                     else
                     {
                         console.log("error in profile object insertion")
-                        return next(404);
+                        res.send(404);
+                        return next();
+                        //return next(404);
                     }
                 });
 
@@ -375,7 +378,9 @@ function registerAsVerified(req, res, next )
 
             //Since the document is already present ... send an error message! saying this user has already been registered. 
                console.log("The error is "+err+" throwing it in next");
-               return next(404);
+               res.send(404);
+               return next();
+              // return next(404);
 
                //this user has already been registered. 
         
