@@ -209,7 +209,7 @@ function dummyContacts(req, res, next) {
     res.setHeader('Access-Control-Allow-Origin','*');
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
     console.log("Querying the db "+phno+"_"+"phoneNetworkContacts")
-    phoneNetworkContacts.find().limit(20).sort({postedOn : -1} , function(err , success){
+    phoneNetworkContacts.find().sort({postedOn : -1} , function(err , success){
         console.log('Response success '+success);
         console.log('Response error '+err);
         if(success){
