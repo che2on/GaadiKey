@@ -440,9 +440,33 @@ function registerAsVerified(req, res, next )
         else
         {
 
+
+
+            var update = { $set: {
+               vehicletype:req.params.vehicletype,
+               vehiclename:req.params.vehiclename,
+               profilepic:req.params.profilepic, 
+               gaadipic:req.params.gaadipic,
+               gaadimsg:req.params.gaadimsg,
+               phonenumber:req.params.phonenumber,
+               deviceid:req.params.deviceid,
+               notifyid:req.params.notifyid,
+               modifiedOn:new Date();
+
+                 }};
+            var query =  { phonenumber: req.params.phonenumber };
+            phones.update(query, update, function(err, result)
+                {
+                        if(err) { throw err; }
+
+                        res.send(200, result);
+                        return next();
+
+                });
+
             //Since the document is already present ... send an error message! saying this user has already been registered. 
-               console.log("The error is "+err+" throwing it in next");
-               res.send(404);
+              // console.log("The error is "+err+" throwing it in next");
+              // res.send(404);
                return next();
               // return next(404);
 
