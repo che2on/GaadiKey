@@ -205,7 +205,7 @@ function dummyContacts(req, res, next) {
     // });
 
 
-    var phno = req.phonenumber;
+    var phno = req.params.phonenumber;
     res.setHeader('Access-Control-Allow-Origin','*');
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
     console.log("Querying the db "+phno+"_"+"phoneNetworkContacts")
