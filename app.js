@@ -249,7 +249,7 @@ function postPhoneNetwork(req, res, next)
 {
     var phno = req.params.phonenumber;
     var phobj = { };
-    phobj  = req.params.book;
+    phobj.book  = req.params.book;
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
     phoneNetworkContacts.save(phobj , function(err, success ) {
        
