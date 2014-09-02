@@ -451,7 +451,7 @@ function registerAsVerified(req, res, next )
                phonenumber:req.params.phonenumber,
                deviceid:req.params.deviceid,
                notifyid:req.params.notifyid,
-               modifiedOn:new Date();
+               modifiedOn:new Date()
 
                  }};
             var query =  { phonenumber: req.params.phonenumber };
