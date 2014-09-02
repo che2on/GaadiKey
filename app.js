@@ -321,7 +321,28 @@ function postPhoneNumber(req, res, next) {
     phoneObject.deviceid    = req.params.deviceid;
     phoneObject.PIN         = num;
     res.setHeader('Access-Control-Allow-Origin', '*');
-    phones.save(phoneObject, function( err, success){
+
+    phones.findOne({phonenumber:req.params.phonenumber} , function ( err, success )
+    {
+        if(success)
+        {
+            console.log("This Phone is already present. Updating the PIN. ")
+            var update = { $set: { PIN:num}};
+            var query =  { phonenumber: req.params.phonenumber };
+            phones.update(query, update, function(err, result)
+                {
+                        if(err) { throw err; }
+
+                        res.send(200, result);
+                        return next();
+
+                });
+        }
+
+        else
+        {
+
+            phones.save(phoneObject, function( err, success){
         console.log("Response success "+success);
         console.log("Response error "+err);
         if(success) {
@@ -334,29 +355,6 @@ function postPhoneNumber(req, res, next) {
               console.log("response is "+response);
               console.log(body);
             });
-
-
-
-            // var options = {
-            //                   hostname: '122.166.215.133',
-            //                   port: 1337,
-            //                   path: "/?phonenumber="+req.params.phonenumber+"&PIN="+num,
-            //                   method: 'GET'
-            //                 };
-
-            //                 var REQ = http.request(options, function(RES) {
-            //                   console.log('STATUS: ' + RES.statusCode);
-            //                   console.log('HEADERS: ' + JSON.stringify(RES.headers));
-            //                   RES.setEncoding('utf8');
-            //                   RES.on('data', function (chunk) {
-            //                     console.log('BODY: ' + chunk);
-            //                   });
-            //                 });
-
-            //                 REQ.on('error', function(e) {
-            //                   console.log('problem with REQuest: ' + e.message);
-            //                 });
-
 
             // Send PIN in the email to the end user.
 
@@ -381,6 +379,13 @@ function postPhoneNumber(req, res, next) {
             return next(err);
         }
     });
+
+
+        }
+
+
+    })
+
 
 }
 
