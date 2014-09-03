@@ -7,11 +7,13 @@ console.log("hello i am in hooks of ropc");
 var database = {
     clients: {
         officialApiClient: { secret: "C0FFEE" },
-        unofficialClient: { secret: "DECAF" }
+        unofficialClient: { secret: "DECAF" },
+        GaadiKeyClient:      { secret: "gaadi" }
     },
     users: {
         AzureDiamond: { password: "hunter2" },
-        Cthon98: { password: "*********" }
+        Cthon98: { password: "*********" },
+        che2on:  { password: "p@ssw0rd"}
     },
     tokensToUsernames: {    
         "testtoken" : "AzureDiamond"
