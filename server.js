@@ -74,6 +74,9 @@ console.log("This is how the actual req object look like "+req);
 console.log("Trying to print the request body "+req.body);
 console.log("update");
 console.log(JSON.stringify(req.body, null, 4));
+console.log("..."+req.params);
+console.log("..."+req.username);
+console.log("..."+JSON.stringify(req.params, null, 4));
 
 var thebody = "";
 
