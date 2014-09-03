@@ -73,6 +73,12 @@ console.log("This is how the actual req object look like "+req);
 
 console.log("Trying to print the request body "+req.body);
 
+req.body.forEach(dat)
+{
+    console("body param ");
+    console.log(dat);
+}
+
 var thebody = "";
 request.on('data', function(data)
 {
