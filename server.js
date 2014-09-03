@@ -71,6 +71,21 @@ server.get(RESOURCES.PUBLIC, function (req, res) {
 server.post(RESOURCES.PUBLIC, function (req, res) {
 console.log("This is how the actual req object look like "+req);
 
+console.log("Trying to print the request body "+req.body);
+
+var thebody = "";
+request.on('data', function(data)
+{
+    thebody +=data;
+});
+
+request.on('end', function()
+{
+    console.log(thebody);
+
+});
+
+
 console.log("Trying to get the username "+req.username);
 
     res.send({
