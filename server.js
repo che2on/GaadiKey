@@ -9,7 +9,7 @@ var hooks = require("./hooks");
 
 var server = restify.createServer({
     name: "Example Restify-OAuth2 Resource Owner Password Credentials Server",
-    version: 1.0,
+    version: "4.0.0",
     formatters: {
         "application/hal+json": function (req, res, body) {
             return res.formatters["application/json"](req, res, body);
