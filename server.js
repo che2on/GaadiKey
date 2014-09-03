@@ -66,6 +66,23 @@ server.get(RESOURCES.PUBLIC, function (req, res) {
     });
 });
 
+// Have to test a POST request in http URL and look how the object looks like 
+
+server.post(RESOURCES.PUBLIC, function (req, res) {
+console.log("This is how the actual req object look like "+req);
+
+console.log("Trying to get the username "+req.username);
+
+    res.send({
+        "public resource": "is public",
+        "it's not even": "a linked HAL resource",
+        "just plain": "application/json",
+        "personalized message": req.username ? "hi, " + req.username + "!" : "hello stranger!"
+    });
+});
+
+
+
 
 server.get(RESOURCES.REGISTER, function (req, res) {
     res.send({
