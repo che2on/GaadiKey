@@ -21,6 +21,7 @@ var RESOURCES = Object.freeze({
     INITIAL: "/",
     TOKEN: "/token",
     PUBLIC: "/public",
+    REGISTER: "/register",
     SECRET: "/secret"
 });
 
@@ -55,6 +56,16 @@ server.get(RESOURCES.INITIAL, function (req, res) {
 server.get(RESOURCES.PUBLIC, function (req, res) {
     res.send({
         "public resource": "is public",
+        "it's not even": "a linked HAL resource",
+        "just plain": "application/json",
+        "personalized message": req.username ? "hi, " + req.username + "!" : "hello stranger!"
+    });
+});
+
+
+server.get(RESOURCES.REGISTER, function (req, res) {
+    res.send({
+        "public resource": "is REGISTER",
         "it's not even": "a linked HAL resource",
         "just plain": "application/json",
         "personalized message": req.username ? "hi, " + req.username + "!" : "hello stranger!"
