@@ -77,6 +77,7 @@ var thebody = "";
 request.on('data', function(data)
 {
     thebody +=data;
+    console.log("The data"+ data);
 });
 
 request.on('end', function()
