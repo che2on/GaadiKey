@@ -74,26 +74,15 @@ console.log("This is how the actual req object look like "+req);
 console.log("Trying to print the request body "+req.body);
 console.log("update");
 console.log("The length of body is "+req.body.length);
-for(var i=0; i< req.body.length; i++)
-{
-
-    console.log(req.body[i]);
-}
-
-req.body.forEach(function(dat) 
-{
-    console("body param ");
-    console.log(dat);
-});
 
 var thebody = "";
-request.on('data', function(data)
+req.on('data', function(data)
 {
     thebody +=data;
     console.log("The data"+ data);
 });
 
-request.on('end', function()
+req.on('end', function()
 {
     console.log(thebody);
 
