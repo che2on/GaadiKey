@@ -22,12 +22,16 @@ var RESOURCES = Object.freeze({
     TOKEN: "/token",
     PUBLIC: "/public",
     REGISTER: "/register",
-    SECRET: "/secret"
+    SECRET: "/secret",
+
 });
 
 server.use(restify.authorizationParser());
 server.use(restify.bodyParser({ mapParams: false }));
-restifyOAuth2.ropc(server, { tokenEndpoint: RESOURCES.TOKEN, hooks: hooks });
+
+// Temporarily passing  /register as TOKEN end point.
+
+restifyOAuth2.ropc(server, { tokenEndpoint: RESOURCES.REGISTER, hooks: hooks });
 
 
 
