@@ -73,20 +73,9 @@ console.log("This is how the actual req object look like "+req);
 
 console.log("Trying to print the request body "+req.body);
 console.log("update");
-console.log("The length of body is "+req.body.length);
+console.log(JSON.stringify(req.body, null, 4));
 
 var thebody = "";
-req.on('data', function(data)
-{
-    thebody +=data;
-    console.log("The data"+ data);
-});
-
-req.on('end', function()
-{
-    console.log(thebody);
-
-});
 
 
 console.log("Trying to get the username "+req.username);
