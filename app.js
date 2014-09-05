@@ -4,6 +4,7 @@ var restify = require('restify');
 var mongojs = require("mongojs");
 var request = require("request");
 var http = require('http');
+var url  = require('url');
 var ip_addr = '54.200.41.80';
 var port    =  '80';
 var restifyOAuth2 = require("restify-oauth2");
@@ -43,7 +44,7 @@ var RESOURCES = Object.freeze({
 
 });
 
-server.use(restify.queryParser());
+//server.use(restify.queryParser());
 //server.use(restify.bodyParser());
 server.use(restify.CORS());
  
@@ -338,9 +339,12 @@ function postPhoneNumber(req, res, next) {
     //Generate 4 digit Random Number 
 
     console.log("The flow is here! ");
+    var queryObject = url.parse(req.url , true).query; 
 
     var min = 1000;
     var max = 9999;
+    console.log(queryObject);
+    
     var num = Math.floor(Math.random() * (max - min + 1)) + min;
 
     var phoneObject = { };
