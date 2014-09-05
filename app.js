@@ -136,7 +136,7 @@ function lookup(req, res, next)
     var arr = [ "9739888428" , "9739888" , "9090" , "8909" , "34232"];
     arr.forEach(function(element)
     {
-             gaadikey_users.findOne(phonenumber: element, function (err, success)
+             gaadikey_users.findOne({phonenumber: element}, function (err, success)
              {
                     if(success)
                     console.log("present"); // present
