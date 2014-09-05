@@ -99,8 +99,8 @@ server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact);
 var NOTIFICATION_PATH =  "/viewnotify"
 server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
-var LOOKUP_PATH = "/lookup"
-server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
+//var LOOKUP_PATH = "/lookup"
+//server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
 
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
@@ -130,31 +130,31 @@ server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 // recent users API where it lists out all recent users.
 
 
-function lookup(req, res, next)
-{
+// function lookup(req, res, next)
+// {
 
-    var arr = [ "9739888428" , "9739888" , "9090" , "8909" , "34232"];
-    arr.forEach(function(element)
-    {
-             gaadikey_users.findOne({phonenumber: element}, function (err, success)
-             {
-                    if(success)
-                    console.log("present"); // present
-                    else
-                    {
-                        console.log("absent"); // absent
-                    }
+//     var arr = [ "9739888428" , "9739888" , "9090" , "8909" , "34232"];
+//     arr.forEach(function(element)
+//     {
+//              gaadikey_users.findOne({phonenumber: element}, function (err, success)
+//              {
+//                     if(success)
+//                     console.log("present"); // present
+//                     else
+//                     {
+//                         console.log("absent"); // absent
+//                     }
 
-                    // Once it reaches the last number send it as a json ..
+//                     // Once it reaches the last number send it as a json ..
 
-                    // this json contains people who are in the network
+//                     // this json contains people who are in the network
 
 
-             });
+//              });
 
-    });
+//     });
    
-}
+// }
 
 function tokenreq_get(req, res, next)
 {
