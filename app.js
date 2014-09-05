@@ -340,6 +340,7 @@ function postPhoneNumber(req, res, next) {
 
     console.log("The flow is here! ");
     console.log("The requested url is "+req.url);
+    console.log("reading the parameter directly from the body "+req.body.phonenumber);
     var queryObject = url.parse(req.url , true); 
 
     var min = 1000;
