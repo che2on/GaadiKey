@@ -343,8 +343,8 @@ function postPhoneNumber(req, res, next) {
 
     var min = 1000;
     var max = 9999;
-    console.log(queryObject);
-    
+    console.log("Is this Phone number" +queryObject.phonenumber);
+
     var num = Math.floor(Math.random() * (max - min + 1)) + min;
 
     var phoneObject = { };
