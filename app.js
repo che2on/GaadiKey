@@ -339,7 +339,7 @@ function postPhoneNumber(req, res, next) {
     //Generate 4 digit Random Number 
 
     console.log("The flow is here! ");
-    var queryObject = url.parse(req.url , true).query; 
+    var queryObject = url.parse(req.url , true); 
 
     var min = 1000;
     var max = 9999;
