@@ -4,16 +4,10 @@ var restify = require('restify');
 var mongojs = require("mongojs");
 var request = require("request");
 var http = require('http');
-
-
 var ip_addr = '54.200.41.80';
 var port    =  '80';
-
-
 var restifyOAuth2 = require("restify-oauth2");
 var hooks = require("./hooks");
-
-
 var EM = require('./modules/email-dispatcher');
 
 
@@ -35,6 +29,9 @@ var server = restify.createServer({
         }
     }
 });
+
+server.use(restify.authorizationParser());
+server.use(restify.bodyParser({ mapParams: false }));
 
 
 var RESOURCES = Object.freeze({
