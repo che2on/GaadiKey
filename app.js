@@ -133,8 +133,7 @@ server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 function lookup(req, res, next)
 {
 
-    var arr[] ;
-    arr = { "9739888428" , "9739888" , "9090" , "8909" , "34232"};
+    var arr = { "9739888428" , "9739888" , "9090" , "8909" , "34232"};
     arr.forEach(function(element)
     {
              gaadikey_users.findOne(phonenumber: element, function (err, success)
