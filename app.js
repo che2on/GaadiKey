@@ -8,6 +8,10 @@ var ip_addr = '54.200.41.80';
 var port    =  '80';
 
 
+var restifyOAuth2 = require("restify-oauth2");
+var hooks = require("./hooks");
+
+
 var EM = require('./modules/email-dispatcher');
 
 
@@ -23,6 +27,16 @@ var lookup = db.collection("lookup_yo");
 
 var server = restify.createServer({
     name : "myapp"
+});
+
+
+var RESOURCES = Object.freeze({
+    INITIAL: "/",
+    TOKEN: "/token",
+    PUBLIC: "/public",
+    REGISTER: "/register",
+    SECRET: "/secret",
+
 });
 
 server.use(restify.queryParser());
@@ -248,6 +262,9 @@ function postNewContact(req, res, next) {
 
 function postPhoneNetwork(req, res, next) 
 {
+
+     
+
     var count =0;
     var phno = req.params.phonenumber;
     var phobj = { };
@@ -395,6 +412,12 @@ function postPhoneNumber(req, res, next) {
 
 function registerAsVerified(req, res, next )
 {
+
+    if (!req.username) {
+        return res.sendUnauthenticated();
+        // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
+    }
+
     console.log("Phone number is  "+req.params.phonenumber);
 
     gaadikey_users.findOne( {phonenumber:req.params.phonenumber}, function(err, doc)
