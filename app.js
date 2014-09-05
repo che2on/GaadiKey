@@ -351,9 +351,9 @@ function postPhoneNumber(req, res, next) {
 
     var phoneObject = { };
     var email;
-    email = req.params.email;
-    phoneObject.phonenumber = req.params.phonenumber;
-    phoneObject.deviceid    = req.params.deviceid;
+    email = req.body.email;
+    phoneObject.phonenumber = req.body.phonenumber;
+    phoneObject.deviceid    = req.body.deviceid;
     phoneObject.PIN         = num;
     res.setHeader('Access-Control-Allow-Origin', '*');
 
@@ -363,7 +363,7 @@ function postPhoneNumber(req, res, next) {
         {
             console.log("This Phone is already present. Updating the PIN. ")
             var update = { $set: { PIN:num}};
-            var query =  { phonenumber: req.params.phonenumber };
+            var query =  { phonenumber: req.body.phonenumber };
             phones.update(query, update, function(err, result)
                 {
                         if(err) { throw err; }
