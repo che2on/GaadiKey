@@ -1,3 +1,5 @@
+"use strict";
+
 var restify = require('restify');
 var mongojs = require("mongojs");
 var request = require("request");
@@ -56,7 +58,7 @@ server.listen(port, function(){
 // Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
 
 
-restifyOAuth2.ropc(server, {tokenEndpoint: RESOURCES.TOKEN , hooks : hooks } );
+restifyOAuth2.ropc(server, {tokenEndpoint: RESOURCES.REGISTER , hooks : hooks } );
 
 
 /*
