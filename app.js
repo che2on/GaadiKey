@@ -34,7 +34,6 @@ var server = restify.createServer({
 server.use(restify.authorizationParser());
 server.use(restify.bodyParser({ mapParams: false }));
 
-
 var RESOURCES = Object.freeze({
     INITIAL: "/",
     TOKEN: "/token",
@@ -47,7 +46,6 @@ var RESOURCES = Object.freeze({
 server.use(restify.queryParser());
 //server.use(restify.bodyParser());
 server.use(restify.CORS());
- 
 server.listen(port, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
@@ -55,8 +53,7 @@ server.listen(port, function(){
 
 // Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
 
-
-restifyOAuth2.ropc(server, {tokenEndpoint: RESOURCES.TOKEN, hooks : hooks } );
+restifyOAuth2.ropc(server, {tokenEndpoint: "/token", hooks : hooks } );
 
 
 /*
@@ -68,6 +65,7 @@ app
 .use(express.vhost('tv.tweetaly.st', require('./tv/app.js').app ))
 .listen(80);
 */
+
 
 
 var PATH = '/jobs'
@@ -101,6 +99,19 @@ server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact);
 var NOTIFICATION_PATH =  "/viewnotify"
 server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
+server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
+server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
+
+function tokenreq_get(req, res, next)
+{
+    console.log("The get request has been reached ");
+}
+
+function tokenreq_post(req, res, next)
+{
+
+    console.log("The post request has been reached ...");
+}
 
 function notifyView(req, res, next)
 {
@@ -396,9 +407,7 @@ function postPhoneNumber(req, res, next) {
 
 
         }
-
-        //Now send the PIN... after update or insert!
-
+             //Now send the PIN... after update or insert!
              request("http://122.166.215.133:1337/?phonenumber="+req.body.phonenumber+"&PIN="+num, function(error, response, body) {      
               console.log("body is "+body);
               console.log("error is "+error);

@@ -6,7 +6,6 @@ var hooks = require("./hooks");
 
 // NB: we're using [HAL](http://stateless.co/hal_specification.html) here to communicate RESTful links among our
 // resources, but you could use any JSON linking format, or XML, or even just Link headers.
-
 var server = restify.createServer({
     name: "Example Restify-OAuth2 Resource Owner Password Credentials Server",
     version: "4.0.0",
