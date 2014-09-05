@@ -26,7 +26,12 @@ var lookup = db.collection("lookup_yo");
 //var profiles = db.collection("profiles");
 
 var server = restify.createServer({
-    name : "myapp"
+    name : "myapp",
+        formatters: {
+        "application/hal+json": function (req, res, body) {
+            return res.formatters["application/json"](req, res, body);
+        }
+    }
 });
 
 
