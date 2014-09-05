@@ -240,6 +240,12 @@ function dummyContacts(req, res, next) {
  
     // });
 
+     console.log("The username is "+req.username) ;
+     if (!req.username) {
+        return res.sendUnauthenticated();
+        // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
+    }
+
 
     var phno = req.params.phonenumber;
     res.setHeader('Access-Control-Allow-Origin','*');
