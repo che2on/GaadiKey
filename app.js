@@ -115,15 +115,22 @@ function tokenreq_post(req, res, next)
 
 function notifyView(req, res, next)
 {
+
+    if (!req.username) 
+    {
+        return res.sendUnauthenticated();
+      // The ERROR response is sent... without notifying the user.... because there is not access token sent sent in the request! 
+    }
+
     console.log("View Notification Request Received ");
     res.setHeader('Access-Control-Allow-Origin', '*');
     lookup.find({}, function(err,result)
     {
          console.log("Result ooo is "+result);
          console.log("Error ooo is "+err);
-         console.log({gkey:req.params.sendto});
+         console.log({gkey:req.body.sendto});
     })
-    lookup.findOne({gkey:req.params.sendto}, function(err, success)
+    lookup.findOne({gkey:req.body.sendto}, function(err, success)
     {
         console.log("Error is "+err);
         console.log("The doc is "+success);
@@ -136,7 +143,7 @@ function notifyView(req, res, next)
                 var googleApiKey = "AIzaSyBVdOY12xKbvC6J4KVtzQ7axcIjk2N2sjk";
                 var sender = new gcm.Sender(googleApiKey);
                 var message = new gcm.Message();
-                message.addData('title',req.params.name+" found out you have "+success.Vehicle);
+                message.addData('title',req.body.name+" found out you have "+success.Vehicle);
                 message.addData('message', success.name+", Your Gaadi Key profile has been viewed.. Want to update?");
                 message.delay_while_idle = 1;
                 var registrationIds = [];
@@ -151,12 +158,10 @@ function notifyView(req, res, next)
                 var mpns = require('mpns');
                 var pushUri = success.notify_id;
                 console.log("The pushUri is "+pushUri);
-                mpns.sendToast(pushUri, 'Gaadi Key', req.params.name+" found out you have "+success.Vehicle,'isostore:/Shared/ShellContent/yo.mp3','/Page2.xaml', function back(err,data)
+                mpns.sendToast(pushUri, 'Gaadi Key', req.body.name+" found out you have "+success.Vehicle,'isostore:/Shared/ShellContent/yo.mp3','/Page2.xaml', function back(err,data)
                 {
                     console.log(data);
                 });
-
-               
 
                 console.log("This user is not an android user");
             }
@@ -227,6 +232,7 @@ function findAllContacts(req, res, next)
 
 function dummyContacts(req, res, next) {
 
+    res.setHeader('Access-Control-Allow-Origin','*');
     // res.setHeader('Access-Control-Allow-Origin','*');
     // dummycontacts.find().limit(20).sort({Name : -1} , function(err , success){
     //     console.log('Response success '+success);
@@ -239,16 +245,12 @@ function dummyContacts(req, res, next) {
     //     }
  
     // });
-
      console.log("The username is "+req.username) ;
      if (!req.username) {
         return res.sendUnauthenticated();
         // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
     }
-
-
     var phno = req.params.phonenumber;
-    res.setHeader('Access-Control-Allow-Origin','*');
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
     console.log("Querying the db "+phno+"_"+"phoneNetworkContacts")
     phoneNetworkContacts.find().limit(40).sort({postedOn : -1} , function(err , success){
@@ -262,7 +264,6 @@ function dummyContacts(req, res, next) {
         }
  
     });
-
 
 }
 
@@ -450,9 +451,9 @@ function registerAsVerified(req, res, next )
         // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
     }
 
-    console.log("Phone number is  "+req.params.phonenumber);
+    console.log("Phone number is  "+req.body.phonenumber);
 
-    gaadikey_users.findOne( {phonenumber:req.params.phonenumber}, function(err, doc)
+    gaadikey_users.findOne( {phonenumber:req.body.phonenumber}, function(err, doc)
     {
         console.log("Error is "+err);
         console.log("The doc is "+doc);
@@ -462,14 +463,14 @@ function registerAsVerified(req, res, next )
             // the profile object insertion code has to be present here.!! 
                 console.log("this number is not registered yet");
                 var profileObject = { };
-                profileObject.vehicletype   = req.params.vehicletype;
-                profileObject.vehiclename   = req.params.vehiclename;
-                profileObject.profilepic    = req.params.profilepic;
-                profileObject.gaadipic      = req.params.gaadipic;
-                profileObject.gaadimsg      = req.params.gaadimsg;
-                profileObject.phonenumber   = req.params.phonenumber;
-                profileObject.deviceid      = req.params.deviceid;
-                profileObject.notifyid      = req.params.notifyid;
+                profileObject.vehicletype   = req.body.vehicletype;
+                profileObject.vehiclename   = req.body.vehiclename;
+                profileObject.profilepic    = req.body.profilepic;
+                profileObject.gaadipic      = req.body.gaadipic;
+                profileObject.gaadimsg      = req.body.gaadimsg;
+                profileObject.phonenumber   = req.body.phonenumber;
+                profileObject.deviceid      = req.body.deviceid;
+                profileObject.notifyid      = req.body.notifyid;
                 profileObject.modifiedOn      = new Date();
                 res.setHeader('Access-Control-Allow-Origin' , '*');
                 gaadikey_users.save(profileObject, function(err , success) {
@@ -498,18 +499,18 @@ function registerAsVerified(req, res, next )
 
 
             var update = { $set: {
-               vehicletype:req.params.vehicletype,
-               vehiclename:req.params.vehiclename,
-               profilepic:req.params.profilepic, 
-               gaadipic:req.params.gaadipic,
-               gaadimsg:req.params.gaadimsg,
-               phonenumber:req.params.phonenumber,
-               deviceid:req.params.deviceid,
-               notifyid:req.params.notifyid,
+               vehicletype:req.body.vehicletype,
+               vehiclename:req.body.vehiclename,
+               profilepic:req.body.profilepic, 
+               gaadipic:req.body.gaadipic,
+               gaadimsg:req.body.gaadimsg,
+               phonenumber:req.body.phonenumber,
+               deviceid:req.body.deviceid,
+               notifyid:req.body.notifyid,
                modifiedOn:new Date()
 
                  }};
-            var query =  { phonenumber: req.params.phonenumber };
+            var query =  { phonenumber: req.body.phonenumber };
             gaadikey_users.update(query, update, function(err, result)
                 {
                         if(err) { throw err; }
