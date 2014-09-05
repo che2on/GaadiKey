@@ -150,7 +150,7 @@ function lookup(req, res, next)
                     // this json contains people who are in the network
 
 
-             }):
+             });
 
     });
    
