@@ -100,7 +100,7 @@ var NOTIFICATION_PATH =  "/viewnotify"
 server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
 var LOOKUP_PATH = "/lookup"
-server.post({path: LOOKUP_PATH, version:"0.0.1"} }, lookup );
+server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
 
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
