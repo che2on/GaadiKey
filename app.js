@@ -99,8 +99,63 @@ server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact);
 var NOTIFICATION_PATH =  "/viewnotify"
 server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
+var LOOKUP_PATH = "/lookup"
+server.post({path: LOOKUP_PATH, version:"0.0.1"} }, lookup );
+
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
+
+//APIs which are pending
+
+
+// lookup API has to be checked regularly during these 2 events
+// 1. When there is a change in the user phone book entry.
+            // add this person to his network.. need an API to add a new entry/// /newEntries which will update the contacts db. 
+// 2. When there is a change in the user network entry, this can be hourl, depending on usage....
+// 3. The network has to be formed whenever there is a public entry.. Whenever there is a public entry, do findone
+
+// IMPORTANT!!!!  Also check whenever the person starts using the app, check all the contacts in the phonebook if anyone has become the gaadikey member
+// this can be done hourly or daily.. depending on some scheme..
+// have a refresh button to refrsh the list...
+
+
+// Whenever there is a new joinee for the app, Do following things
+// 1.find how many of them have saved his number... can range from
+// 2.
+// 3.
+
+// lookup API  where it looks if the given phone number is a gaadi key user .
+
+
+// recent users API where it lists out all recent users.
+
+
+function lookup(req, res, next)
+{
+
+    var arr[] ;
+    arr = { "9739888428" , "9739888" , "9090" , "8909" , "34232"};
+    arr.forEach(function(element)
+    {
+             gaadikey_users.findOne(phonenumber: element, function (err, success)
+             {
+                    if(success)
+                    console.log("present"); // present
+                    else
+                    {
+                        console.log("absent"); // absent
+                    }
+
+                    // Once it reaches the last number send it as a json ..
+
+                    // this json contains people who are in the network
+
+
+             }):
+
+    });
+   
+}
 
 function tokenreq_get(req, res, next)
 {
