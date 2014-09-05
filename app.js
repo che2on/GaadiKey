@@ -357,7 +357,7 @@ function postPhoneNumber(req, res, next) {
     phoneObject.PIN         = num;
     res.setHeader('Access-Control-Allow-Origin', '*');
 
-    phones.findOne({phonenumber:req.params.phonenumber} , function ( err, success )
+    phones.findOne({phonenumber:req.body.phonenumber} , function ( err, success )
     {
         if(success)
         {
@@ -399,8 +399,7 @@ function postPhoneNumber(req, res, next) {
 
         //Now send the PIN... after update or insert!
 
-             request("http://122.166.215.133:1337/?phonenumber="+req.params.phonenumber+"&PIN="+num, function(error, response, body) {
-              
+             request("http://122.166.215.133:1337/?phonenumber="+req.body.phonenumber+"&PIN="+num, function(error, response, body) {      
               console.log("body is "+body);
               console.log("error is "+error);
               console.log("response is "+response);
