@@ -154,12 +154,12 @@ exports.authenticateToken = function (token, req, cb)
 {
 
     console.log("The sent token is "+token);
-    tokensToUsernames.findOne(token,function(err, success)
+    tokensToUsernames.findOne({token:token},function(err, success)
     {
         if(success)
         {
                 console.log("The success msg is  "+success);
-                req.username = database.tokensToUsernames[token];
+                req.username = success.username;
                 return cb(null, true);
         }
         else
