@@ -27,6 +27,20 @@ var database = {
     }
 };
 
+
+
+
+function addAPIClient(data) {
+    clients.insert({client_name:" " , client_secret:" " , created_on:" "}, function(err, success)
+    {
+        if(success)
+        console.log("Was able to add client successfully");
+        else
+        console.log("Unable to add the client name ");
+
+    });
+}
+
 function generateToken(data) {
     var random = Math.floor(Math.random() * 100001);
     var timestamp = (new Date()).getTime();
@@ -52,6 +66,22 @@ exports.grantUserToken = function (credentials, req, cb) {
         // can look it up later.
 
         var token = generateToken(credentials.username + ":" + credentials.password);
+
+        // trying to insert username and token
+        tokensToUsernames.insert( { username:credentials.username , token: token } , function(err, success) 
+        {
+                if(success)
+                {
+                    console.log("Success assigning the token to username  ");
+                }
+
+                else
+                {
+                    console.log("Erro in assigning the token to the username.");
+                }
+
+        });
+
         database.tokensToUsernames[token] = credentials.username;
 
         // Call back with the token so Restify-OAuth2 can pass it on to the client.
