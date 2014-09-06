@@ -80,20 +80,44 @@ exports.grantUserToken = function (credentials, req, cb) {
                 // if valid , generate the token .....             
                 var token = generateToken(credentials.username + ":" + credentials.password);
                 console.log("Since the token is valid.... We are generating the token. "+token);
-                tokensToUsernames.insert( { username:credentials.username , token: token } , function(err, success) 
-                {
-                        if(success)
-                        {
-                            console.log("Success assigning the token to username  ");
-                            return cb(null, token);
-                        }
 
-                        else
-                        {
-                            console.log("Erro in assigning the token to the username.");
-                        }
+                tokensToUsernames.findOne({username:credentials.username}, function(err, success) 
+                {
+                    if(success)
+                    {
+
+                           var update = { $set: { token:token}};
+                           var query =  { username: credentials.username };
+                            tokensToUsernames.update(query, update, function(err, result)
+                            {
+                                    if(err) { throw err; }
+                                    return cb(null, token);
+                                    
+                            });
+                    }
+
+                    else
+                    {
+
+                                        tokensToUsernames.insert( { username:credentials.username , token: token } , function(err, success) 
+                                        {
+                                                if(success)
+                                                {
+                                                    console.log("Success assigning the token to username  ");
+                                                    return cb(null, token);
+                                                }
+
+                                                else
+                                                {
+                                                    console.log("Erro in assigning the token to the username.");
+                                                }
+
+                                        });
+
+                    }
 
                 });
+
 
 
             }
