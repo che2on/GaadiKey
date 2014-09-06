@@ -2,6 +2,13 @@
 
 var _ = require("underscore");
 var crypto = require("crypto");
+var mongojs = require("mongojs");
+var connection_string = '127.0.0.1:27017/myapp';
+var db = mongojs(connection_string, ['myapp']);
+var clients = db.collection("clients");
+var useraccounts = db.collection("useraccounts");
+var tokensToUsernames = db.collection("tokensToUsernames");
+
 console.log("hello i am in hooks of ropc");
 
 var database = {
