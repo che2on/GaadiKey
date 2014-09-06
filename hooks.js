@@ -8,6 +8,9 @@ var db = mongojs(connection_string, ['myapp']);
 var clients = db.collection("clients");
 var useraccounts = db.collection("useraccounts");
 var tokensToUsernames = db.collection("tokensToUsernames");
+var phones = db.collection("phones");
+
+// if phones , to lookup if the enetered pin and username are valid ....... 
 
 console.log("hello i am in hooks of ropc");
 
@@ -61,6 +64,29 @@ exports.validateClient = function (credentials, req, cb) {
 exports.grantUserToken = function (credentials, req, cb) {
     var isValid = _.has(database.users, credentials.username) &&
                   database.users[credentials.username].password === credentials.password;
+
+
+     if(phones.findOne({phonenumber: credentials.username}) , function ( err, success )
+     {
+
+        if(success)
+        {
+            if(success.PIN == credetials.password) // checking if the PIN is valid
+            {
+                // if valid , generate the token .....             
+                var token = generateToken(credentials.username + ":" + credentials.password);
+                console.log("Since the token is valid.... We are generating the token. "+token);
+            }
+        }
+
+
+     }) ;            
+
+
+    // The  isValid has to be set after querying if the PIN generated for the phonenumber is matching the user entered PIN and phone number.... If it is valid generate token 
+
+
+
     if (isValid) {
         // If the user authenticates, generate a token for them and store it so `exports.authenticateToken` below
         // can look it up later.
