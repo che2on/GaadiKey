@@ -62,21 +62,52 @@ exports.validateClient = function (credentials, req, cb) {
 };
 
 exports.grantUserToken = function (credentials, req, cb) {
-    var isValid = _.has(database.users, credentials.username) &&
-                  database.users[credentials.username].password === credentials.password;
 
 
-     if(phones.findOne({phonenumber: credentials.username}) , function ( err, success )
-     {
+
+   // var isValid = _.has(database.users, credentials.username) &&
+              //    database.users[credentials.username].password === credentials.password;
+
+
+    phones.findOne({phonenumber: credentials.username}, function ( err, success )
+    {
 
         if(success)
         {
+            console.log("The retrieved object is "+success);
             if(success.PIN == credetials.password) // checking if the PIN is valid
             {
                 // if valid , generate the token .....             
                 var token = generateToken(credentials.username + ":" + credentials.password);
                 console.log("Since the token is valid.... We are generating the token. "+token);
+                tokensToUsernames.insert( { username:credentials.username , token: token } , function(err, success) 
+                {
+                        if(success)
+                        {
+                            console.log("Success assigning the token to username  ");
+                            return cb(null, token);
+                        }
+
+                        else
+                        {
+                            console.log("Erro in assigning the token to the username.");
+                        }
+
+                });
+
+
             }
+
+            else
+            {
+                    cb(null, false);
+            }
+        }
+
+        else
+        {
+                   cb(null, false);
+
         }
 
 
@@ -87,36 +118,36 @@ exports.grantUserToken = function (credentials, req, cb) {
 
 
 
-    if (isValid) {
-        // If the user authenticates, generate a token for them and store it so `exports.authenticateToken` below
-        // can look it up later.
+    // if (isValid) {
+    //     // If the user authenticates, generate a token for them and store it so `exports.authenticateToken` below
+    //     // can look it up later.
 
-        var token = generateToken(credentials.username + ":" + credentials.password);
+    //     var token = generateToken(credentials.username + ":" + credentials.password);
 
-        // trying to insert username and token
-        tokensToUsernames.insert( { username:credentials.username , token: token } , function(err, success) 
-        {
-                if(success)
-                {
-                    console.log("Success assigning the token to username  ");
-                }
+    //     // trying to insert username and token
+    //     tokensToUsernames.insert( { username:credentials.username , token: token } , function(err, success) 
+    //     {
+    //             if(success)
+    //             {
+    //                 console.log("Success assigning the token to username  ");
+    //             }
 
-                else
-                {
-                    console.log("Erro in assigning the token to the username.");
-                }
+    //             else
+    //             {
+    //                 console.log("Erro in assigning the token to the username.");
+    //             }
 
-        });
+    //     });
 
-        database.tokensToUsernames[token] = credentials.username;
+    //     database.tokensToUsernames[token] = credentials.username;
 
-        // Call back with the token so Restify-OAuth2 can pass it on to the client.
-        return cb(null, token);
-    }
+    //     // Call back with the token so Restify-OAuth2 can pass it on to the client.
+    //     return cb(null, token);
+    // }
 
-    // Call back with `false` to signal the username/password combination did not authenticate.
-    // Calling back with an error would be reserved for internal server error situations.
-    cb(null, false);
+    // // Call back with `false` to signal the username/password combination did not authenticate.
+    // // Calling back with an error would be reserved for internal server error situations.
+    // cb(null, false);
 };
 
 exports.authenticateToken = function (token, req, cb) {
