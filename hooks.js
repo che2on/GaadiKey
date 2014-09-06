@@ -150,17 +150,34 @@ exports.grantUserToken = function (credentials, req, cb) {
     // cb(null, false);
 };
 
-exports.authenticateToken = function (token, req, cb) {
+exports.authenticateToken = function (token, req, cb) 
+{
 
     console.log("The sent token is "+token);
-    if (_.has(database.tokensToUsernames, token)) {
-        // If the token authenticates, set the corresponding property on the request, and call back with `true`.
-        // The routes can now use these properties to check if the request is authorized and authenticated.
-        req.username = database.tokensToUsernames[token];
-        return cb(null, true);
-    }
+    tokensToUsernames.findOne(token,function(err, success)
+    {
+        if(success)
+        {
+                console.log("The success msg is  "+success);
+                req.username = database.tokensToUsernames[token];
+                return cb(null, true);
+        }
+        else
+        {
+            cb(null, false);
+        }
+    });
+
+    // if (_.has(database.tokensToUsernames, token)) 
+    // {
+    //     // If the token authenticates, set the corresponding property on the request, and call back with `true`.
+    //     // The routes can now use these properties to check if the request is authorized and authenticated.
+    //     req.username = database.tokensToUsernames[token];
+    //     return cb(null, true);
+    // }
 
     // If the token does not authenticate, call back with `false` to signal that.
     // Calling back with an error would be reserved for internal server error situations.
-    cb(null, false);
+
+   // cb(null, false);
 };
