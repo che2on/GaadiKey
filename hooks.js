@@ -75,7 +75,7 @@ exports.grantUserToken = function (credentials, req, cb) {
         if(success)
         {
             console.log("The retrieved object is "+success);
-            if(success.PIN == credetials.password) // checking if the PIN is valid
+            if(success.PIN == credentials.password) // checking if the PIN is valid
             {
                 // if valid , generate the token .....             
                 var token = generateToken(credentials.username + ":" + credentials.password);
