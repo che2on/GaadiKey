@@ -105,6 +105,25 @@ server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 
+server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
+
+
+function getUserCount(req, res, next)
+{
+
+    gaadikey_users.find( {}, function(err, recs) 
+    {
+        if(err) return res.send(404);
+
+        else
+        {
+             console.log(recs.length);
+             res.send(200 , { registered_users: recs.length});
+        }
+    })
+}
+
+
 //APIs which are pending
 
 
