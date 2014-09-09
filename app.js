@@ -67,7 +67,7 @@ app
 */
 
 var ROOT_PATH = "/";
-server.get({path: PATH, version: "0.0.1"}, callingRoot);
+server.get({path: ROOT_PATH, version: "0.0.1"}, callingRoot);
 
 var PATH = '/jobs'
 server.get({path : PATH , version : '0.0.1'} , findAllJobs);
