@@ -355,9 +355,6 @@ function postNewContact(req, res, next) {
 
 function postPhoneNetwork(req, res, next) 
 {
-
-     
-
      // since mapParams are disabled we have to  use just body while parsing!
 
     var count =0;
