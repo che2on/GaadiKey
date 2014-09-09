@@ -66,7 +66,8 @@ app
 .listen(80);
 */
 
-
+var ROOT_PATH = "/";
+server.get({path: PATH, version: "0.0.1"}, callingRoot);
 
 var PATH = '/jobs'
 server.get({path : PATH , version : '0.0.1'} , findAllJobs);
@@ -124,19 +125,10 @@ function getUserCount(req, res, next)
 }
 
 
-//APIs which are pending
-
-
-// lookup API has to be checked regularly during these 2 events
-// 1. When there is a change in the user phone book entry.
-            // add this person to his network.. need an API to add a new entry/// /newEntries which will update the contacts db. 
-// 2. When there is a change in the user network entry, this can be hourl, depending on usage....
-// 3. The network has to be formed whenever there is a public entry.. Whenever there is a public entry, do findone
-
-// IMPORTANT!!!!  Also check whenever the person starts using the app, check all the contacts in the phonebook if anyone has become the gaadikey member
-// this can be done hourly or daily.. depending on some scheme..
-// have a refresh button to refrsh the list...
-
+function callingRoot(req, res, next)
+{
+    res.send("Success", 200);
+}
 
 // Whenever there is a new joinee for the app, Do following things
 // 1.find how many of them have saved his number... can range from
