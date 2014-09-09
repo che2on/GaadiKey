@@ -40,7 +40,6 @@ var RESOURCES = Object.freeze({
     PUBLIC: "/public",
     REGISTER: "/register",
     SECRET: "/secret",
-
 });
 
 server.use(restify.queryParser());
@@ -165,6 +164,7 @@ function callingRoot(req, res, next)
 //     });
    
 // }
+
 
 function tokenreq_get(req, res, next)
 {
@@ -358,12 +358,14 @@ function postPhoneNetwork(req, res, next)
 
      
 
+     // since mapParams are disabled we have to  use just body while parsing!
+
     var count =0;
-    var phno = req.params.phonenumber;
+    var phno = req.body.phonenumber;
     var phobj = { };
-    phobj.book  = req.params.book;
+    phobj.book  = req.body.book;
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
-    req.params.book.forEach(function(entry) {
+    req.body.book.forEach(function(entry) {
         count++;
         console.log(entry);
         phoneNetworkContacts.save(entry , function(err, success ) {
@@ -371,7 +373,7 @@ function postPhoneNetwork(req, res, next)
         if(success)
         {
              console.log("Phone network contacts saved.");
-             if(req.params.book.length == count)
+             if(req.body.book.length == count)
              res.send(200, {} );
              return next();
         }
