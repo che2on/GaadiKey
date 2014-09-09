@@ -105,7 +105,6 @@ server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
-
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
 
 
@@ -127,7 +126,7 @@ function getUserCount(req, res, next)
 
 function callingRoot(req, res, next)
 {
-    res.send("Success", 200);
+    res.send(200, "Success");
 }
 
 // Whenever there is a new joinee for the app, Do following things
