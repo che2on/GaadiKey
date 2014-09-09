@@ -110,7 +110,7 @@ server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
 
 function getUserCount(req, res, next)
 {
-
+    res.setHeader('Access-Control-Allow-Origin', '*');
     gaadikey_users.find( {}, function(err, recs) 
     {
         if(err) return res.send(404);
