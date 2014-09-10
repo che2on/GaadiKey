@@ -377,12 +377,30 @@ function postPhoneNetwork(req, res, next)
 {
      // since mapParams are disabled we have to  use just body while parsing!
 
+
+    var collection_name_tobe_deleted = db.collection("9739888428_phoneNetworkContacts");
+    console.log("before dropping the collection ");
+    collection_name_tobe_deleted.drop();
+    console.log("after dropping the collection  ");
+
+    // drop this collection 
+    // colelction name  should begin with the  phonenumber received.
+
+
     var count =0;
     var phno = req.body.phonenumber;
     var phobj = { };
     phobj.book  = req.body.book;
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
+    // By default drop the collection and then save the new contacts...
+    // this is good for security.. SO the contacts are not leaked, incase if the another person validates the gaadikey account using the PIN .
+
+    console.log("Drop called");
+    phoneNetworkContacts.drop();
+    console.log("Finished dropping");
+
     req.body.book.forEach(function(entry) {
+        console.log("Entries are being logged");
         count++;
         console.log(entry);
         phoneNetworkContacts.save(entry , function(err, success ) {
