@@ -65,6 +65,12 @@ app
 .listen(80);
 */
 
+/* ============================================= TEST APIs should be removed after use  strictly for testing purpose only... sclean up this  to be compliant woth the security  */
+
+var DELETE_COLLECTION_PATH = "/deletecollection";
+server.get({path: DELETE_COLLECTION_PATH, version: "0.0.1"} , DeleteThisCollection );
+
+/* =============================================TEST API section ends here ==========================================  */
 var ROOT_PATH = "/";
 server.get({path: ROOT_PATH, version: "0.0.1"}, callingRoot);
 
@@ -105,6 +111,20 @@ server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
+
+
+
+
+function DeleteThisCollection(req, res, next )
+{
+    res.setHeader("Access-Control-Allow-Origin" , "*");
+    var collection_name_tobe_deleted = db.collection("9739888428_phoneNetworkContacts");
+    console.log("before dropping the collection ");
+    collection_name_tobe_deleted.drop();
+    console.log("after dropping the collection  ");
+
+
+}
 
 
 function getUserCount(req, res, next)
