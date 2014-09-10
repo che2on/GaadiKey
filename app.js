@@ -335,6 +335,7 @@ function dummyContacts(req, res, next) {
         // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
     }
     var phno = req.params.phonenumber;
+    console.log("Able to succesfuuly able to retrieve the  phone number even though extracted from  params. here is the proof!!!! "+phno)
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
     console.log("Querying the db "+phno+"_"+"phoneNetworkContacts")
     phoneNetworkContacts.find().limit(40).sort({postedOn : -1} , function(err , success){
