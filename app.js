@@ -20,6 +20,7 @@ var phones = db.collection("phones");
 var gaadikey_users = db.collection("gaadikey_users");
 var dummycontacts = db.collection("dummycontacts");
 var lookup = db.collection("lookup_yo");
+var plans  = db.collection("plans");
 //var profiles = db.collection("profiles");
 
 var server = restify.createServer({
@@ -104,6 +105,9 @@ server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact);
 
 var NOTIFICATION_PATH =  "/viewnotify"
 server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
+
+var PLANARIDE_PATH  =    "/planaride"
+server.post({path: PLANARIDE_PATH, version:"0.0.1"}, planARide);
 
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
@@ -352,6 +356,33 @@ function dummyContacts(req, res, next) {
 
 }
 
+
+function planARide(req, res , next )
+{
+     var planObject = { };
+     planObject.title = req.body.title;
+     planObject.destination = req.body.destination;
+     planObject.source = req.body.source;
+     planObject.participantcount = req.body.participantcount;
+     planObject.participantname = req.body.participantname;
+     planObject.postedOn = new Date();
+     res.setHeader('Access-Control-Allow-Origin', '*');
+     plans.save(planObject, function(err, success) {
+        console.log("Response  Success inserting the plan object "+success);
+        if(success)
+        {
+            res.send(200 , success);
+            return next();
+        }
+
+        else
+        {
+            return next(err);
+        }
+
+     });
+
+}
 
 function postNewContact(req, res, next) {
 
