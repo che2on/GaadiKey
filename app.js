@@ -40,8 +40,8 @@ var server = restify.createServer({
             return res.formatters["application/json"](req, res, body);
         }
     },
-    key: fs.readFileSync('./ssl/private.pem'),
-    cert: fs.readFileSync('./ssl/public.pem')
+    key: fs.readFileSync('ssl/private.pem'),
+    cert: fs.readFileSync('ssl/public.pem')
     
 });
 
