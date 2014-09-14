@@ -6,7 +6,7 @@ var request = require("request");
 var http = require('http');
 var url  = require('url');
 var ip_addr = '54.200.41.80';
-var port    =  '80';
+var port    =  '443';
 var restifyOAuth2 = require("restify-oauth2");
 var hooks = require("./hooks");
 var EM = require('./modules/email-dispatcher');
@@ -31,17 +31,6 @@ var plans  = db.collection("plans");
 //   requestCert: true,
 //   rejectUnauthorized: false
 // };
-var privateKey = fs.readFileSync('ssl/gaadikey_in.key').toString();
-var certificate = fs.readFileSync('ssl/gaadikey_in.crt').toString();
-
-console.log("Private key is "+privateKey);
-console.log("public cert is "+certificate)
-
-var testkey = fs.readFileSync('./ssl/gaadikey_in.key').toString();
-
-console.log("test read  key.... "+testkey);
-
-
 
 var server = restify.createServer({
     name : "myapp",
