@@ -35,6 +35,11 @@ var privateKey = fs.readFileSync('ssl/gaadikey_in.key').toString();
 var certificate = fs.readFileSync('ssl/gaadikey_in.crt').toString();
 
 console.log("Private key is "+privateKey);
+console.log("public cert is "+certificate)
+
+var testkey = fs.readFileSync('./ssl/gaadikey_in.key').toString();
+
+console.log("test read key.... "+testkey);
 
 
 
@@ -45,8 +50,8 @@ var server = restify.createServer({
             return res.formatters["application/json"](req, res, body);
         }
     },
-    key: fs.readFileSync('ssl/private.pem'),
-    cert: fs.readFileSync('ssl/public.pem')
+    key: fs.readFileSync('ssl/gaadikey_in.key'),
+    cert: fs.readFileSync('ssl/gaadikey_in.crt')
     
 });
 
