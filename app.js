@@ -41,7 +41,7 @@ var server = restify.createServer({
         }
     },
     key: fs.readFileSync('./ssl/private.pem'),
-    cert: fs.readFileSync('./ssl/public.pem'),
+    cert: fs.readFileSync('./ssl/public.pem')
     
 });
 
