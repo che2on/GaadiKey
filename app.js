@@ -31,6 +31,11 @@ var plans  = db.collection("plans");
 //   requestCert: true,
 //   rejectUnauthorized: false
 // };
+var privateKey = fs.readFileSync('ssl/gaadikey_in.key').toString();
+var certificate = fs.readFileSync('ssl/gaadikey_in.crt').toString();
+
+console.log("Private key is "+privateKey);
+
 
 
 var server = restify.createServer({
