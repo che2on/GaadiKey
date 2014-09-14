@@ -23,13 +23,27 @@ var lookup = db.collection("lookup_yo");
 var plans  = db.collection("plans");
 //var profiles = db.collection("profiles");
 
+// var sslOptions = {
+//   key: fs.readFileSync('./ssl/gaadikey_in.key'),
+//   cert: fs.readFileSync('./ssl/gaadikey_in.crt'),
+//   ca: fs.readFileSync('./ssl/gaadikey_in.crt'),
+//   requestCert: true,
+//   rejectUnauthorized: false
+// };
+
+
 var server = restify.createServer({
     name : "myapp",
         formatters: {
         "application/hal+json": function (req, res, body) {
             return res.formatters["application/json"](req, res, body);
         }
-    }
+    },
+    key: fs.readFileSync('./ssl/gaadikey_in.key'),
+    cert: fs.readFileSync('./ssl/gaadikey_in.crt'),
+    ca: fs.readFileSync('./ssl/gaadikey_in.crt'),
+    requestCert: true,
+    rejectUnauthorized: false
 });
 
 server.use(restify.authorizationParser());
