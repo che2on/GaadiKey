@@ -42,9 +42,7 @@ var server = restify.createServer({
     },
     key: fs.readFileSync('./ssl/gaadikey_in.key'),
     cert: fs.readFileSync('./ssl/gaadikey_in.crt'),
-    ca: fs.readFileSync('./ssl/gaadikey_in.crt'),
-    requestCert: true,
-    rejectUnauthorized: false
+    
 });
 
 server.use(restify.authorizationParser());
