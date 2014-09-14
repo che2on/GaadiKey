@@ -10,6 +10,7 @@ var port    =  '80';
 var restifyOAuth2 = require("restify-oauth2");
 var hooks = require("./hooks");
 var EM = require('./modules/email-dispatcher');
+var fs = require('fs');
 
 
 var connection_string = '127.0.0.1:27017/myapp';
