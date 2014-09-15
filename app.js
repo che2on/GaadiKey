@@ -155,15 +155,13 @@ server.listen(80, function(){
 function publicLane(req, res , next )
 {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    gaadikey_users.find().sort({_id:-1}).limit(3), function(err, success) {
+    gaadikey_users.find().limit(3).sort({_id:-1}, function(err, success) {
         console.log("Public lane success "+success);
         if(success)
         {
-
             res.send(200 , success);
             return next();
         }
-
         else
         {
             return next(err);
@@ -587,7 +585,6 @@ function postPhoneNumber(req, res, next) {
             phones.update(query, update, function(err, result)
                 {
                         if(err) { throw err; }
-
                         res.send(200, result);
                         return next();
 
@@ -597,7 +594,7 @@ function postPhoneNumber(req, res, next) {
         else
         {
 
-            phones.save(phoneObject, function( err, success){
+        phones.save(phoneObject, function( err, success){
         console.log("Response success "+success);
         console.log("Response error "+err);
         if(success) {
