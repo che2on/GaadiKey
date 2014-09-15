@@ -155,7 +155,7 @@ server.listen(80, function(){
 function publicLane(req, res , next )
 {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    gaadikey_users.find().sort({$natural:1}).limit(3), function(err, success) {
+    gaadikey_users.find().sort({_id:-1}).limit(3), function(err, success) {
         console.log("Public lane success "+success);
         if(success)
         {
