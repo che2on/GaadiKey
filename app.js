@@ -122,6 +122,9 @@ server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 var PLANARIDE_PATH  =    "/planaride"
 server.post({path: PLANARIDE_PATH, version:"0.0.1"}, planARide);
 
+var PUBLICLANE_PATH   =   "/publiclane"
+server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLane );
+
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
 
@@ -148,6 +151,26 @@ server.listen(80, function(){
 });
 
 
+
+function publicLane(req, res , next )
+{
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    gaadikey_users.find().sort({$natural:1}).limit(3), function(err, success) {
+        console.log("Public lane success "+success);
+        if(success)
+        {
+
+            res.send(200 , success);
+            return next();
+        }
+
+        else
+        {
+            return next(err);
+        }
+    }
+
+}
 
 
 
@@ -328,6 +351,20 @@ function verify(req, res, next)
 {
 
     res.setHeader('Access-Control-Allow-Origin', '*');
+    gaadikey_users.find().sort({$natural:1}).limit(3), function(err, success) {
+        console.log("Public lane success "+success);
+        if(success)
+        {
+
+            res.send(200 , success);
+            return next();
+        }
+
+        else
+        {
+            return next(err);
+        }
+    }
 
 
 }
