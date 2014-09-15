@@ -168,7 +168,7 @@ function publicLane(req, res , next )
         {
             return next(err);
         }
-    }
+    });
 
 }
 
