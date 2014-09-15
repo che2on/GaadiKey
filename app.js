@@ -75,39 +75,6 @@ var RESOURCES = Object.freeze({
     SECRET: "/secret",
 });
 
-
-setup_server(server);
-setup_server(https_server);
-
-// Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
-restifyOAuth2.ropc(server, {tokenEndpoint: "/token", hooks : hooks } );
-restifyOAuth2.ropc(https_server, {tokenEndpoint: "/token", hooks : hooks } );
-
-https_server.listen(443, function(){
-   console.log('%s listening at %s ', https_server.name , https_server.url);
-});
-
-server.listen(80, function(){
-    console.log('%s listening at %s ', server.name , server.url);
-});
-
-
-
-
-
-
-
-/*
-var app = express();
-app
-.use(express.vhost('accounts.tweetaly.st', require('./node-login/app.js').app))
-.use(express.vhost('tweetaly.st', require('./tweetalystpro/app.js').app))
-.use(express.vhost('blog.tweetaly.st', require('./blog/app.js').app))
-.use(express.vhost('tv.tweetaly.st', require('./tv/app.js').app ))
-.listen(80);
-*/
-
-
 var setup_server = function(server)
 {
 
@@ -163,6 +130,23 @@ server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
 
 }
+
+
+setup_server(server);
+setup_server(https_server);
+
+// Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
+restifyOAuth2.ropc(server, {tokenEndpoint: "/token", hooks : hooks } );
+restifyOAuth2.ropc(https_server, {tokenEndpoint: "/token", hooks : hooks } );
+
+https_server.listen(443, function(){
+   console.log('%s listening at %s ', https_server.name , https_server.url);
+});
+
+server.listen(80, function(){
+    console.log('%s listening at %s ', server.name , server.url);
+});
+
 
 
 
