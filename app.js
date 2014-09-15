@@ -34,11 +34,11 @@ var plans  = db.collection("plans");
 
 var https_server = restify.createServer({
     name : "myapp",
-        formatters: {
-        "application/hal+json": function (req, res, body) {
-            return res.formatters["application/json"](req, res, body);
-        }
-    },
+    //     formatters: {
+    //     "application/hal+json": function (req, res, body) {
+    //         return res.formatters["application/json"](req, res, body);
+    //     }
+    // },
     key: fs.readFileSync('ssl/gaadikey_in.key'),
     cert: fs.readFileSync('ssl/gaadikey_in.crt'),
     ca: fs.readFileSync("ssl/gaadikey_in.ca-bundle"),
