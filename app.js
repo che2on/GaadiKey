@@ -32,7 +32,7 @@ var plans  = db.collection("plans");
 //   rejectUnauthorized: false
 // };
 
-var server = restify.createServer({
+var https_server = restify.createServer({
     name : "myapp",
         formatters: {
         "application/hal+json": function (req, res, body) {
@@ -42,13 +42,30 @@ var server = restify.createServer({
     key: fs.readFileSync('ssl/gaadikey_in.key'),
     cert: fs.readFileSync('ssl/gaadikey_in.crt'),
     ca: fs.readFileSync("ssl/gaadikey_in.ca-bundle"),
-    requestCert: false,
+    requestCert: true,
     rejectUnauthorized: false
     
 });
 
+https_server.use(restify.authorizationParser());
+https_server.use(restify.bodyParser({ mapParams: false }));
+https_server.use(restify.queryParser());
+https_server.use(restify.CORS());
+
+
+var server = restify.createServer({
+    name: "myapp",
+    formatters: {
+        "application/hal+json": function (req, res, body) {
+            return res.formatters["application/json"](req, res, body);
+        }
+    }
+})
+
 server.use(restify.authorizationParser());
 server.use(restify.bodyParser({ mapParams: false }));
+server.use(restify.queryParser());
+server.use(restify.CORS());
 
 var RESOURCES = Object.freeze({
     INITIAL: "/",
@@ -58,17 +75,26 @@ var RESOURCES = Object.freeze({
     SECRET: "/secret",
 });
 
-server.use(restify.queryParser());
-//server.use(restify.bodyParser());
-server.use(restify.CORS());
-server.listen(port, function(){
+
+setup_server(server);
+setup_server(https_server);
+
+// Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
+restifyOAuth2.ropc(server, {tokenEndpoint: "/token", hooks : hooks } );
+restifyOAuth2.ropc(https_server, {tokenEndpoint: "/token", hooks : hooks } );
+
+https_server.listen(443, function(){
+   console.log('%s listening at %s ', https_server.name , https_server.url);
+});
+
+server.listen(80, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
 
 
-// Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
 
-restifyOAuth2.ropc(server, {tokenEndpoint: "/token", hooks : hooks } );
+
+
 
 
 /*
@@ -80,6 +106,11 @@ app
 .use(express.vhost('tv.tweetaly.st', require('./tv/app.js').app ))
 .listen(80);
 */
+
+
+var setup_server = function(server)
+{
+
 
 /* ============================================= TEST APIs should be removed after use  strictly for testing purpose only... sclean up this  to be compliant woth the security  */
 
@@ -130,6 +161,8 @@ server.post({path: PLANARIDE_PATH, version:"0.0.1"}, planARide);
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
+
+}
 
 
 
