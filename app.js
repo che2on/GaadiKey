@@ -11,8 +11,6 @@ var restifyOAuth2 = require("restify-oauth2");
 var hooks = require("./hooks");
 var EM = require('./modules/email-dispatcher');
 var fs = require('fs');
-
-
 var connection_string = '127.0.0.1:27017/myapp';
 var db = mongojs(connection_string, ['myapp']);
 var jobs = db.collection("jobs");
@@ -77,8 +75,6 @@ var RESOURCES = Object.freeze({
 
 var setup_server = function(server)
 {
-
-
 /* ============================================= TEST APIs should be removed after use  strictly for testing purpose only... sclean up this  to be compliant woth the security  */
 
 var DELETE_COLLECTION_PATH = "/deletecollection";
@@ -125,6 +121,9 @@ server.post({path: PLANARIDE_PATH, version:"0.0.1"}, planARide);
 var PUBLICLANE_PATH   =   "/publiclane"
 server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLane );
 
+var PING_PATH = "/pingsync";
+server.get({ path: PING_PATH, version: "0.0.1"} , pingSync );
+
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
 
@@ -168,6 +167,12 @@ function publicLane(req, res , next )
         }
     });
 
+}
+
+function pingSync(req, res , next )
+{
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    res.send(200, { data : "ping test"});
 }
 
 
@@ -452,7 +457,6 @@ function planARide(req, res , next )
 }
 
 function postNewContact(req, res, next) {
-
     var userObject = { };
     userObject.title = req.params.title;
     userObject.description = req.params.description;
@@ -475,17 +479,12 @@ function postNewContact(req, res, next) {
 function postPhoneNetwork(req, res, next) 
 {
      // since mapParams are disabled we have to  use just body while parsing!
-
-
     var collection_name_tobe_deleted = db.collection("9739888428_phoneNetworkContacts");
     console.log("before dropping the collection ");
     collection_name_tobe_deleted.drop();
     console.log("after dropping the collection  ");
-
     // drop this collection 
     // colelction name  should begin with the  phonenumber received.
-
-
     var count =0;
     var phno = req.body.phonenumber;
     var phobj = { };
@@ -497,7 +496,6 @@ function postPhoneNetwork(req, res, next)
     console.log("Drop called");
     phoneNetworkContacts.drop();
     console.log("Finished dropping");
-
     req.body.book.forEach(function(entry) {
         console.log("Entries are being logged");
         count++;
@@ -519,10 +517,6 @@ function postPhoneNetwork(req, res, next)
     });
 
     });
-
-    
-   
-
 }
 
 /*
@@ -635,11 +629,7 @@ function postPhoneNumber(req, res, next) {
                         for (k in e) console.log('error : ', k, e[k]);
                     }
                 });
-
-
     })
-
-
 }
 
 function registerAsVerified(req, res, next )
@@ -694,9 +684,6 @@ function registerAsVerified(req, res, next )
         }
         else
         {
-
-
-
             var update = { $set: {
                vehicletype:req.body.vehicletype,
                vehiclename:req.body.vehiclename,
