@@ -444,16 +444,17 @@ function checkForMembership(req, res, next )
                             {
                                 console.log("The response received is "+r);
                                 theBIGresponse.push(r);
+                                if(success.length == count)
+                                {
+                                    console.log("This is the last phone numbe to be parsed. So displaying the collection of all responses.");
+                                    res.send(200 , theBIGresponse);
+                                }
                             });
                         
                     }
                 }
 
-            if(success.length == count)
-            {
-                console.log("This is the last phone numbe to be parsed. So displaying the collection of all responses.");
-                res.send(200 , theBIGresponse);
-            }
+            
 
         });
     } );
