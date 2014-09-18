@@ -398,15 +398,31 @@ function findAllContacts(req, res, next)
 
 function checkForMembership(req, res, next )
 {
+    var theBIGresponse = [];
     res.setHeader('Access-Control-Allow-Origin' , '*');
     var contacts = db.collection("9739888428_phoneNetworkContacts");
+    var count = 0 ;
     contacts.find().sort( { postedOn : -1}, function(err, success) {
         console.log("Response success is "+success);
         success.forEach( function (rec)
         {
-
+                count++;
+                var responsecontactobject = { }
                 console.log("The phone number of this contact is "+rec.phonenumber1);
+                {
 
+                    // result is here .. 
+                    if(success)
+                    {
+                        theBIGresponse.push(responsecontactobject);
+                    }
+                }
+
+            if(success.length == count)
+            {
+                console.log("This is the last phone numbe to be parsed. So displaying the collection of all responses.");
+                res.send(200 , theBIGresponse);
+            }
 
         });
     } );
