@@ -398,7 +398,7 @@ function findAllContacts(req, res, next)
 
 function getMembershipStatus( p )
 {
-    registered_users.findOne({ phonenumber : p }, function(err, success)
+    gaadikey_users.findOne({ phonenumber : p }, function(err, success)
     {
         console.log("Error is  "+err);
         console.log("Success is "+success);
