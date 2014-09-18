@@ -408,7 +408,7 @@ function checkForMembership(req, res, next )
 
 
         });
-    }
+    } );
 }
 
 function dummyContacts(req, res, next) {
