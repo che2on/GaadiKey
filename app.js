@@ -439,7 +439,7 @@ function checkForMembership(req, res, next )
                     // result is here .. 
                     if(success)
                     {
-                        responsecontactobject.phonenumber  = rec.phonenumber1;
+                       // responsecontactobject.phonenumber  = rec.phonenumber1;
                          getMembershipStatus(rec.phonenumber, function(r)
                             {
                                 console.log("The response received is "+r);
