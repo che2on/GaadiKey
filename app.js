@@ -440,7 +440,7 @@ function checkForMembership(req, res, next )
                     if(success)
                     {
                        // responsecontactobject.phonenumber  = rec.phonenumber1;
-                         getMembershipStatus(rec.phonenumber, function(r)
+                         getMembershipStatus(rec.phonenumber1, function(r)
                             {
                                 console.log("The response received is "+r);
                                 theBIGresponse.push(r);
