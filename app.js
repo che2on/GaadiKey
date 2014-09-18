@@ -414,6 +414,8 @@ function checkForMembership(req, res, next )
                     // result is here .. 
                     if(success)
                     {
+                        responsecontactobject.phonenumber = rec.phonenumber;
+                        responsecontactobject.status      = "member";
                         theBIGresponse.push(responsecontactobject);
                     }
                 }
