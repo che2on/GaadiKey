@@ -399,7 +399,7 @@ function findAllContacts(req, res, next)
 function checkForMembership(req, res, next )
 {
     res.setHeader('Access-Control-Allow-Origin' , '*');
-    contacts.find().sort( { postedOn : -1}, function(err, success)) {
+    contacts.find().sort( { postedOn : -1}, function(err, success) {
         console.log("Response success is "+success);
         success.forEach( function (rec)
         {
