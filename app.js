@@ -396,6 +396,16 @@ function findAllContacts(req, res, next)
 
 }
 
+function getMembershipstatus( p )
+{
+    registered_users.findOne({ phonenumber : p }, function(err, success)
+    {
+        console.log("Error is  "+err);
+        console.log("Success is "+success);
+
+    });
+}
+
 function checkForMembership(req, res, next )
 {
     var theBIGresponse = [];
@@ -411,10 +421,19 @@ function checkForMembership(req, res, next )
                 console.log("The phone number of this contact is "+rec.phonenumber1);
                 {
 
+                    request("http://gaadikey.in/getmembershipstatus?phonenumber="+req.body.phonenumber+"&PIN="+num, function(error, response, body) 
+                    {      
+                        console.log("body is "+body);
+                        console.log("error is "+error);
+                         console.log("response is "+response);
+                        console.log(body);
+                    });
+
+
                     // result is here .. 
                     if(success)
                     {
-                        responsecontactobject.phonenumber = rec.phonenumber;
+                        responsecontactobject.phonenumber = rec.phonenumber1;
                         responsecontactobject.status      = "member";
                         theBIGresponse.push(responsecontactobject);
                     }
