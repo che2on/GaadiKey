@@ -400,13 +400,21 @@ function getMembershipStatus( p , callback )
 {
     gaadikey_users.findOne({ phonenumber : p }, function(err, success)
     {
+        var responsecontactobject = { }
         console.log("Error is  "+err);
         console.log("Success is "+success);
 
         if(success!=null)
-        callback("yes");
+        {
+            responsecontactobject = { phonenumber: p , memberstatus : "yes" };
+            callback(responsecontactobject);
+
+        }
         else
-        callback("no");
+        {
+            responsecontactobject = { phonenumber:p , memberstatus : "no"};
+            callback(responsecontactobject);
+        }
     });
 
     // testing for the real phone number 
@@ -425,7 +433,6 @@ function checkForMembership(req, res, next )
         success.forEach( function (rec)
         {
                 count++;
-                var responsecontactobject = { }
                 console.log("The phone number of this contact is "+rec.phonenumber1);
                 {
 
@@ -433,11 +440,12 @@ function checkForMembership(req, res, next )
                     if(success)
                     {
                         responsecontactobject.phonenumber  = rec.phonenumber1;
-                        responsecontactobject.memberstatus = getMembershipStatus(rec.phonenumber, function(r)
+                         getMembershipStatus(rec.phonenumber, function(r)
                             {
                                 console.log("The response received is "+r);
+                                theBIGresponse.push(r);
                             });
-                        theBIGresponse.push(responsecontactobject);
+                        
                     }
                 }
 
