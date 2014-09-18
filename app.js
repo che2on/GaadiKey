@@ -124,6 +124,12 @@ server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLane );
 var PING_PATH = "/pingsync";
 server.get({ path: PING_PATH, version: "0.0.1"} , pingSync );
 
+var CHECK_MEMBERSHIP_PATH = "/checkmembership";
+server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
+
+// return the function which consoles.. if the given user is a member or not.
+
+
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
 
@@ -388,6 +394,21 @@ function findAllContacts(req, res, next)
  
     });
 
+}
+
+function checkForMembership(req, res, next )
+{
+    res.setHeader('Access-Control-Allow-Origin' , '*');
+    contacts.find().sort( { postedOn : -1}, function(err, success)) {
+        console.log("Response success is "+success);
+        success.forEach( function (rec)
+        {
+
+                console.log("The phone number of this contact is "+rec.phonenumber1);
+
+
+        });
+    }
 }
 
 function dummyContacts(req, res, next) {
