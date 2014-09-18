@@ -432,7 +432,7 @@ function checkForMembership(req, res, next )
         console.log("Response success is "+success);
         success.forEach( function (rec)
         {
-                count++;
+                
                 console.log("The phone number of this contact is "+rec.phonenumber1);
                 {
 
@@ -442,6 +442,7 @@ function checkForMembership(req, res, next )
                        // responsecontactobject.phonenumber  = rec.phonenumber1;
                          getMembershipStatus(rec.phonenumber1, function(r)
                             {
+                                count++;
                                 console.log("The response received is "+r);
                                 theBIGresponse.push(r);
                                 if(success.length == count)
