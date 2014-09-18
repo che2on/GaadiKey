@@ -396,13 +396,17 @@ function findAllContacts(req, res, next)
 
 }
 
-function getMembershipStatus( p )
+function getMembershipStatus( p , callback )
 {
-    gaadikey_users.findOne({ phonenumber : "9739888428" }, function(err, success)
+    gaadikey_users.findOne({ phonenumber : p }, function(err, success)
     {
         console.log("Error is  "+err);
         console.log("Success is "+success);
-        return "yes";
+
+        if(success!=null)
+        callback("yes");
+        else
+        callback("no");
     });
 
     // testing for the real phone number 
@@ -429,7 +433,10 @@ function checkForMembership(req, res, next )
                     if(success)
                     {
                         responsecontactobject.phonenumber  = rec.phonenumber1;
-                        responsecontactobject.memberstatus = getMembershipStatus(rec.phonenumber);
+                        responsecontactobject.memberstatus = getMembershipStatus(rec.phonenumber, function(r)
+                            {
+                                console.log("The response received is "+r);
+                            });
                         theBIGresponse.push(responsecontactobject);
                     }
                 }
