@@ -398,12 +398,16 @@ function findAllContacts(req, res, next)
 
 function getMembershipStatus( p )
 {
-    gaadikey_users.findOne({ phonenumber : p }, function(err, success)
+    gaadikey_users.findOne({ phonenumber : "9739888428" }, function(err, success)
     {
         console.log("Error is  "+err);
         console.log("Success is "+success);
         return "yes";
     });
+
+    // testing for the real phone number 
+   
+
 }
 
 function checkForMembership(req, res, next )
