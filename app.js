@@ -221,6 +221,9 @@ function getUserCount(req, res, next)
 
 function fetchAffiliateAds(req, res, next )
 {
+
+   console.log("Able to read the params " +req.params.os);
+
     res.setHeader("Access-Control-Allow-Origin", "*");
     if(req.params.os == "android")
     {
@@ -246,6 +249,25 @@ function fetchAffiliateAds(req, res, next )
     }
     else if(req.params.os == "ios")
     {
+
+    }
+
+    else
+    {
+        // if no parameter is specified  , then look for default database 
+        var affiliate_ads  = db.collection("affiliate_ads_android");
+        affiliate_ads.find()({}, function(err, recs)
+        {
+
+            if(err) return res.send(404);
+            else
+            {
+                 console.log(" The recs is "+recs.length);
+                 res.send(200, recs);
+            }
+
+        });
+
 
     }
 
