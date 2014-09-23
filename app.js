@@ -106,7 +106,7 @@ var GENERATED_PATH = '/generated'
 server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 
 var REGISTER_PATH = "/register"
-server.post({path: REGISTER_PATH, versio/n: "0.0.1"}, registerAsVerified);
+server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
 
 var DUMMY_CONTACTS_PATH =  "/dummycontacts"
 server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
@@ -117,7 +117,6 @@ server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
 var PLANARIDE_PATH  =    "/planaride"
 server.post({path: PLANARIDE_PATH, version:"0.0.1"}, planARide);
-
 var PUBLICLANE_PATH   =   "/publiclane"
 server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLane );
 
