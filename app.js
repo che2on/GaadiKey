@@ -229,18 +229,15 @@ function fetchAffiliateAds(req, res, next )
     {
 
         var affiliate_ads  = db.collection("affiliate_ads_android");
-        affiliate_ads.find()({}, function(err, recs)
+        affiliate_ads.find({}, function(err, recs)
         {
-
             if(err) return res.send(404);
             else
             {
                  console.log(" The recs is "+recs.length);
                  res.send(200, recs);
             }
-
         });
-
 
     } 
     else if(req.params.os == "windowsphone")
