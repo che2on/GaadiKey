@@ -132,11 +132,14 @@ server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership
 var AFFILIATEADS_PATH = "/affiliate_ads";
 server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
 
+
 // return the function which consoles.. if the given user is a member or not.
 
 
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
+
+
 
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
@@ -220,6 +223,35 @@ function getUserCount(req, res, next)
 function fetchAffiliateAds(req, res, next )
 {
     res.setHeader("Access-Control-Allow-Origin", "*");
+    if(req.params.os == "android")
+    {
+
+        var affiliate-ads  = db.collection("affiliate_ads_android");
+        affiliate_ads.find()({}, function(err, recs)
+        {
+
+            if(err) return res.send(404);
+            else
+            {
+                 console.log(" The recs is "+recs.length);
+                 res.send(200, recs);
+            }
+
+        });
+
+
+    } 
+    else if(req.params.os == "windowsphone")
+    {
+
+    }
+    else if(req.params.os == "ios")
+    {
+
+    }
+
+
+
 }
 
 
