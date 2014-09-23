@@ -225,7 +225,7 @@ function fetchAffiliateAds(req, res, next )
     if(req.params.os == "android")
     {
 
-        var affiliate-ads  = db.collection("affiliate_ads_android");
+        var affiliate_ads  = db.collection("affiliate_ads_android");
         affiliate_ads.find()({}, function(err, recs)
         {
 
