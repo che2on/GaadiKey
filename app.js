@@ -253,7 +253,7 @@ function fetchAffiliateAds(req, res, next )
     {
         // if no parameter is specified  , then look for default database 
         var affiliate_ads  = db.collection("affiliate_ads_android");
-        affiliate_ads.find()({}, function(err, recs)
+        affiliate_ads.find({}, function(err, recs)
         {
 
             if(err) return res.send(404);
@@ -266,7 +266,7 @@ function fetchAffiliateAds(req, res, next )
         });
 
 
-    }
+   }
 
 
 
