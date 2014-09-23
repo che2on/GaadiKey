@@ -106,7 +106,7 @@ var GENERATED_PATH = '/generated'
 server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 
 var REGISTER_PATH = "/register"
-server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
+server.post({path: REGISTER_PATH, versio/n: "0.0.1"}, registerAsVerified);
 
 var DUMMY_CONTACTS_PATH =  "/dummycontacts"
 server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
@@ -124,8 +124,13 @@ server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLane );
 var PING_PATH = "/pingsync";
 server.get({ path: PING_PATH, version: "0.0.1"} , pingSync );
 
+
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
+
+
+var AFFILIATEADS_PATH = "/affiliate_ads";
+server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
 
 // return the function which consoles.. if the given user is a member or not.
 
@@ -208,6 +213,13 @@ function getUserCount(req, res, next)
              res.send(200 , { registered_users: recs.length});
         }
     })
+}
+
+
+
+function fetchAffiliateAds(req, res, next )
+{
+    res.setHeader("Access-Control-Allow-Origin", "*");
 }
 
 
@@ -369,14 +381,14 @@ function verify(req, res, next)
             return next();
         }
 
-        else
+else
         {
             return next(err);
         }
     }
 
 
-}
+}        
 
 function findAllContacts(req, res, next) 
 {
