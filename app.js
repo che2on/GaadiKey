@@ -127,23 +127,14 @@ server.get({ path: PING_PATH, version: "0.0.1"} , pingSync );
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
 
-
 var AFFILIATEADS_PATH = "/affiliate_ads";
 server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
-
-
 // return the function which consoles.. if the given user is a member or not.
-
-
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
-
-
-
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
-
 }
 
 
@@ -167,7 +158,7 @@ server.listen(80, function(){
 function publicLane(req, res , next )
 {
     res.setHeader('Access-Control-Allow-Origin', '*');
-    gaadikey_users.find().limit(3).sort({_id:-1}, function(err, success) {
+    gaadikey_users.find().limit(30).sort({_id:-1}, function(err, success) {
         console.log("Public lane success "+success);
         if(success)
         {
@@ -265,10 +256,7 @@ function fetchAffiliateAds(req, res, next )
 
         });
 
-
    }
-
-
 
 }
 
