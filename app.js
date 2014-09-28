@@ -37,9 +37,14 @@ var https_server = restify.createServer({
     //         return res.formatters["application/json"](req, res, body);
     //     }
     // },
-    key: fs.readFileSync('ssl/gaadikey_in.key'),
-    cert: fs.readFileSync('ssl/gaadikey_in.crt'),
-    ca: fs.readFileSync("ssl/gaadikey_in.ca-bundle"),
+    // key: fs.readFileSync('ssl/gaadikey_in.key'),
+    // cert: fs.readFileSync('ssl/gaadikey_in.crt'),
+    // ca: fs.readFileSync("ssl/gaadikey_in.ca-bundle"),
+
+    key: fs.readFileSync('rapid/ssl/gkey.key'),
+    cert: fs.readFileSync('rapid/ssl/gkey.crt'),
+    ca: fs.readFileSync("rapid/ssl/gkey_intermediate.crt"),
+
     requestCert: true,
     rejectUnauthorized: false
     
