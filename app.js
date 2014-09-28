@@ -41,8 +41,8 @@ var https_server = restify.createServer({
     // cert: fs.readFileSync('ssl/gaadikey_in.crt'),
     // ca: fs.readFileSync("ssl/gaadikey_in.ca-bundle"),
 
-    key: fs.readFileSync('/ssl/rapid/gkey.key'),
-    cert: fs.readFileSync('/ssl/rapid/gkey.crt'),
+    key: fs.readFileSync('ssl/rapid/gkey.key'),
+    cert: fs.readFileSync('ssl/rapid/gkey.crt'),
     ca: fs.readFileSync("ssl/rapid/gkey_intermediate.crt"),
 
     requestCert: true,
