@@ -1,4 +1,4 @@
-"use strict";
+"use stri ct";
 
 var restify = require('restify');
 var mongojs = require("mongojs");
@@ -123,6 +123,9 @@ server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLane );
 var PING_PATH = "/pingsync";
 server.get({ path: PING_PATH, version: "0.0.1"} , pingSync );
 
+var GOOGLE_VERIFY_PATH = "/google50bc7907ed872f91.html"
+server.get({ path: GOOGLE_VERIFY_PATH, version: "0.0.1"}, googleVerify );
+
 
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
@@ -154,6 +157,11 @@ server.listen(80, function(){
 });
 
 
+function googleVerify(req, res, next )
+{
+    res.setHeader('Access-Control-Allow-Origin' , '*');
+    res.send(200, "google-site-verification: google50bc7907ed872f91.html");
+}
 
 function publicLane(req, res , next )
 {
