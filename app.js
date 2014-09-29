@@ -43,7 +43,7 @@ var https_server = restify.createServer({
 
     key: fs.readFileSync('ssl/rapid/gkey.key'),
     cert: fs.readFileSync('ssl/rapid/gkey.crt'),
-    ca: fs.readFileSync("ssl/rapid/gkey_intermediate.crt"),
+    ca: fs.readFileSync("ssl/rapid/crossCA_intermediate.crt"),
 
     requestCert: true,
     rejectUnauthorized: false
@@ -101,7 +101,7 @@ server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
 server.post({path: CONTACTS_PATH, version: '0.0.1'} , postNewContact);
 
 var CONTACTS2_PATH ="/submitcontacts"
-server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetwork );
+server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetwork ); 
 
 
 var GENERATE_PATH = '/generate'
