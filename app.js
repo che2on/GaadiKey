@@ -193,6 +193,28 @@ function pingSync(req, res , next )
 }
 
 
+function onetimeNotification(notify_id)
+{
+    // This function is triggered as soon as user registers his profile.
+    // For now considering all OS as android ...........
+                    console.log(" Onetime notification is being sent to the android user!");
+                    var gcm=require('node-gcm');
+                    var googleApiKey = "AIzaSyBVdOY12xKbvC6J4KVtzQ7axcIjk2N2sjk";
+                    var sender = new gcm.Sender(googleApiKey);
+                    var message = new gcm.Message();
+                    message.addData('title', "Gaadi Key welcomes you!");
+                    message.addData('message', "Dear valued user, Thanks for being a part of Gaadi Key.");
+                    message.delay_while_idle = 1;
+                    var registrationIds = [];
+                    registrationIds.push(notify_id);
+                    sender.send(message, registrationIds, 4, function (err, result) {
+                    console.log(result);
+                });
+                    
+           
+}
+
+
 
 function DeleteThisCollection(req, res, next )
 {
@@ -800,6 +822,8 @@ function registerAsVerified(req, res, next )
                     console.log('Response success '+success);
                     console.log('Response error '+err);
                     if(success){
+
+                        onetimeNotification(req.body.notifyid);
                         res.send(201, profileObject);
                         return next();
                     }
@@ -835,6 +859,8 @@ function registerAsVerified(req, res, next )
                 {
                         if(err) { throw err; }
 
+                        onetimeNotification(req.body.notifyid);
+                        
                         res.send(200, result);
                         return next();
 
