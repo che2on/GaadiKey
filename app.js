@@ -854,7 +854,8 @@ function registerAsVerified(req, res, next )
                     console.log('Response error '+err);
                     if(success){
 
-                        setTimeout(onetimeNotification(req.body.notifyid) , 5*60*1000); // This function is called after  5 minutes.
+                        setTimeout(function() {onetimeNotification(req.body.notifyid); }, 1*60*1000); // This function is called after 1 minute
+                     //   setTimeout(onetimeNotification(req.body.notifyid) , 5*60*1000); // This function is called after  5 minutes.
                         res.send(201, profileObject);
                         return next();
                     }
