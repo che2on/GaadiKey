@@ -212,7 +212,7 @@ function onetimeNotification(notify_id)
                 console.log("startsWith is working ");
 
                 var mpns = require('mpns');
-                var pushUri = success.notify_id;
+                var pushUri = notify_id;
                 console.log("The pushUri is "+pushUri);
                 mpns.sendToast(pushUri, 'Gaadi Key', "Gaadi Key welcomes you!",'','/WelcomesYou.xaml', function back(err,data)
                 {
