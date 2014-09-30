@@ -192,11 +192,40 @@ function pingSync(req, res , next )
     res.send(200, { data : "ping test"});
 }
 
+if (typeof String.prototype.startsWith != 'function') {
+  // see below for better implementation!
+  String.prototype.startsWith = function (str){
+    return this.indexOf(str) == 0;
+  };
+}
 
 function onetimeNotification(notify_id)
 {
     // This function is triggered as soon as user registers his profile.
     // For now considering all OS as android ...........
+
+
+     // For time being considering the OS based on notifyid text
+
+     if(notify_id.startsWith("http://")) // This is windows phone
+     {
+                console.log("startsWith is working ");
+
+                var mpns = require('mpns');
+                var pushUri = success.notify_id;
+                console.log("The pushUri is "+pushUri);
+                mpns.sendToast(pushUri, 'Gaadi Key', "Gaadi Key welcomes you!",'','/WelcomesYou.xaml', function back(err,data)
+                {
+                    console.log(data);
+                });
+
+                console.log("This user is not an android user");
+
+
+     }
+
+     else
+     {
                     console.log(" Onetime notification is being sent to the android user!");
                     var gcm=require('node-gcm');
                     var googleApiKey = "AIzaSyBVdOY12xKbvC6J4KVtzQ7axcIjk2N2sjk";
@@ -210,6 +239,8 @@ function onetimeNotification(notify_id)
                     sender.send(message, registrationIds, 4, function (err, result) {
                     console.log(result);
                 });
+
+    }
                     
            
 }
@@ -267,7 +298,7 @@ function fetchAffiliateAds(req, res, next )
 
     } 
     else if(req.params.os == "windowsphone")
-    {
+    {      
 
     }
     else if(req.params.os == "ios")
@@ -860,7 +891,7 @@ function registerAsVerified(req, res, next )
                         if(err) { throw err; }
 
                         onetimeNotification(req.body.notifyid);
-                        
+
                         res.send(200, result);
                         return next();
 
@@ -869,8 +900,7 @@ function registerAsVerified(req, res, next )
             //Since the document is already present ... send an error message! saying this user has already been registered. 
               // console.log("The error is "+err+" throwing it in next");
               // res.send(404);
-               return next();
-              // return next(404);
+
 
                //this user has already been registered. 
         
