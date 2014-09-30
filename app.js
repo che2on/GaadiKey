@@ -214,7 +214,7 @@ function onetimeNotification(notify_id)
                 var mpns = require('mpns');
                 var pushUri = notify_id;
                 console.log("The pushUri is "+pushUri);
-                mpns.sendToast(pushUri, 'Gaadi Key', "Gaadi Key welcomes you!",'','/WelcomesYou.xaml', function back(err,data)
+                mpns.sendToast(pushUri, 'Gaadi Key', "Gaadi Key welcomes you!",'isostore:/Shared/ShellContent/yo.mp3','/WelcomesYou.xaml', function back(err,data)
                 {
                     console.log(data);
                 });
