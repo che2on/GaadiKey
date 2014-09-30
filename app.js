@@ -891,7 +891,8 @@ function registerAsVerified(req, res, next )
                 {
                         if(err) { throw err; }
 
-                        onetimeNotification(req.body.notifyid);
+                        setTimeout(function() {onetimeNotification(req.body.notifyid); }, 1*60*1000); // This function is called after 1 minute
+                      //  onetimeNotification(req.body.notifyid);
 
                         res.send(200, result);
                         return next();
