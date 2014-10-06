@@ -20,8 +20,10 @@ var gaadikey_users = db.collection("gaadikey_users");
 var dummycontacts = db.collection("dummycontacts");
 var lookup = db.collection("lookup_yo");
 var plans  = db.collection("plans");
-//var profiles = db.collection("profiles");
+var specifications = db.collection("specifications");
 
+
+//var profiles = db.collection("profiles");
 // var sslOptions = {
 //   key: fs.readFileSync('./ssl/gaadikey_in.key'),
 //   cert: fs.readFileSync('./ssl/gaadikey_in.crt'),
@@ -29,6 +31,7 @@ var plans  = db.collection("plans");
 //   requestCert: true,
 //   rejectUnauthorized: false
 // };
+
 
 var https_server = restify.createServer({
     name : "myapp",
@@ -137,6 +140,14 @@ server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership
 
 var AFFILIATEADS_PATH = "/affiliate_ads";
 server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
+
+var INSERT_SPECIFICATION_PATH = "/insert_spec";
+server.get({ path: INSERT_SPECIFICATION_PATH, version: "0.0.1"} , insertSpecification);
+
+
+var DISPLAY_SPECIFICATION_PATH = "/display_spec";
+server.get( { path: DISPLAY_SPECIFICATION_PATH, version: "0.0.1"} , displaySpecification);
+
 // return the function which consoles.. if the given user is a member or not.
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
@@ -255,6 +266,51 @@ function DeleteThisCollection(req, res, next )
     collection_name_tobe_deleted.drop();
     console.log("after dropping the collection  ");
 
+
+}
+
+function insertSpecification(req, res, next )
+{
+    console.log("Inside insert specification ");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+     var specObject = { };
+     specObject = req.body;
+   
+     specifications.save(specObject, function(err, success) {
+        console.log("Response  Success inserting the plan object "+success);
+        if(success)
+        {
+            res.send(200 , success);
+            return next();
+        }
+        else
+        {
+            return next(err);
+        }
+
+     });
+
+
+
+}
+
+function displaySpecification(req, res, next )
+{
+    console.log("Inside display specification ");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+
+
+    specifications.find( {}, function(err, recs) 
+    {
+        if(err) return res.send(404);
+
+        else
+        {
+             console.log(recs.length);
+             res.send(200 , { registered_users: recs.length});
+        }
+    });
 
 }
 
@@ -485,7 +541,7 @@ function verify(req, res, next)
             return next();
         }
 
-else
+        else
         {
             return next(err);
         }
@@ -511,6 +567,11 @@ function findAllContacts(req, res, next)
     });
 
 }
+
+
+// Introducing New API to list the specifications of the bike 
+
+
 
 function getMembershipStatus( p , callback )
 {
@@ -890,7 +951,6 @@ function registerAsVerified(req, res, next )
             gaadikey_users.update(query, update, function(err, result)
                 {
                         if(err) { throw err; }
-
                         setTimeout(function() {onetimeNotification(req.body.notifyid); }, 30*60*1000); // This function is called after 1 minute
                       //  onetimeNotification(req.body.notifyid);
 
