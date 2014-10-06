@@ -142,7 +142,7 @@ var AFFILIATEADS_PATH = "/affiliate_ads";
 server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
 
 var INSERT_SPECIFICATION_PATH = "/insert_spec";
-server.get({ path: INSERT_SPECIFICATION_PATH, version: "0.0.1"} , insertSpecification);
+server.post({ path: INSERT_SPECIFICATION_PATH, version: "0.0.1"} , insertSpecification);
 
 
 var DISPLAY_SPECIFICATION_PATH = "/display_spec";
