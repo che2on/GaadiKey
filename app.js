@@ -299,10 +299,10 @@ function displaySpecification(req, res, next )
 {
     console.log("Inside display specification ");
     res.setHeader("Access-Control-Allow-Origin", "*");
-    console.log("The ID in request is "+req.body.id);
+    console.log("The ID in request is "+req.params.id);
 
 
-    specifications.find( { id: req.body.id }, function(err, recs) 
+    specifications.find( { id: req.params.id }, function(err, recs) 
     {
         if(err) 
         {
