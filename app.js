@@ -299,16 +299,22 @@ function displaySpecification(req, res, next )
 {
     console.log("Inside display specification ");
     res.setHeader("Access-Control-Allow-Origin", "*");
+    console.log("The ID in request is "+req.body.id);
 
 
-    specifications.find( {}, function(err, recs) 
+    specifications.find( { id: req.body.id }, function(err, recs) 
     {
-        if(err) return res.send(404);
+        if(err) 
+        {
+            console.log("No matching id and corresponding spec found! ");
+            return res.send(404);
+
+        }
 
         else
         {
              console.log(recs.length);
-             res.send(200 , { registered_users: recs.length});
+             res.send(200 , recs);
         }
     });
 
