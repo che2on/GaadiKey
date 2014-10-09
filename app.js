@@ -21,6 +21,17 @@ var dummycontacts = db.collection("dummycontacts");
 var lookup = db.collection("lookup_yo");
 var plans  = db.collection("plans");
 var specifications = db.collection("specifications");
+var publicgaadino_directory = db.collection("publicgaadino_directory");
+
+
+// Adding Search API for Gaadi Number should be similar to job search ... 
+// Should list followig things in the order
+
+//
+
+    //1. Gaadi Number eg: KA50Q7896 (Main Title)
+    //2. Gaadi Model eg: Honda Unicorn (Secondary subtitle )
+    //3. Gaai Pic    eg: fetched from gaadikey.com image !
 
 
 //var profiles = db.collection("profiles");
@@ -98,6 +109,11 @@ server.get({path : PATH +'/:jobId' , version : '0.0.1'} , findJob);
 server.post({path : PATH , version: '0.0.1'} ,postNewJob);
 server.del({path : PATH +'/:jobId' , version: '0.0.1'} ,deleteJob);
 
+var ADD_GAADINO_PATH = "/add_gaadino"
+server.post({path: ADD_GAADINO_PATH, version : '0.0.1'}, addGaadiNo);
+
+var SEARCH_PATH = "/search"
+server.get({path: SEARCH_PATH, version: '0.0.1'}, searchGaadiNo);
 
 var CONTACTS_PATH = '/contacts'
 server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
@@ -172,6 +188,44 @@ server.listen(80, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
 
+
+function addGaadiNo(req, res, next )
+{
+     res.setHeader('Access-Control-Allow-Origin' , '*');
+     var gaadiNoObject = { };
+     gaadiNoObject = req.body;
+   
+     publicgaadino_directory.save(gaadiNoObject, function(err, success) {
+        console.log("Response  Success inserting the plan object "+success);
+        if(success)
+        {
+            res.send(200 , success);
+            return next();
+        }
+        else
+        {
+            return next(err);
+        }
+
+     });
+
+}
+
+function searchGaadiNo(req, res, next )
+{
+     res.setHeader('Access-Control-Allow-Origin' , '*');
+     publicgaadino_directory.find().limit(30).sort({_id:-1}, function(err, success){
+        if(success)
+        {
+            res.send(200 , success);
+            return next();
+        }
+        else
+        {
+            return next(err);
+        }
+     });
+}
 
 function googleVerify(req, res, next )
 {
