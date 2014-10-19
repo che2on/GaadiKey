@@ -1,5 +1,5 @@
 "use stri ct";
-
+var constants = require('constants');
 var restify = require('restify');
 var mongojs = require("mongojs");
 var request = require("request");
@@ -54,6 +54,14 @@ var https_server = restify.createServer({
     // key: fs.readFileSync('ssl/gaadikey_in.key'),
     // cert: fs.readFileSync('ssl/gaadikey_in.crt'),
     // ca: fs.readFileSync("ssl/gaadikey_in.ca-bundle"),
+
+    secureProtocol: 'SSLv23_method',
+ 
+  //
+  // Supply `SSL_OP_NO_SSLv3` constant as secureOption to disable SSLv3
+  // from the list of supported protocols that SSLv23_method supports.
+  //
+    secureOptions: constants.SSL_OP_NO_SSLv3,
 
     key: fs.readFileSync('ssl/rapid/gkey.key'),
     cert: fs.readFileSync('ssl/rapid/gkey.crt'),
