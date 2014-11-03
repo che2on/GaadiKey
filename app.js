@@ -1034,7 +1034,7 @@ function registerAsVerified(req, res, next )
             //Since the document is already present ... send an error message! saying this user has already been registered. 
               // console.log("The error is "+err+" throwing it in next");
               // res.send(404);
-
+            }
 
                //this user has already been registered. 
         
