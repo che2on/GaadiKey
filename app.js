@@ -1,5 +1,6 @@
 "use stri ct";
 var constants = require('constants');
+
 var restify = require('restify');
 var mongojs = require("mongojs");
 var request = require("request");
@@ -42,7 +43,6 @@ var publicgaadino_directory = db.collection("publicgaadino_directory");
 //   requestCert: true,
 //   rejectUnauthorized: false
 // };
-
 
 var https_server = restify.createServer({
     name : "myapp",
@@ -649,9 +649,16 @@ function getMembershipStatus( p , callback )
         console.log("Error is  "+err);
         console.log("Success is "+success);
 
+        /* Clubb the values of contacts database with the gaadi profile database */
+
+        //  For example
+        //  { name:"" ,  vehicletype:"",  vehiclename: "" , gaadipic: "" , gaadimsg: "",  phonenumber: "",  }
+
+
         if(success!=null)
         {
-            responsecontactobject = { phonenumber: p , memberstatus : "yes" };
+            responsecontactobject = { phonenumber: p , memberstatus : "yes", vehiclename : success.vehiclename, vehicletype: success.vehicletype, gaadipic: success.gaadipic };
+
             callback(responsecontactobject);
 
         }
@@ -661,17 +668,14 @@ function getMembershipStatus( p , callback )
             callback(responsecontactobject);
         }
     });
-
     // testing for the real phone number 
-   
-
 }
 
 function checkForMembership(req, res, next )
 {
     var theBIGresponse = [];
     res.setHeader('Access-Control-Allow-Origin' , '*');
-    var contacts = db.collection("9739888428_phoneNetworkContacts");
+    var contacts = db.collection("9986711164_phoneNetworkContacts");
     var count = 0 ;
     contacts.find().sort( { postedOn : -1}, function(err, success) {
         console.log("Response success is "+success);
@@ -1034,7 +1038,7 @@ function registerAsVerified(req, res, next )
 
                //this user has already been registered. 
         
-        }
+        
     });
 }
 
@@ -1125,8 +1129,6 @@ function postNewDummyContact(req , res , next){
         }
     });
 }
-
-
 
  
 function deleteJob(req , res , next){
