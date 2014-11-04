@@ -641,7 +641,7 @@ function findAllContacts(req, res, next)
 
 
 
-function getMembershipStatus( p , callback )
+function getMembershipStatus( n, p , callback )
 {
     gaadikey_users.findOne({ phonenumber : p }, function(err, success)
     {
@@ -657,7 +657,7 @@ function getMembershipStatus( p , callback )
 
         if(success!=null)
         {
-            responsecontactobject = { phonenumber: p , memberstatus : "yes", vehiclename : success.vehiclename, vehicletype: success.vehicletype, gaadipic: success.gaadipic };
+            responsecontactobject = { name:n , phonenumber: p , memberstatus : "yes", vehiclename : success.vehiclename, vehicletype: success.vehicletype, gaadipic: success.gaadipic };
 
             callback(responsecontactobject);
 
@@ -691,7 +691,7 @@ function checkForMembership(req, res, next )
                     if(success)
                     {
                        // responsecontactobject.phonenumber  = rec.phonenumber1;
-                         getMembershipStatus(rec.phonenumber1, function(r)
+                         getMembershipStatus( rec.Name, rec.phonenumber1, function(r)
                             {
                                 count++;
                                 console.log("The response received is "+r);
