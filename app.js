@@ -664,7 +664,7 @@ function getMembershipStatus( n, p , callback )
         }
         else
         {
-            responsecontactobject = { phonenumber:p , memberstatus : "no"};
+            responsecontactobject = { name:n, phonenumber:p , memberstatus : "no"};
             callback(responsecontactobject);
         }
     });
