@@ -675,7 +675,9 @@ function checkForMembership(req, res, next )
 {
     var theBIGresponse = [];
     res.setHeader('Access-Control-Allow-Origin' , '*');
-    var contacts = db.collection("9986711164_phoneNetworkContacts");
+    var phonenumber = req.params.phonenumber; 
+    var contacts = db.collection(phonenumber+"_phoneNetworkContacts")
+ //   var contacts = db.collection("9986711164_phoneNetworkContacts");
     var count = 0 ;
     contacts.find().sort( { postedOn : -1}, function(err, success) {
         console.log("Response success is "+success);
@@ -1000,14 +1002,12 @@ function registerAsVerified(req, res, next )
                         //return next(404);
                     }
                 });
-
-
            //res.send(200 , doc) ;
            //return next();
         }
         else
         {
-            var update = { $set: {
+                var update = { $set: {
                vehicletype:req.body.vehicletype,
                vehiclename:req.body.vehiclename,
                profilepic:req.body.profilepic, 
@@ -1030,14 +1030,11 @@ function registerAsVerified(req, res, next )
                         return next();
 
                 });
-
             //Since the document is already present ... send an error message! saying this user has already been registered. 
               // console.log("The error is "+err+" throwing it in next");
               // res.send(404);
             }
-
-               //this user has already been registered. 
-        
+               //this user has already been registered.       
         
     });
 }
