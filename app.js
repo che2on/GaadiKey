@@ -276,11 +276,11 @@ function onetimeNotification(notify_id)
 {
     // This function is triggered as soon as user registers his profile.
     // For now considering all OS as android ...........
-
+// This is windows phone
 
      // For time being considering the OS based on notifyid text
 
-     if(notify_id.startsWith("http://")) // This is windows phone
+     if(notify_id.startsWith("http://")) 
      {
                 console.log("startsWith is working ");
 
@@ -572,7 +572,6 @@ function notifyView(req, res, next)
 
 function checkForPIN(req, res, next)
 {
-
     console.log("Request for checking PIN received from the phone number "+req.params.phonenumber);
     res.setHeader('Access-Control-Allow-Origin', '*');
     phones.findOne( {phonenumber:req.params.phonenumber}, function(err, doc)
@@ -725,7 +724,6 @@ function dummyContacts(req, res, next) {
     //     }else{
     //         return next(err);
     //     }
- 
     // });
      console.log("The username is "+req.username) ;
      if (!req.username) {
@@ -800,15 +798,16 @@ function postNewContact(req, res, next) {
 
 function postPhoneNetwork(req, res, next) 
 {
+    var phno = req.body.phonenumber;
      // since mapParams are disabled we have to  use just body while parsing!
-    var collection_name_tobe_deleted = db.collection("9739888428_phoneNetworkContacts");
+    var collection_name_tobe_deleted = db.collection(phno+"_phoneNetworkContacts");
     console.log("before dropping the collection ");
     collection_name_tobe_deleted.drop();
     console.log("after dropping the collection  ");
     // drop this collection 
     // colelction name  should begin with the  phonenumber received.
     var count =0;
-    var phno = req.body.phonenumber;
+    
     var phobj = { };
     phobj.book  = req.body.book;
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
