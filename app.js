@@ -798,16 +798,12 @@ function postNewContact(req, res, next) {
 
 function postPhoneNetwork(req, res, next) 
 {
-    var phno = req.body.phonenumber;
+    
      // since mapParams are disabled we have to  use just body while parsing!
-    var collection_name_tobe_deleted = db.collection(phno+"_phoneNetworkContacts");
-    console.log("before dropping the collection ");
-    collection_name_tobe_deleted.drop();
-    console.log("after dropping the collection  ");
     // drop this collection 
     // colelction name  should begin with the  phonenumber received.
     var count =0;
-    
+    var phno = req.body.phonenumber;
     var phobj = { };
     phobj.book  = req.body.book;
     var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
