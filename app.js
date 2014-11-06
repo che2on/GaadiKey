@@ -1037,7 +1037,7 @@ function getGaadiName(phone, callback)
 
         }
 
-    }
+    });
 
 
 }
