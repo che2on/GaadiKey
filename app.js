@@ -140,6 +140,9 @@ server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 var REGISTER_PATH = "/register"
 server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
 
+var UPDATE_PATH   = "/update"
+server.post({path: UPDATE_PATH, version: "0.0.1"},  updateProfile); // The updateProfile is called!!!
+
 var DUMMY_CONTACTS_PATH =  "/dummycontacts"
 server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
 server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact); 
@@ -1156,6 +1159,57 @@ function postPhoneNumber(req, res, next) {
     })
 }
 
+
+
+function updateProfile(req, res, next )
+{
+    // Update the Profile now!!!!!!!
+
+    // If the user is not authenticated throw him away!!!!!!
+
+     if (!req.username) {
+        return res.sendUnauthenticated();
+        // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
+    }
+
+
+     var update = { $set: {
+               vehicletype:req.body.vehicletype,
+               vehiclename:req.body.vehiclename,
+               profilepic:req.body.profilepic, 
+               gaadipic:req.body.gaadipic,
+               gaadimsg:req.body.gaadimsg,
+               phonenumber:req.body.phonenumber,
+               modifiedOn:new Date()
+                 }};
+
+
+            var query =  { phonenumber: req.body.phonenumber };
+            gaadikey_users.update(query, update, function(err, result)
+                {
+                        if(err) { throw err; }
+                      //  setTimeout(function() {onetimeNotification(req.body.notifyid); }, 30*60*1000); // This function is called after 1 minute
+                      //  Here, one can notify about the change in profile    
+
+                      //  onetimeNotification(req.body.notifyid);
+
+                        res.send(200, result);
+                        return next();
+
+                });
+            //Since the document is already present ... send an error message! saying this user has already been registered. 
+              // console.log("The error is "+err+" throwing it in next");
+              // res.send(404);
+            }
+               //this user has already been registered.       
+        
+
+
+
+
+
+}
+
 function registerAsVerified(req, res, next )
 {
 
@@ -1209,7 +1263,7 @@ function registerAsVerified(req, res, next )
         }
         else
         {
-                var update = { $set: {
+               var update = { $set: {
                vehicletype:req.body.vehicletype,
                vehiclename:req.body.vehiclename,
                profilepic:req.body.profilepic, 
