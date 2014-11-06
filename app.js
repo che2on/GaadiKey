@@ -815,6 +815,10 @@ function postPhoneNetwork(req, res, next)
     console.log("Finished dropping");
     req.body.book.forEach(function(entry) {
         console.log("Entries are being logged");
+        // While uploading the contacts one by one parallely we can compute the interesting contacts, so that we can notify about the event of joining
+        // for this person to his contacts if and only if this persons has been saved in that entry person's contact book.... Also  the notification server has to gracefully
+        // notify the person with the name as saved in the respective person's contact book 
+
         count++;
         console.log(entry);
         phoneNetworkContacts.save(entry , function(err, success ) {
