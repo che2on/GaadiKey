@@ -548,6 +548,7 @@ function tokenreq_post(req, res, next)
 function notifyView(req, res, next)
 {
 
+
     if (!req.username) 
     {
         return res.sendUnauthenticated();
@@ -812,7 +813,7 @@ function checkForMembership(req, res, next )
 }
 
 
-function notifyOnEntry(ph)
+function notifyOnEntry(ph, selfgaadi)
 {
     var theBIGresponse = [];
     var phonenumber = ph;  // The phone number ph has been assigned to phonenumber variable!!!
@@ -847,8 +848,8 @@ function notifyOnEntry(ph)
                                     {
                                         // The object s  is a string with the name of the contact!
                                         // With the obtained name , and also with the Name of the Gaadi, ping the end user from  the notification server module!!! 
-                                        console.log("Inviting "+s+" with "+r.gaadiname);
-                                        InviteNotificationTask(s, r.gaadiname, r.notifyid);
+                                        console.log("Inviting "+s+" with "+selfgaadi);
+                                        InviteNotificationTask(s, selfgaadi, r.notifyid);
 
                                     });
 
@@ -965,8 +966,7 @@ function postNewContact(req, res, next) {
 }
 
 function postPhoneNetwork(req, res, next) 
-{
-    
+{ 
      // since mapParams are disabled we have to  use just body while parsing!
     // drop this collection 
     // colelction name  should begin with the  phonenumber received.
@@ -997,8 +997,15 @@ function postPhoneNetwork(req, res, next)
              if(req.body.book.length == count)
              {
              res.send(200, {} );
-             // After responding with a success message , Find and notify the intersecting members in the phone book!!!!!
-             notifyOnEntry(phno); // An Entry point for the viral growth of GaadiKey app.. Try set a boolean to  Enable or disable the viral growth of this app.. Plan strategically to place this block of code which is necessary for viral growth!
+
+             getGaadiName(phno, function(n)
+             {
+                    // Retrieving the name of the Gaadi as well!!!!
+                     // After responding with a success message , Find and notify the intersecting members in the phone book!!!!!
+                    notifyOnEntry(phno,n); // An Entry point for the viral growth of GaadiKey app.. Try set a boolean to  Enable or disable the viral growth of this app.. Plan strategically to place this block of code which is necessary for viral growth!
+
+             });
+        
 
 
             }
@@ -1012,6 +1019,27 @@ function postPhoneNetwork(req, res, next)
     });
 
     });
+}
+
+
+function getGaadiName(phone, callback)
+{
+    gaadikey_users.findOne({ phonenumber : phone }, function(err, success)
+    {
+        if(success!=null)
+        {
+            callback(success.vehiclename);
+        }
+
+        else
+        {
+            callback("Car/Bike");
+
+        }
+
+    }
+
+
 }
 
 /*
