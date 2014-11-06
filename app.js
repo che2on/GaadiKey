@@ -318,6 +318,46 @@ function onetimeNotification(notify_id)
            
 }
 
+function InviteNotificationTask(name, gaadiname, notify_id)
+{
+      if(notify_id.startsWith("http://")) 
+     {
+                console.log("startsWith is working ");
+
+                var mpns = require('mpns');
+                var pushUri = notify_id;
+                console.log("The pushUri is "+pushUri);
+                mpns.sendToast(pushUri, 'GaadiKey', name+" with "+gaadiname+" joined GaadiKey network!",'isostore:/Shared/ShellContent/yo.mp3','/StickyHome.xaml', function back(err,data)
+                {
+                    console.log(data);
+                });
+
+                console.log("This user is not an android user");
+
+
+     }
+
+     else
+     {
+                    console.log(" Onetime notification is being sent to the android user!");
+                    var gcm=require('node-gcm');
+                    var googleApiKey = "AIzaSyBVdOY12xKbvC6J4KVtzQ7axcIjk2N2sjk";
+                    var sender = new gcm.Sender(googleApiKey);
+                    var message = new gcm.Message();
+                    message.addData('title', name+" with "+gaadiname+" joined GaadiKey network!");
+                    message.addData('message', "Now we have your friend "+name+" in our network. How would you rate "+name+"'s"+gaadiname+"? Explore!");
+                    message.delay_while_idle = 1;
+                    var registrationIds = [];
+                    registrationIds.push(notify_id);
+                    sender.send(message, registrationIds, 4, function (err, result) {
+                    console.log(result);
+                });
+
+    }
+
+
+}
+
 
 
 function DeleteThisCollection(req, res, next )
@@ -648,6 +688,8 @@ function getMembershipStatus( n, p , callback )
         console.log("Error is  "+err);
         console.log("Success is "+success);
 
+
+
         /* Clubb the values of contacts database with the gaadi profile database */
 
         //  For example
@@ -668,6 +710,64 @@ function getMembershipStatus( n, p , callback )
         }
     });
     // testing for the real phone number 
+}
+
+
+function getMembershipStatusPlusNotifyId(n , p, callback)
+{
+     gaadikey_users.findOne({ phonenumber : p }, function(err, success)
+    {
+        var responsecontactobject = { }
+        console.log("Error is  "+err);
+        console.log("Success is "+success);
+        /* Clubb the values of contacts database with the gaadi profile database */
+        //  For example
+        //  { name:"" ,  vehicletype:"",  vehiclename: "" , gaadipic: "" , gaadimsg: "",  phonenumber: "",  }
+
+        if(success!=null)
+        {
+            responsecontactobject = { name:n , phonenumber: p , memberstatus : "yes", gaadiname : success.vehiclename, notifyid : success.notifyid } ; // The object now contains the notifyid in the object!!! 
+            // The notify id has to be returned 
+            callback(responsecontactobject);
+        }
+        else
+        {
+            responsecontactobject = { name:n, phonenumber:p , memberstatus : "no"};
+            callback(responsecontactobject);
+        }
+    });
+
+}
+
+
+function getCustomContactName(collectionname , searchPhoneNumber, callback)
+{
+
+    var searchPhoneNumber =  searchPhoneNumber;
+    // find out if the searchPhoneNumber exists in the collection... I fit exists return the name of the person.... If it is not present, return as "notfound"
+
+    var contacts = db.collection(collectionname); // The contacts book for the phone number has been retrieved!
+    // Now finding out if the the searchPhoneNumber parameter has been found in the  retrieved phone book!
+
+    /// the Success object contains following parameters including things like phonenumber1, phonenumber2, phonenumber3, phonenumber4 
+
+    contacts.findOne({ phonenumber1 : searchPhoneNumber }, function(err, success)
+    {
+        if(success!=null)
+        {
+            // if success is not null = matchng phone number has been found!
+            // The matching phone number has to be retrieved along with the name of the person!!!!
+
+            var customname = success.Name;
+            callback(success.Name); // The Name has been sent in the callback!!!!  
+        }
+        else
+        {
+            callback("notfound"); // "notfound is returned for the contact which doesnt have a phone number saved!!!"
+
+        }
+
+    });
 }
 
 function checkForMembership(req, res, next )
@@ -710,6 +810,73 @@ function checkForMembership(req, res, next )
         });
     } );
 }
+
+
+function notifyOnEntry(ph)
+{
+    var theBIGresponse = [];
+    var phonenumber = ph;  // The phone number ph has been assigned to phonenumber variable!!!
+    var contacts = db.collection(phonenumber+"_phoneNetworkContacts")
+ //   var contacts = db.collection("9986711164_phoneNetworkContacts");
+    var count = 0 ;
+    contacts.find().sort( { postedOn : -1}, function(err, success) {
+        console.log("Response success is "+success);
+        success.forEach( function (rec)
+        {
+                
+                console.log("The phone number of this contact is "+rec.phonenumber1);
+                {
+
+                    // result is here .. 
+                    {
+
+                        // Expecting the NotifyId along the with the returned object!!!  
+                        // This object has to be again passed into the phone network book to check if it is present in the user' s network and get the custom name if it is saved in the other person's phonebook!!!!
+
+
+                       // responsecontactobject.phonenumber  = rec.phonenumber1;
+                         getMembershipStatusPlusNotifyId( rec.Name, rec.phonenumber1, function(r)
+                            {
+                                count++;
+                                console.log("The response received is "+r);
+                                if(r.memberstatus == "yes")
+                                {
+                                    // If the person is a member of gaadikey network ping the  API to get  the  Custom name of the given contact!
+                                    // parameters are @collectionName, and searchPhoneStrong
+                                    getCustomContactName(r.phonenumber+"_phoneNetworkContacts", phonenumber, function(s)
+                                    {
+                                        // The object s  is a string with the name of the contact!
+                                        // With the obtained name , and also with the Name of the Gaadi, ping the end user from  the notification server module!!! 
+                                        InviteNotificationTask(s, r.gaadiname, r.notifyid);
+
+                                    });
+
+
+                                }
+                                theBIGresponse.push(r);
+                                if(success.length == count)
+                                {
+                                    console.log("This is the last phone numbe to be parsed. So displaying the collection of all responses.");
+                                    // At This point in time all intersecting people are present in the BigResponse obje
+                                     
+
+                                   // res.send(200 , theBIGresponse);
+                                }
+                            });
+                        
+                    }
+                }
+
+            
+
+        });
+    } );
+}
+
+
+
+
+
 
 function dummyContacts(req, res, next) {
 
@@ -827,7 +994,13 @@ function postPhoneNetwork(req, res, next)
         {
              console.log("Phone network contacts saved.");
              if(req.body.book.length == count)
+             {
              res.send(200, {} );
+             // After responding with a success message , Find and notify the intersecting members in the phone book!!!!!
+             notifyOnEntry(phno); // An Entry point for the viral growth of GaadiKey app.. Try set a boolean to  Enable or disable the viral growth of this app.. Plan strategically to place this block of code which is necessary for viral growth!
+
+
+            }
              return next();
         }
         else
