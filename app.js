@@ -849,6 +849,7 @@ function notifyOnEntry(ph, selfgaadi)
                                         // The object s  is a string with the name of the contact!
                                         // With the obtained name , and also with the Name of the Gaadi, ping the end user from  the notification server module!!! 
                                         console.log("Inviting "+s+" with "+selfgaadi);
+                                        if(s!="notfound")
                                         InviteNotificationTask(s, selfgaadi, r.notifyid);
 
                                     });
