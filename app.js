@@ -63,8 +63,8 @@ var https_server = restify.createServer({
   //
     secureOptions: constants.SSL_OP_NO_SSLv3,
 
-    key: fs.readFileSync('ssl/rapid/gkey.key'),
-    cert: fs.readFileSync('ssl/rapid/gkey.crt'),
+    key: fs.readFileSync('ssl/rapid/strongkey.key'),
+    cert: fs.readFileSync('ssl/rapid/strongkey.crt'),
     ca: fs.readFileSync("ssl/rapid/crossCA_intermediate.crt"),
 
     requestCert: true,
@@ -1167,7 +1167,7 @@ function updateProfile(req, res, next )
 
     // If the user is not authenticated throw him away!!!!!!
 
-     if (!req.username) {
+     if (!req.username) { 
         return res.sendUnauthenticated();
         // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
     }
