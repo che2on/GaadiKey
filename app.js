@@ -207,6 +207,7 @@ server.listen(80, function(){
 function pushToAll(req, res, next )
 {
       res.setHeader('Access-Control-Allow-Origin' , '*');
+
        if (!req.username) 
       {
             return res.sendUnauthenticated();
@@ -214,7 +215,7 @@ function pushToAll(req, res, next )
       }
       else
       {
-
+            console.log("Request username is "+req.username);
               if(req.username!="AdminClient")
               {
                     res.send(200, "You donot have sufficient priveleges!");
