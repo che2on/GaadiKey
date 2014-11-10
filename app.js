@@ -242,10 +242,9 @@ function pushToAll(req, res, next )
                             }
 
                     });
-                }
-              }
-
-        }
+                });        
+                 }
+      }
 }
 
 
