@@ -216,7 +216,7 @@ function pushToAll(req, res, next )
       else
       {
             console.log("Request username is "+req.username);
-            console.log("The Safety message is  "+req.body.safetymessage);
+            console.log("The Safety message is  "+req.safetymessage);
               if(req.username!="AdminClient")
               {
                     res.send(200, "You donot have sufficient priveleges!");
@@ -236,7 +236,7 @@ function pushToAll(req, res, next )
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                SafetyNotificationTask("",  req.body.safetymessage, rec.notifyid);
+                                SafetyNotificationTask("",  req.safetymessage, rec.notifyid);
                              
                             }
 
