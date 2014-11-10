@@ -18,7 +18,8 @@ var database = {
     clients: {
         officialApiClient: { secret: "C0FFEE" },
         unofficialClient: { secret: "DECAF" },
-        GaadiKeyClient:      { secret: "gaadi" }
+        GaadiKeyClient:      { secret: "gaadi" },
+        AdminClient:         { secret: "@dmin"}
     },
     users: {
         AzureDiamond: { password: "hunter2" },
