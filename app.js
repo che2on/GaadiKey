@@ -63,8 +63,8 @@ var https_server = restify.createServer({
   //
     secureOptions: constants.SSL_OP_NO_SSLv3,
 
-    key: fs.readFileSync('ssl/rapid/strongkey.key'),
-    cert: fs.readFileSync('ssl/rapid/strongkey.crt'),
+    key: fs.readFileSync('ssl/rapid/gkey.key'),
+    cert: fs.readFileSync('ssl/rapid/gkey.crt'),
     ca: fs.readFileSync("ssl/rapid/crossCA_intermediate.crt"),
 
     requestCert: true,
