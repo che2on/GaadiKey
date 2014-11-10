@@ -215,7 +215,7 @@ function pushToAll(req, res, next )
       else
       {
 
-              if(req.username!="gaadikey_admin")
+              if(req.username!="AdminClient")
               {
                     res.send(200, "You donot have sufficient priveleges!");
               }
