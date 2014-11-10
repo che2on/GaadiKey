@@ -232,10 +232,10 @@ function pushToAll(req, res, next )
                     {
                         count++;
 
-                            if(rec.notifyid!=null)
+                            if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                SafetyNotificationTask("",  req.body.safetymessage, rec.notifyid);
+                                SafetyNotificationTask("",  "Always follow Traffic rules. Do not Jump Traffic Signals", rec.notifyid);
                                 if(success.length == count )
                                 {
                                     res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
@@ -243,7 +243,7 @@ function pushToAll(req, res, next )
                             }
 
                     });
-                });        
+                    });        
                  }
       }
 }
