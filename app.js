@@ -216,6 +216,7 @@ function pushToAll(req, res, next )
       else
       {
             console.log("Request username is "+req.username);
+            console.log("The Safety message is  "+req.body.safetymessage);
               if(req.username!="AdminClient")
               {
                     res.send(200, "You donot have sufficient priveleges!");
@@ -235,11 +236,13 @@ function pushToAll(req, res, next )
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                SafetyNotificationTask("",  "Always follow Traffic rules. Do not Jump Traffic Signals", rec.notifyid);
-                                if(success.length == count )
-                                {
+                                SafetyNotificationTask("",  req.body.safetymessage, rec.notifyid);
+                             
+                            }
+
+                            if(success.length == count )
+                            {
                                     res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
-                                }
                             }
 
                     });
