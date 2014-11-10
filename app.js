@@ -175,6 +175,10 @@ server.post({ path: INSERT_SPECIFICATION_PATH, version: "0.0.1"} , insertSpecifi
 var DISPLAY_SPECIFICATION_PATH = "/display_spec";
 server.get( { path: DISPLAY_SPECIFICATION_PATH, version: "0.0.1"} , displaySpecification);
 
+var PUSH_DASHBOARD_URL  = "/pushtoall";
+server.get( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); //pushtoall called!
+server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll);
+
 // return the function which consoles.. if the given user is a member or not.
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
@@ -198,6 +202,94 @@ https_server.listen(443, function(){
 server.listen(80, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
+
+
+function pushToAll(req, res, next )
+{
+      res.setHeader('Access-Control-Allow-Origin' , '*');
+       if (!req.username) 
+      {
+            return res.sendUnauthenticated();
+         // The ERROR response is sent... without notifying the user.... because there is not access token sent sent in the request! 
+      }
+      else
+      {
+
+              if(req.username!="gaadikey_admin")
+              {
+                    res.send(200, "You donot have sufficient priveleges!");
+              }
+
+              else
+              {
+
+                    var count = 0 ;
+                    var sentcount = 0;
+                    gaadikey_users.find().sort( { modifiedOn : -1}, function(err, success) {
+                    console.log("Response success is "+success);
+                    success.forEach( function (rec)
+                    {
+                        count++;
+
+                            if(rec.notifyid!=null)
+                            {
+                                sentcount ++;
+                                SafetyNotificationTask("",  req.body.safetymessage, rec.notifyid);
+                                if(success.length == count )
+                                {
+                                    res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
+                                }
+                            }
+
+                    });
+                }
+              }
+
+        }
+}
+
+
+
+function SafetyNotificationTask(name, safetymessage, notify_id)
+{
+      if(notify_id.startsWith("http://")) 
+     {
+                console.log("startsWith is working ");
+
+                var mpns = require('mpns');
+                var pushUri = notify_id;
+                console.log("The pushUri is "+pushUri);
+                mpns.sendToast(pushUri, 'GaadiKey', safetymessage,'isostore:/Shared/ShellContent/yo.mp3','/MainPage.xaml', function back(err,data)
+                {
+                    console.log(data);
+                });
+
+                console.log("This user is not an android user");
+
+
+     }
+
+     else
+     {
+                   
+                    var gcm=require('node-gcm');
+                    var googleApiKey = "AIzaSyBVdOY12xKbvC6J4KVtzQ7axcIjk2N2sjk";
+                    var sender = new gcm.Sender(googleApiKey);
+                    var message = new gcm.Message();
+                    message.addData('title', "GaadiKey Safety Alert");
+                    message.addData('message', safetymessage);
+                    message.delay_while_idle = 1;
+                    var registrationIds = [];
+                    registrationIds.push(notify_id);
+                    sender.send(message, registrationIds, 4, function (err, result) {
+                    console.log(result);
+                });
+
+    }
+
+
+}
+
 
 
 function addGaadiNo(req, res, next )
