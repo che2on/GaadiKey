@@ -557,7 +557,9 @@ function getReachCount(req, res, next)
               recs.forEach( function (rec)
               {
                  var phonebookname = rec.phonenumber+"_phoneNetworkContacts";
-                 phonebookname.find( {} , function (err, results) 
+                 var phonebook = db.collection(phonebookname);
+
+                 phonebook.find( {} , function (err, results) 
                  {
                     count++;
                     reachCount += results.length;
