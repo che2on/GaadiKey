@@ -179,6 +179,11 @@ var PUSH_DASHBOARD_URL  = "/pushtoall";
 server.get( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); //pushtoall called!
 server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll);
 
+// Adding a new API which shows the reach of GaadiKey Users
+
+var REACH_COUNT_URL ="/reach";
+server.get( { path: REACH_COUNT_URL, version: "0.0.1"}, getReachCount );
+
 // return the function which consoles.. if the given user is a member or not.
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
@@ -534,8 +539,43 @@ function getUserCount(req, res, next)
              res.send(200 , { registered_users: recs.length});
         }
     })
+
 }
 
+function getReachCount(req, res, next)
+{
+     var reachCount = 0;
+     var count =0;
+     res.setHeader('Access-Control-Allow-Origin', '*');
+     gaadikey_users.find( {}, function(err, recs)
+     {
+         if(err) return res.send(404);
+
+         else
+         {
+
+              recs.forEach( function (rec)
+              {
+                 var phonebookname = rec.phonenumber+"_phoneNetworkContacts";
+                 phonebookname.find( {} , function (err, results) 
+                 {
+                    count++;
+                    reachCount += results.length;
+                    if(count == recs.length)
+                    {
+                       res.send(200, { reach: reachCount });
+                       //send reach as the response! //
+                    }
+                 })
+
+              }
+              );
+
+         }
+
+     }
+
+}
 
 
 function fetchAffiliateAds(req, res, next )
@@ -609,7 +649,7 @@ function callingRoot(req, res, next)
 // {
 
 //     var arr = [ "9739888428" , "9739888" , "9090" , "8909" , "34232"];
-//     arr.forEach(function(element)
+//     arr.forEach(function(element) 
 //     {
 //              gaadikey_users.findOne({phonenumber: element}, function (err, success)
 //              {
@@ -668,7 +708,7 @@ function notifyView(req, res, next)
         if(success)
         {
             if(success.os=="android")
-            {
+            { 
                 console.log("This user is an android user");
                 var gcm=require('node-gcm');
                 var googleApiKey = "AIzaSyBVdOY12xKbvC6J4KVtzQ7axcIjk2N2sjk";
