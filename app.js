@@ -573,7 +573,7 @@ function getReachCount(req, res, next)
 
          }
 
-     }
+     });
 
 }
 
