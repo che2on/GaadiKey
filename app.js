@@ -267,7 +267,7 @@ function SafetyNotificationTask(name, safetymessage, notify_id)
                 var mpns = require('mpns');
                 var pushUri = notify_id;
                 console.log("The pushUri is "+pushUri);
-                mpns.sendToast(pushUri, 'GaadiKey', safetymessage,'isostore:/Shared/ShellContent/yo.mp3','/MainPage.xaml', function back(err,data)
+                mpns.sendToast(pushUri, 'GaadiKey', safetymessage,'isostore:/Shared/ShellContent/yo.mp3','/SafetyNotification.xaml?msg='+safetymessage, function back(err,data)
                 {
                     console.log(data);
                 });
