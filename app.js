@@ -317,7 +317,7 @@ function pushToOne(req, res, next)
 
 
 
-function NotificationTask(title, message, navigateto, notify_id)  // Added navigateto parameter!
+function NotificationTask(title, msg, navigateto, notify_id)  // Added navigateto parameter!
 {
       if(notify_id.startsWith("http://")) 
      {
@@ -333,7 +333,7 @@ function NotificationTask(title, message, navigateto, notify_id)  // Added navig
                 {
                   windows_navigation_path = "/StickyHome.xaml?msg=";
                 }
-                mpns.sendToast(pushUri, title, message,'isostore:/Shared/ShellContent/yo.mp3',windows_navigation_path+message, function back(err,data)
+                mpns.sendToast(pushUri, title, msg,'isostore:/Shared/ShellContent/yo.mp3',windows_navigation_path+msg, function back(err,data)
                 {
                     console.log(data);
                 });
@@ -351,7 +351,7 @@ function NotificationTask(title, message, navigateto, notify_id)  // Added navig
                     var sender = new gcm.Sender(googleApiKey);
                     var message = new gcm.Message();
                     message.addData('title', title);
-                    message.addData('message', message);
+                    message.addData('message', msg);
                     message.addData('navigation_page', navigateto);    // Safety messages // navigation_page holds the Safety message!
                     message.delay_while_idle = 1;
                     var registrationIds = [];
