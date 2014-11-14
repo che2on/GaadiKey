@@ -179,6 +179,10 @@ var PUSH_DASHBOARD_URL  = "/pushtoall";
 server.get( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); //pushtoall called!
 server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll);
 
+var PUSH_ONE_DASHBOARD_URL = "/pushtoone";
+server.get( { path: PUSH_ONE_DASHBOARD_URL, version: "0.0.1"}, pushToOne); // pushtoone 
+server.post( { path: PUSH_ONE_DASHBOARD_URL, version: "0.0.1"}, pushToOne); // post req
+
 // Adding a new API which shows the reach of GaadiKey Users
 
 var REACH_COUNT_URL ="/reach";
