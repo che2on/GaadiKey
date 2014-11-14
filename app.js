@@ -323,9 +323,9 @@ function NotificationTask(title, message, navigateto, notify_id)  // Added navig
                 var pushUri = notify_id;
                 console.log("The pushUri is "+pushUri);
                 var windows_navigation_path = "";
-                if(navigateto=="Safety"))
+                if(navigateto=="Safety")
                 windows_navigation_path = "/SafetyNotification.xaml?msg=";
-                if(navigateto=="no_navigation"))
+                if(navigateto=="no_navigation")
                 {
                   windows_navigation_path = "/StickyHome.xaml?msg=";
                 }
