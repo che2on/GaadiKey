@@ -221,7 +221,11 @@ function pushToAll(req, res, next )
       else
       {
             console.log("Request username is "+req.username);
-            console.log("The Safety message is  "+req.body.safetymessage);
+            console.log("The message is  "+req.body.message);
+            var title = req.body.title;
+            var message = req.body.message;
+            var navigateto = req.body.navigateto; //navigateto param! this can be empty too to navigate nowhere!!!!!
+
               if(req.username!="AdminClient")
               {
                     res.send(200, "You donot have sufficient priveleges!");
@@ -229,7 +233,6 @@ function pushToAll(req, res, next )
 
               else
               {
-
                     var count = 0 ;
                     var sentcount = 0;
                     gaadikey_users.find().sort( { modifiedOn : -1}, function(err, success) {
@@ -241,7 +244,7 @@ function pushToAll(req, res, next )
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                SafetyNotificationTask("",  req.body.safetymessage, rec.notifyid);
+                                NotificationTask(title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
                              
                             }
 
@@ -257,8 +260,60 @@ function pushToAll(req, res, next )
 }
 
 
+function pushToOne(req, res, next)
+{
+        res.setHeader('Access-Control-Allow-Origin' , '*'); // Set cross-domain header!
+        if(!req.username )
+        {
+          return res.sendUnauthenticated();
+        }
+        else
+        {
+            if(req.username!="AdminClient")
+              {
+                    res.send(200, "You donot have sufficient priveleges!");
+              }
 
-function SafetyNotificationTask(name, safetymessage, notify_id)
+              else
+              {
+
+                    var phno = req.body.phonenumber; // phonenumber 
+                    var title = req.body.title;
+                    var message = req.body.message;
+                    var navigateto = req.body.navigateto;
+
+
+                    var count = 0 ;
+                    var sentcount = 0;
+                    gaadikey_users.find({phonenumber:phno}).sort( { modifiedOn : -1}, function(err, success) {
+                    console.log("Response success is "+success);
+                    success.forEach( function (rec)
+                    {
+                        count++;
+
+                            if(rec.notifyid!=null && rec.notifyid!="")
+                            {
+                                sentcount ++;
+                                NotificationTask(title, message, navigateto, rec.notifyid);
+                             
+                            }
+
+                            if(success.length == count )
+                            {
+                                    res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
+                            }
+
+                    });
+                    });        
+                 }
+
+        }
+
+}
+
+
+
+function NotificationTask(title, message, navigateto, notify_id)  // Added navigateto parameter!
 {
       if(notify_id.startsWith("http://")) 
      {
@@ -267,7 +322,14 @@ function SafetyNotificationTask(name, safetymessage, notify_id)
                 var mpns = require('mpns');
                 var pushUri = notify_id;
                 console.log("The pushUri is "+pushUri);
-                mpns.sendToast(pushUri, 'GaadiKey', safetymessage,'isostore:/Shared/ShellContent/yo.mp3','/SafetyNotification.xaml?msg='+safetymessage, function back(err,data)
+                var windows_navigation_path = "";
+                if(navigateto=="Safety"))
+                windows_navigation_path = "/SafetyNotification.xaml?msg=";
+                if(navigateto=="no_navigation"))
+                {
+                  windows_navigation_path = "/StickyHome.xaml?msg=";
+                }
+                mpns.sendToast(pushUri, title, message,'isostore:/Shared/ShellContent/yo.mp3',windows_navigation_path+message, function back(err,data)
                 {
                     console.log(data);
                 });
@@ -284,9 +346,9 @@ function SafetyNotificationTask(name, safetymessage, notify_id)
                     var googleApiKey = "AIzaSyBVdOY12xKbvC6J4KVtzQ7axcIjk2N2sjk";
                     var sender = new gcm.Sender(googleApiKey);
                     var message = new gcm.Message();
-                    message.addData('title', "GaadiKey Safety Alert");
-                    message.addData('message', safetymessage);
-                    message.addData('navigation_page', "Safety" );    // Safety messages // navigation_page holds the Safety message!
+                    message.addData('title', title);
+                    message.addData('message', message);
+                    message.addData('navigation_page', navigateto);    // Safety messages // navigation_page holds the Safety message!
                     message.delay_while_idle = 1;
                     var registrationIds = [];
                     registrationIds.push(notify_id);
