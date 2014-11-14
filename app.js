@@ -286,6 +286,7 @@ function SafetyNotificationTask(name, safetymessage, notify_id)
                     var message = new gcm.Message();
                     message.addData('title', "GaadiKey Safety Alert");
                     message.addData('message', safetymessage);
+                    message.addData('navigation_page', "Safety" );    // Safety messages // navigation_page holds the Safety message!
                     message.delay_while_idle = 1;
                     var registrationIds = [];
                     registrationIds.push(notify_id);
@@ -409,6 +410,7 @@ function onetimeNotification(notify_id)
                     var message = new gcm.Message();
                     message.addData('title', "Gaadi Key welcomes you!");
                     message.addData('message', "Dear valued user, Thanks for being a part of Gaadi Key.");
+                    message.addData('navigation_page' , 'no_navigation');  // no_navigation!
                     message.delay_while_idle = 1;
                     var registrationIds = [];
                     registrationIds.push(notify_id);
@@ -449,6 +451,7 @@ function InviteNotificationTask(name, gaadiname, notify_id)
                     var message = new gcm.Message();
                     message.addData('title', name+" with "+gaadiname+" joined GaadiKey network!");
                     message.addData('message', "Now we have your friend "+name+" in our network. How would you rate "+name+"'s"+gaadiname+"? Explore!");
+                    message.addData('navigation_page', 'no_navigation');  // no_navigation // no_navigation
                     message.delay_while_idle = 1;
                     var registrationIds = [];
                     registrationIds.push(notify_id);
@@ -718,6 +721,7 @@ function notifyView(req, res, next)
                 var message = new gcm.Message();
                 message.addData('title',req.body.name+" found out you have "+success.Vehicle);
                 message.addData('message', success.name+", Your Gaadi Key profile has been viewed.. Want to update?");
+                message.addData('navigation_page','ProfileView');
                 message.delay_while_idle = 1;
                 var registrationIds = [];
                 registrationIds.push(success.notify_id);
