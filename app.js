@@ -163,6 +163,7 @@ server.get({ path: GOOGLE_VERIFY_PATH, version: "0.0.1"}, googleVerify );
 
 
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
+server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.3"}, checkForMembershipV3);
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.2"}, checkForMembershipV2);
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
 
@@ -1035,6 +1036,16 @@ function checkForMembershipV2(req, res, next )
 
 
 }
+
+function checkForMembershipV3(req, res, next )
+{
+    var theBIGresponse = [];
+    res.setHeader('Access-Control-Allow-Origin' , '*');
+    console.log("We are in the third version of checkForMembership V3");
+
+
+}
+
 
 
 function notifyOnEntry(ph, selfgaadi)
