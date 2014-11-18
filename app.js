@@ -163,7 +163,6 @@ server.get({ path: GOOGLE_VERIFY_PATH, version: "0.0.1"}, googleVerify );
 
 
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
-server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.0.2"}, checkForMembershipV2);
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
 
 var AFFILIATEADS_PATH = "/affiliate_ads";
