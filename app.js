@@ -163,8 +163,8 @@ server.get({ path: GOOGLE_VERIFY_PATH, version: "0.0.1"}, googleVerify );
 
 
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
+server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembershipV2);
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
-server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.2"}, checkForMembershipV2);
 
 var AFFILIATEADS_PATH = "/affiliate_ads";
 server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
@@ -982,14 +982,7 @@ function getCustomContactName(collectionname , searchPhoneNumber, callback)
     });
 }
 
-function checkForMembershipV2(req, res, next )
-{
-    var theBIGresponse = [];
-    res.setHeader('Access-Control-Allow-Origin' , '*');
-    console.log("We are in the second version of checkForMembership V2");
 
-
-}
 
 
 
@@ -1032,6 +1025,15 @@ function checkForMembership(req, res, next )
 
         });
     } );
+}
+
+function checkForMembershipV2(req, res, next )
+{
+    var theBIGresponse = [];
+    res.setHeader('Access-Control-Allow-Origin' , '*');
+    console.log("We are in the second version of checkForMembership V2");
+
+
 }
 
 
