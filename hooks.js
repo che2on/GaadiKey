@@ -189,6 +189,7 @@ exports.authenticateToken = function (token, req, cb)
         }
         else
         {
+            console.log("This token was not found! ");
             cb(null, false);
         }
     });
