@@ -74,7 +74,7 @@ var https_server = restify.createServer({
 
 https_server.use(restify.authorizationParser());
 https_server.use(restify.bodyParser({ mapParams: false }));
-https_server.use(restify.queryParser());
+//https_server.use(restify.queryParser());
 https_server.use(restify.CORS());
 
 
