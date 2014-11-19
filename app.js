@@ -163,6 +163,7 @@ server.get({ path: GOOGLE_VERIFY_PATH, version: "0.0.1"}, googleVerify );
 
 
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
+server.get( { path: CHECK_MEMBERSHIP_PATH} , checkForMembership_Default);
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
 
 var AFFILIATEADS_PATH = "/affiliate_ads";
@@ -315,8 +316,6 @@ function pushToOne(req, res, next)
 
 }
 
-
-
 function NotificationTask(title, msg, navigateto, notify_id)  // Added navigateto parameter!
 {
       if(notify_id.startsWith("http://")) 
@@ -339,7 +338,6 @@ function NotificationTask(title, msg, navigateto, notify_id)  // Added navigatet
                 });
 
                 console.log("This user is not an android user");
-
 
      }
 
@@ -865,7 +863,6 @@ function verify(req, res, next)
         }
     }
 
-
 }        
 
 function findAllContacts(req, res, next) 
@@ -981,7 +978,13 @@ function getCustomContactName(collectionname , searchPhoneNumber, callback)
     });
 }
 
+function checkForMembership_Default(req, res, next )
+{
+   var theBIGresponse = [];
+  res.setHeader('Access-Control-Allow-Origin' , '*'); // cross-domain!
+  console.log("Resoonse from the default call")
 
+}
 
 
 
