@@ -195,6 +195,9 @@ server.get( { path: REACH_COUNT_URL, version: "0.0.1"}, getReachCount );
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
+server.get({path: "/testurl", version:"0.0.1"}, function (req, res) {
+console.log("Request.username is  "+req.username);
+});
 }
 
 
