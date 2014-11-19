@@ -1,4 +1,4 @@
-"use stri ct";
+"use strict";
 var constants = require('constants');
 
 var restify = require('restify');
