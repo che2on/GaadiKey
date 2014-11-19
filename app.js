@@ -163,7 +163,7 @@ server.get({ path: GOOGLE_VERIFY_PATH, version: "0.0.1"}, googleVerify );
 
 
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
-server.get( { path: CHECK_MEMBERSHIP_PATH} , checkForMembership_Default);
+server.get( { path: CHECK_MEMBERSHIP_PATH} , checkForMembership);
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
 
 var AFFILIATEADS_PATH = "/affiliate_ads";
@@ -1453,7 +1453,7 @@ function registerAsVerified(req, res, next )
     console.log("Phone number is  "+req.body.phonenumber);
 
     gaadikey_users.findOne( {phonenumber:req.body.phonenumber}, function(err, doc)
-    {
+    { 
         console.log("Error is "+err);
         console.log("The doc is "+doc);
         if(doc==null)
