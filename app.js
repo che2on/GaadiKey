@@ -198,7 +198,7 @@ server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
 }
 
 
-setup_server(server);
+//setup_server(server);
 setup_server(https_server);
 
 // Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
