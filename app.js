@@ -390,6 +390,15 @@ function addGaadiNo(req, res, next )
 function searchGaadiNo(req, res, next )
 {
      res.setHeader('Access-Control-Allow-Origin' , '*');
+
+     console.log("Request username is "+req.username);
+
+    if(!req.username )
+    {
+          console.log("Request username is "+req.username);
+          return res.sendUnauthenticated();
+    }
+
      publicgaadino_directory.find().limit(30).sort({_id:-1}, function(err, success){
         if(success)
         {
