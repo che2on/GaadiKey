@@ -201,12 +201,13 @@ console.log("Request.username is  "+req.username);
 }
 
 
-setup_server(server);
-setup_server(https_server);
-
 // Bind the  objects to restifyOAuth2 library.., SO all useful unauthenticated functions are accessible...
 restifyOAuth2.ropc(server, {tokenEndpoint: "/token", hooks : hooks } );
 restifyOAuth2.ropc(https_server, {tokenEndpoint: "/token", hooks : hooks } );
+
+setup_server(server);
+setup_server(https_server);
+
 
 https_server.listen(443, function(){
    console.log('%s listening at %s ', https_server.name , https_server.url);
