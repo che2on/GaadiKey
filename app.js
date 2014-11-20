@@ -132,9 +132,11 @@ server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetwork );
 
 
 var GENERATE_PATH = '/generate'
+server.post({path: GENERATE_PATH} , postPhoneNumber);
 server.post({path: GENERATE_PATH, version: "0.0.1"}, postPhoneNumber);
 
 var GENERATED_PATH = '/generated'
+server.get({path: GENERATED_PATH}, checkForPIN);
 server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 
 var REGISTER_PATH = "/register"
