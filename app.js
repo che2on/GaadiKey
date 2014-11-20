@@ -164,7 +164,7 @@ server.get({ path: GOOGLE_VERIFY_PATH, version: "0.0.1"}, googleVerify );
 
 var CHECK_MEMBERSHIP_PATH = "/checkmembership";
 server.get( { path: CHECK_MEMBERSHIP_PATH} , checkForMembership);
-server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembership);
+server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembershipV1);
 
 var AFFILIATEADS_PATH = "/affiliate_ads";
 server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
@@ -193,7 +193,7 @@ server.get( { path: REACH_COUNT_URL, version: "0.0.1"}, getReachCount );
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
-server.post({path: "/token", version:"0.0.1"} , tokenreq_post);
+server.post({path: "/token", version:"0.0.1"} , tokenreq_post);                                                                                 
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
 server.get({path: "/testurl", version:"0.0.1"}, function (req, res) {
 console.log("Request.username is  "+req.username);
@@ -1006,6 +1006,54 @@ function checkForMembership(req, res, next )
     var theBIGresponse = [];
     res.setHeader('Access-Control-Allow-Origin' , '*');
     var phonenumber = req.params.phonenumber; 
+    var contacts = db.collection(phonenumber+"_phoneNetworkContacts")
+ //   var contacts = db.collection("9986711164_phoneNetworkContacts");
+    var count = 0 ;
+    contacts.find().sort( { postedOn : -1}, function(err, success) {
+        console.log("Response success is "+success);
+        success.forEach( function (rec)
+        {
+                
+                console.log("The phone number of this contact is "+rec.phonenumber1);
+                {
+
+                    // result is here .. 
+                    if(success)
+                    {
+                       // responsecontactobject.phonenumber  = rec.phonenumber1;
+                         getMembershipStatus( rec.Name, rec.phonenumber1, function(r)
+                            {
+                                count++;
+                                console.log("The response received is "+r);
+                                theBIGresponse.push(r);
+                                if(success.length == count)
+                                {
+                                    console.log("This is the last phone numbe to be parsed. So displaying the collection of all responses.");
+                                    res.send(200 , theBIGresponse);
+                                }
+                            });
+                        
+                    }
+                }
+
+            
+
+        });
+    } );
+}
+
+function checkForMembershipV1(req, res, next )
+{
+    if(!req.username)
+    {
+      res.sendUnauthenticated();
+      // Unauthorized error would be sent if it doesn't contain the token in the header! 
+
+    }
+    var theBIGresponse = [];
+    res.setHeader('Access-Control-Allow-Origin' , '*');
+    var phonenumber = req.username; 
+    console.log("Checking membership for ---- "+phonenumber);
     var contacts = db.collection(phonenumber+"_phoneNetworkContacts")
  //   var contacts = db.collection("9986711164_phoneNetworkContacts");
     var count = 0 ;
