@@ -138,6 +138,7 @@ var GENERATED_PATH = '/generated'
 server.get({path: GENERATED_PATH, version: "0.0.1"}, checkForPIN);
 
 var REGISTER_PATH = "/register"
+server.post({path: REGISTER_PATH}, registerAsVerified); // The API should work fine for requests with out accep-version. This has to be deprecated shortly for security reasons!  
 server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
 
 var UPDATE_PATH   = "/update"
@@ -1505,6 +1506,7 @@ function updateProfile(req, res, next )
 
 function registerAsVerified(req, res, next )
 {
+
 
     if (!req.username) {
         return res.sendUnauthenticated();
