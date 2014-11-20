@@ -156,8 +156,10 @@ server.post({path: NOTIFICATION_PATH, version:"0.0.1"}, notifyView);
 
 var PLANARIDE_PATH  =    "/planaride"
 server.post({path: PLANARIDE_PATH, version:"0.0.1"}, planARide);
+
 var PUBLICLANE_PATH   =   "/publiclane"
-server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLane );
+server.get({ path: PUBLICLANE_PATH} , publicLane );
+server.get({ path: PUBLICLANE_PATH, version: "0.0.1"} , publicLaneV1);
 
 var PING_PATH = "/pingsync";
 server.get({ path: PING_PATH, version: "0.0.1"} , pingSync );
@@ -171,20 +173,27 @@ server.get( { path: CHECK_MEMBERSHIP_PATH} , checkForMembership);
 server.get( { path: CHECK_MEMBERSHIP_PATH, version: "0.0.1"}, checkForMembershipV1);
 
 var AFFILIATEADS_PATH = "/affiliate_ads";
-server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAds);
+server.get({ path: AFFILIATEADS_PATH} , fetchAffiliateAds);
+server.get({ path: AFFILIATEADS_PATH, version: "0.0.1"} , fetchAffiliateAdsV1);
 
 var INSERT_SPECIFICATION_PATH = "/insert_spec";
 server.post({ path: INSERT_SPECIFICATION_PATH, version: "0.0.1"} , insertSpecification);
 
 
 var DISPLAY_SPECIFICATION_PATH = "/display_spec";
-server.get( { path: DISPLAY_SPECIFICATION_PATH, version: "0.0.1"} , displaySpecification);
+server.get( { path: DISPLAY_SPECIFICATION_PATH} , displaySpecification);
+server.get( { path: DISPLAY_SPECIFICATION_PATH, version: "0.0.1"} , displaySpecificationV1);
 
 var PUSH_DASHBOARD_URL  = "/pushtoall";
+server.get( { path: PUSH_DASHBOARD_URL}, pushToAll); //pushtoall called!
+server.post( { path: PUSH_DASHBOARD_URL}, pushToAll);
+
 server.get( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); //pushtoall called!
 server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll);
 
 var PUSH_ONE_DASHBOARD_URL = "/pushtoone";
+server.get( { path: PUSH_ONE_DASHBOARD_URL}, pushToOne); // pushtoone 
+server.post( { path: PUSH_ONE_DASHBOARD_URL}, pushToOne); // post req
 server.get( { path: PUSH_ONE_DASHBOARD_URL, version: "0.0.1"}, pushToOne); // pushtoone 
 server.post( { path: PUSH_ONE_DASHBOARD_URL, version: "0.0.1"}, pushToOne); // post req
 
@@ -448,6 +457,28 @@ function publicLane(req, res , next )
 
 }
 
+function publicLaneV1(req, res , next )
+{
+    if(!req.username)
+    {
+      res.sendUnauthenticated();
+    }
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    gaadikey_users.find().limit(30).sort({_id:-1}, function(err, success) {
+        console.log("Public lane success "+success);
+        if(success)
+        {
+            res.send(200 , success);
+            return next();
+        }
+        else
+        {
+            return next(err);
+        }
+    });
+
+}
+
 function pingSync(req, res , next )
 {
     res.setHeader("Access-Control-Allow-Origin", "*");
@@ -613,6 +644,35 @@ function displaySpecification(req, res, next )
 
 }
 
+function displaySpecificationV1(req, res, next )
+{
+
+    if(!req.username)
+      res.sendUnauthenticated();
+    
+    console.log("Inside display specification ");
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    console.log("The ID in request is "+req.params.id);
+
+
+    specifications.find( { id: req.params.id }, function(err, recs) 
+    {
+        if(err) 
+        {
+            console.log("No matching id and corresponding spec found! ");
+            return res.send(404);
+
+        }
+
+        else
+        {
+             console.log(recs.length);
+             res.send(200 , recs);
+        }
+    });
+
+}
+
 
 function getUserCount(req, res, next)
 {
@@ -670,6 +730,60 @@ function getReachCount(req, res, next)
 
 function fetchAffiliateAds(req, res, next )
 {
+
+   console.log("Able to read the params " +req.params.os);
+
+    res.setHeader("Access-Control-Allow-Origin", "*");
+    if(req.params.os == "android")
+    {
+
+        var affiliate_ads  = db.collection("affiliate_ads_android");
+        affiliate_ads.find({}, function(err, recs)
+        {
+            if(err) return res.send(404);
+            else
+            {
+                 console.log(" The recs is "+recs.length);
+                 res.send(200, recs);
+            }
+        });
+
+    } 
+    else if(req.params.os == "windowsphone")
+    {      
+
+    }
+    else if(req.params.os == "ios")
+    {
+
+    }
+
+    else
+    {
+        // if no parameter is specified  , then look for default database 
+        var affiliate_ads  = db.collection("affiliate_ads_android");
+        affiliate_ads.find({}, function(err, recs)
+        {
+
+            if(err) return res.send(404);
+            else
+            {
+                 console.log(" The recs is "+recs.length);
+                 res.send(200, recs);
+            }
+
+        });
+
+   }
+
+}
+
+
+function fetchAffiliateAdsV1(req, res, next )
+{
+
+    if(!req.username)
+    res.sendUnauthenticated();
 
    console.log("Able to read the params " +req.params.os);
 
