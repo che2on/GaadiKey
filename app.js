@@ -128,6 +128,7 @@ server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
 server.post({path: CONTACTS_PATH, version: '0.0.1'} , postNewContact);
 
 var CONTACTS2_PATH ="/submitcontacts"
+server.post({path: CONTACTS2_PATH}, postPhoneNetwork);  // Works for default call without Accept-version
 server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetwork ); 
 
 
