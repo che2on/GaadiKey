@@ -129,9 +129,9 @@ var CONTACTS_PATH = '/contacts'
 server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
 server.post({path: CONTACTS_PATH, version: '0.0.1'} , postNewContact);
 
-var CONTACTS2_PATH ="/submitcontacts"
+var CONTACTS2_PATH ="/submitcontacts" // the submitcontacts  API to upload Phonebook to server
 server.post({path: CONTACTS2_PATH}, postPhoneNetwork);  // Works for default call without Accept-version
-server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetwork ); 
+server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetworkV1 );  // Bearer token should be made compulsory for posting the phone network details
 
 
 var GENERATE_PATH = '/generate'
@@ -1408,6 +1408,63 @@ function postNewContact(req, res, next) {
 }
 
 function postPhoneNetwork(req, res, next) 
+{ 
+     // since mapParams are disabled we have to  use just body while parsing!
+    // drop this collection 
+    // colelction name  should begin with the  phonenumber received.
+    var count =0;
+    var phno = req.body.phonenumber;
+    var phobj = { };
+    phobj.book  = req.body.book;
+    var phoneNetworkContacts = db.collection(phno+"_"+"phoneNetworkContacts");
+    // By default drop the collection and then save the new contacts...
+    // this is good for security.. SO the contacts are not leaked, incase if the another person validates the gaadikey account using the PIN .
+
+    console.log("Drop called");
+    phoneNetworkContacts.drop();
+    console.log("Finished dropping");
+    req.body.book.forEach(function(entry) {
+        console.log("Entries are being logged");
+        // While uploading the contacts one by one parallely we can compute the interesting contacts, so that we can notify about the event of joining
+        // for this person to his contacts if and only if this persons has been saved in that entry person's contact book.... Also  the notification server has to gracefully
+        // notify the person with the name as saved in the respective person's contact book 
+
+        count++;
+        console.log(entry);
+        phoneNetworkContacts.save(entry , function(err, success ) {
+       
+        if(success)
+        {
+             console.log("Phone network contacts saved.");
+             if(req.body.book.length == count)
+             {
+             res.send(200, {} );
+
+             getGaadiName(phno, function(n)
+             {
+                    // Retrieving the name of the Gaadi as well!!!!
+                     // After responding with a success message , Find and notify the intersecting members in the phone book!!!!!
+                    notifyOnEntry(phno,n); // An Entry point for the viral growth of GaadiKey app.. Try set a boolean to  Enable or disable the viral growth of this app.. Plan strategically to place this block of code which is necessary for viral growth!
+
+             });
+        
+
+
+            }
+             return next();
+        }
+        else
+        {
+            //res.send(404);
+            return next();
+        }
+    });
+
+    });
+}
+
+
+function postPhoneNetworkV1(req, res, next)  // PhoneNetworkV1
 { 
      // since mapParams are disabled we have to  use just body while parsing!
     // drop this collection 
