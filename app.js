@@ -195,6 +195,10 @@ server.get( { path: REACH_COUNT_URL, version: "0.0.1"}, getReachCount );
 // return the function which consoles.. if the given user is a member or not.
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
+
+server.get({path: "/token"}, tokenreq_get); //works without accept-version header
+server.post({path: "/token"}, tokenreq_post); //works without accept-version header
+
 server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
 server.post({path: "/token", version:"0.0.1"} , tokenreq_post);                                                                                 
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
