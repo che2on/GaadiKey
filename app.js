@@ -1469,6 +1469,12 @@ function postPhoneNetworkV1(req, res, next)  // PhoneNetworkV1
      // since mapParams are disabled we have to  use just body while parsing!
     // drop this collection 
     // colelction name  should begin with the  phonenumber received.
+    console.log("We are in the version 0.0.1 of API "+req.username);
+    if(!req.username)
+    {
+      res.sendUnauthenticated(); // Sends an unauthenticated message! 
+    }
+
     var count =0;
     var phno = req.body.phonenumber;
     var phobj = { };
