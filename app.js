@@ -197,11 +197,11 @@ server.get( { path: REACH_COUNT_URL, version: "0.0.1"}, getReachCount );
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
 
-server.get({path: "/token"}, tokenreq_get); //works without accept-version header
-server.post({path: "/token"}, tokenreq_post); //works without accept-version header
+// server.get({path: "/token"}, tokenreq_get); //works without accept-version header
+// server.post({path: "/token"}, tokenreq_post); //works without accept-version header
 
-server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
-server.post({path: "/token", version:"0.0.1"} , tokenreq_post);                                                                                 
+// server.get({path: "/token", version:"0.0.1"} , tokenreq_get);
+// server.post({path: "/token", version:"0.0.1"} , tokenreq_post);                                                                                 
 server.get({path: "/getCount", version:"0.0.1"} , getUserCount);
 server.get({path: "/testurl", version:"0.0.1"}, function (req, res) {
 console.log("Request.username is  "+req.username);
