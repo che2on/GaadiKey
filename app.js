@@ -121,7 +121,9 @@ var ADD_GAADINO_PATH = "/add_gaadino"
 server.post({path: ADD_GAADINO_PATH, version : '0.0.1'}, addGaadiNo);
 
 var SEARCH_PATH = "/search"
-server.get({path: SEARCH_PATH, version: '0.0.1'}, searchGaadiNo);
+server.get({path: SEARCH_PATH}, searchGaadiNo);
+server.get({path: SEARCH_PATH, version: '0.0.1'}, searchGaadiNoV1);
+
 
 var CONTACTS_PATH = '/contacts'
 server.get({path : CONTACTS_PATH, version: '0.0.1'} , findAllContacts);
@@ -413,6 +415,25 @@ function searchGaadiNo(req, res, next )
      res.setHeader('Access-Control-Allow-Origin' , '*');
 
      console.log("Request username is "+req.username);
+     publicgaadino_directory.find().limit(30).sort({_id:-1}, function(err, success){
+        if(success)
+        {
+            res.send(200 , success);
+            return next();
+        }
+        else
+        {
+            return next(err);
+        }
+     });
+}
+
+
+function searchGaadiNoV1(req, res, next )
+{
+     res.setHeader('Access-Control-Allow-Origin' , '*');
+
+     console.log("Request username is "+req.username);
 
     if(!req.username )
     {
@@ -432,6 +453,7 @@ function searchGaadiNo(req, res, next )
         }
      });
 }
+
 
 function googleVerify(req, res, next )
 {
@@ -649,7 +671,7 @@ function displaySpecificationV1(req, res, next )
 
     if(!req.username)
       res.sendUnauthenticated();
-    
+
     console.log("Inside display specification ");
     res.setHeader("Access-Control-Allow-Origin", "*");
     console.log("The ID in request is "+req.params.id);
