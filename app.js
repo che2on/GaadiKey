@@ -254,7 +254,7 @@ function pushToAll(req, res, next )
             var message = req.body.message;
             var navigateto = req.body.navigateto; //navigateto param! this can be empty too to navigate nowhere!!!!!
 
-              if(req.username!="AdminClient")
+              if(req.username!="gaadikey_admin")
               {
                     res.send(200, "You donot have sufficient priveleges!");
               }
@@ -298,7 +298,7 @@ function pushToOne(req, res, next)
         else
         {
             console.log("The request username is "+req.username);
-            if(req.username!="AdminClient")
+            if(req.username!="gaadikey_admin")
               {
                     res.send(200, "You donot have sufficient priveleges!");
               }
