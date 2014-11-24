@@ -297,6 +297,7 @@ function pushToOne(req, res, next)
         }
         else
         {
+            console.log("The request username is "+req.username);
             if(req.username!="AdminClient")
               {
                     res.send(200, "You donot have sufficient priveleges!");
