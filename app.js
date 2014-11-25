@@ -2,7 +2,7 @@
 var constants = require('constants');
 
 var restify = require('restify');
-var MiniOps = require('../index');
+var MiniOps = require('miniops/index');
 var mongojs = require("mongojs");
 var request = require("request");
 var http = require('http');
