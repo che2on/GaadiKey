@@ -2,6 +2,7 @@
 var constants = require('constants');
 
 var restify = require('restify');
+var MiniOps = require('../index');
 var mongojs = require("mongojs");
 var request = require("request");
 var http = require('http');
@@ -76,6 +77,8 @@ https_server.use(restify.authorizationParser());
 https_server.use(restify.bodyParser({ mapParams: false }));
 https_server.use(restify.queryParser());
 https_server.use(restify.CORS());
+https_server.use(restify.jsonp());
+var miniOps = new MiniOps();
 
 
 var server = restify.createServer({
@@ -91,6 +94,8 @@ server.use(restify.authorizationParser());
 server.use(restify.bodyParser({ mapParams: false }));
 server.use(restify.queryParser());
 server.use(restify.CORS());
+server.use(restify.jsonp());
+
 
 var RESOURCES = Object.freeze({
     INITIAL: "/",
@@ -102,6 +107,9 @@ var RESOURCES = Object.freeze({
 
 var setup_server = function(server)
 {
+
+server.get('/ops' , miniOps.dataHub());
+server.on('after', miniOps.recorder() );
 /* ============================================= TEST APIs should be removed after use  strictly for testing purpose only... sclean up this  to be compliant woth the security  */
 
 var DELETE_COLLECTION_PATH = "/deletecollection";
