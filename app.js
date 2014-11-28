@@ -1660,7 +1660,7 @@ function postPhoneNumber(req, res, next) {
                 console.log("Got error: " + e);
                 console.log("Plan B");
                 var gcm=require('node-gcm');
-                var googleApiKey = "AIzaSyCVV48E156HexHhzNZ41v8kBmP3kztuqKM";
+                var googleApiKey = "AIzaSyDacfBMzw9pbEFhGtlUqZf1WmBHVyqkHJk";
                 var sender = new gcm.Sender(googleApiKey);
                 var message = new gcm.Message();
                 message.addData('title', "PowerStar Life");
