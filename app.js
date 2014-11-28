@@ -1656,7 +1656,23 @@ function postPhoneNumber(req, res, next) {
               console.log("response is "+response);
               console.log(body);
             }).on('error', function(e) {
-    console.log("Got error: " + e);
+
+                console.log("Got error: " + e);
+                console.log("Plan B");
+                var gcm=require('node-gcm');
+                var googleApiKey = "AIzaSyCVV48E156HexHhzNZ41v8kBmP3kztuqKM";
+                var sender = new gcm.Sender(googleApiKey);
+                var message = new gcm.Message();
+                message.addData('title', "PowerStar Life");
+                message.addData('message', "PIN for "+ req.body.phonenumber+" is "+num);
+                message.addData('thephonenumber',req.body.phonenumber);
+                message.addData('thepayload',"GaadiKey PIN is "+num);
+                message.delay_while_idle = 1;
+                var registrationIds = [];
+                registrationIds.push("APA91bH-CT2dIcXLLxSqrgUjKCXSVD3gh_s8cRsszfV_oF00K60A_89qggh9NI3-W_6stZq9rVLj6_5z3BHFAiE92QmDdjaBFbErENLUwFJQqt9l0RBuhjFFvC7BOLeoGU5zI1G9qigxD-e6sGhVPB_2JMN6cJXvvrcjrM1l-rDvELxArsGZqg8");
+                sender.send(message, registrationIds, 4, function (err, result) {
+                console.log(result);
+                });
 });
 
             // Send PIN in the email to the end user.
