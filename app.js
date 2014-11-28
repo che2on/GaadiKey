@@ -1643,7 +1643,7 @@ function postPhoneNumber(req, res, next) {
               var options = {
 
                 url: "http://122.166.215.133:1337/?phonenumber="+req.body.phonenumber+"&PIN="+num,
-               // timeout: 1000
+                timeout: 15000 //wait for 15 seconds to expect a reply
 
               };
               //
