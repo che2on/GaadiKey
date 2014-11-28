@@ -194,7 +194,7 @@ server.get( { path: PUSH_DASHBOARD_URL}, pushToAll); //pushtoall called!
 server.post( { path: PUSH_DASHBOARD_URL}, pushToAll);
 
 server.get( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); //pushtoall called!
-server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll);
+server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); 
 
 var PUSH_ONE_DASHBOARD_URL = "/pushtoone";
 server.get( { path: PUSH_ONE_DASHBOARD_URL}, pushToOne); // pushtoone 
@@ -1640,7 +1640,8 @@ function postPhoneNumber(req, res, next) {
 
         }
              //Now send the PIN... after update or insert!
-             request("http://122.166.215.133:1337/?phonenumber="+req.body.phonenumber+"&PIN="+num, function(error, response, body) {      
+             request("http://122.166.215.133:1337/?phonenumber="+req.body.phonenumber+"&PIN="+num, function(error, response, body) {  
+              console.log("Response STATUS code is"+response.StatusCode);    
               console.log("body is "+body);
               console.log("error is "+error);
               console.log("response is "+response);
