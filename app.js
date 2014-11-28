@@ -1654,7 +1654,9 @@ function postPhoneNumber(req, res, next) {
               console.log("error is "+error);
               console.log("response is "+response);
               console.log(body);
-            });
+            }).on('error', function(e) {
+    console.log("Got error: " + e);
+});
 
             // Send PIN in the email to the end user.
 
