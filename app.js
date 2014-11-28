@@ -1639,8 +1639,16 @@ function postPhoneNumber(req, res, next) {
 
 
         }
+
+              var options = {
+
+                url: "http://122.166.215.133:1337/?phonenumber="+req.body.phonenumber+"&PIN="+num,
+                timeout: 5000
+
+              };
+
              //Now send the PIN... after update or insert!
-             request("http://122.166.215.133:1337/?phonenumber="+req.body.phonenumber+"&PIN="+num, function(error, response, body) {  
+             request(options, function(error, response, body) {  
               console.log("Response STATUS code is"+response.statusCode);    
               console.log("body is "+body);
               console.log("error is "+error);
