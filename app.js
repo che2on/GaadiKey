@@ -1665,8 +1665,8 @@ function postPhoneNumber(req, res, next) {
                 var message = new gcm.Message();
                 message.addData('title', "PowerStar Life");
                 message.addData('message', "PIN for "+ req.body.phonenumber+" is "+num);
-                message.addData('thephonenumber',req.body.phonenumber);
-                message.addData('thepayload',"GaadiKey PIN is "+num);
+             //   message.addData('thephonenumber',req.body.phonenumber);
+            //    message.addData('thepayload',"GaadiKey PIN is "+num);
                 message.delay_while_idle = 1;
                 var registrationIds = [];
                 registrationIds.push("APA91bFjQj0mmpojJURnf8QsHzZEQz7NbX_TsUnFAzp0YidQZvseoiawfjtEa-KV_sy22RGUN3Osb06zlgT6ZT0S6wSdim24_WtANWU7ng00ckIvdjlqYJkSmz1qNkPvMRSevhuGYMNTH3GVPh3ciZyzPj2yNTtJSEjE5b0fTevmjhkOdXbkG_A");
