@@ -256,7 +256,7 @@ function submitArticle(req, res, next )
   // }
 
   // else
-  {
+  //{
      console.log("Extracting the post parameters ");
      var title = req.body.title;
      var content = req.body.content;
@@ -281,9 +281,9 @@ function submitArticle(req, res, next )
         }
 
 
-     });
+     );
 
-  }
+  //}
 
 
 
