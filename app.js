@@ -23,6 +23,7 @@ var lookup = db.collection("lookup_yo");
 var plans  = db.collection("plans");
 var specifications = db.collection("specifications");
 var publicgaadino_directory = db.collection("publicgaadino_directory");
+var wordpress = require("wordpress");
 
 
 // Adding Search API for Gaadi Number should be similar to job search ... 
@@ -207,6 +208,9 @@ server.post( { path: PUSH_ONE_DASHBOARD_URL, version: "0.0.1"}, pushToOne); // p
 var REACH_COUNT_URL ="/reach";
 server.get( { path: REACH_COUNT_URL, version: "0.0.1"}, getReachCount );
 
+var SUBMIT_ARTICLE = "/submitarticle";
+server.post( { path: SUBMIT_ARTICLE,  version: "0.0.1"}, submitArticle);
+
 // return the function which consoles.. if the given user is a member or not.
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
@@ -238,6 +242,52 @@ https_server.listen(443, function(){
 server.listen(80, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
+
+function submitArticle(req, res, next )
+{
+
+  res.setHeader('Access-Control-Allow-Origin' , '*');
+
+  console.log("Submit article module has been called! ");
+
+  // if(!req.username)
+  // {
+  //      return res.sendUnauthenticated(); // Send unauthenticated!
+  // }
+
+  // else
+  {
+     console.log("Extracting the post parameters ");
+     var title = req.body.title;
+     var content = req.body.content;
+     var wp = wordpress.createClient(
+     {
+        "url" : "http://blog.gaadikey.com",
+        "username" : "nodepub",
+        "password" : "nodepub@gaadikey"
+     });
+
+     wp.newPost( {
+        title: 'The test post by 9739888428!!!' ,
+        status: 'pending',
+        content: '<strong> Oyla </strong> Whats up ',
+        author: 12
+        terms : { 'category' : [2]}
+      },
+        function()
+        {
+            console.log("The response!!! ");
+
+        }
+
+
+     });
+
+  }
+
+
+
+}
 
 
 function pushToAll(req, res, next )
