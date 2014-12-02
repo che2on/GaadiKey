@@ -271,7 +271,7 @@ function submitArticle(req, res, next )
         title: 'The test post by 9739888428!!!' ,
         status: 'pending',
         content: '<strong> Oyla </strong> Whats up ',
-        author: 12
+        author: 12,
         terms : { 'category' : [2]}
       },
         function()
