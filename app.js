@@ -247,16 +247,15 @@ function submitArticle(req, res, next )
 {
 
   res.setHeader('Access-Control-Allow-Origin' , '*');
-
   console.log("Submit article module has been called! ");
 
-  // if(!req.username)
-  // {
-  //      return res.sendUnauthenticated(); // Send unauthenticated!
-  // }
+  if(!req.username)
+  {
+       return res.sendUnauthenticated(); // Send unauthenticated!
+  }
 
-  // else
-  //{
+  else
+  {
      console.log("Extracting the post parameters ");
      var _title = req.body.title;
      var _content = req.body.content;
@@ -288,17 +287,14 @@ function submitArticle(req, res, next )
       },
         function(err , doc)
         {
+
             console.log("The response 1 is "+err);
             console.log("The response 2 is "+doc);
-
+            res.send(200 , "success");
         }
-
-
      );
 
-  //}
-
-
+  }
 
 }
 
