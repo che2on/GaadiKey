@@ -257,7 +257,7 @@ function submitArticle(req, res, next )
   else
   {
      console.log("Extracting the post parameters ");
-     var _title = req.body.title;
+     var _title = "["+req.username+"]"+" "+req.body.title;
      var _content = req.body.content;
      var _category = req.body.category;
      var _categoryId = 0;
