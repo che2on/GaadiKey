@@ -258,8 +258,20 @@ function submitArticle(req, res, next )
   // else
   //{
      console.log("Extracting the post parameters ");
-     var title = req.body.title;
-     var content = req.body.content;
+     var _title = req.body.title;
+     var _content = req.body.content;
+     var _category = req.body.category;
+     var _categoryId = 0;
+
+     if(_category == "Bikes")
+     {
+        _categoryId = 2;
+     }
+     else if(_category == "Cars")
+     {
+        _categoryId = 29;
+     }
+
      var wp = wordpress.createClient(
      {
         "url" : "http://blog.gaadikey.com",
@@ -268,15 +280,16 @@ function submitArticle(req, res, next )
      });
 
      wp.newPost( {
-        title: 'The test post by 9739888428!!!' ,
+        title:  _title ,
         status: 'pending',
-        content: '<strong> Oyla </strong> Whats up ',
+        content: _content,
         author: 12,
-        terms : { 'category' : [2]}
+        terms : { 'category' : [_categoryId]}
       },
-        function()
+        function(err , doc)
         {
-            console.log("The response!!! ");
+            console.log("The response 1 is "+err);
+            console.log("The response 2 is "+doc);
 
         }
 
