@@ -257,30 +257,31 @@ function postPush(req, res, next)
             var title = "GaadiKey News";
             var message = req.body.alert;
             var navigateto = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
+            console.log("The image url is "+navigateto);
 
             
-                    var count = 0 ;
-                    var sentcount = 0;
-                    gaadikey_users.find().sort( { modifiedOn : -1}, function(err, success) {
-                    console.log("Response success is "+success);
-                    success.forEach( function (rec)
-                    {
-                        count++;
+                    // var count = 0 ;
+                    // var sentcount = 0;
+                    // gaadikey_users.find().sort( { modifiedOn : -1}, function(err, success) {
+                    // console.log("Response success is "+success);
+                    // success.forEach( function (rec)
+                    // {
+                    //     count++;
 
-                            if(rec.notifyid!=null && rec.notifyid!="")
-                            {
-                                sentcount ++;
-                                NotificationTask(title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
+                    //         if(rec.notifyid!=null && rec.notifyid!="")
+                    //         {
+                    //             sentcount ++;
+                    //             NotificationTask(title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
                              
-                            }
+                    //         }
 
-                            if(success.length == count )
-                            {
-                                    res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
-                            }
+                    //         if(success.length == count )
+                    //         {
+                    //                 res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
+                    //         }
 
-                    });
-                    });                    
+                    // });
+                    // });                    
 }
 
 function submitArticle(req, res, next )
