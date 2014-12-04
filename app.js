@@ -211,6 +211,9 @@ server.get( { path: REACH_COUNT_URL, version: "0.0.1"}, getReachCount );
 var SUBMIT_ARTICLE = "/submitarticle";
 server.post( { path: SUBMIT_ARTICLE,  version: "0.0.1"}, submitArticle);
 
+var POST_PUSH_URL  = "/postpush";
+server.post( { path: POST_PUSH_URL,  version:  "0.0.1"}, postPush );
+
 // return the function which consoles.. if the given user is a member or not.
 //var LOOKUP_PATH = "/lookup"
 //server.post({path: LOOKUP_PATH, version:"0.0.1"} , lookup );
@@ -243,6 +246,20 @@ server.listen(80, function(){
     console.log('%s listening at %s ', server.name , server.url);
 });
 
+
+function postPush(req, res, next)
+{
+  res.setHeader('Access-Control-Allow-Origin' , '*');
+  console.log("Post pushed! ");
+  var alert = req.body.alert;
+  var url   = req.body.url;
+  var imageurl = req.body.imageurl;
+  console.log("Alert is "+alert);
+  console.log("URL is "+url);
+  console.log("Image URL is "+imageurl);
+
+}
+
 function submitArticle(req, res, next )
 {
 
@@ -259,7 +276,7 @@ function submitArticle(req, res, next )
      console.log("Extracting the post parameters ");
      var _title = "["+req.username+"]"+" "+req.body.title;
      var _content = req.body.content;
-     var _category = req.body.category;
+     var _category = req.body.category;                              
      var _categoryId = 0;
 
      if(_category == "Bikes")
