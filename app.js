@@ -290,7 +290,8 @@ function postPush(req, res, next)
               var $ = cheerio.load(first_image);
               first_image = $('img').attr('src');
               console.log("First image through cheerIO way "+first_image);
-              console.log("The substring image is "+first_image.substr(2,first_image.length-2))
+              var final_image = first_image.substr(2,first_image.length-4);
+              console.log("The final image is "+final_image);
 
               });
        
