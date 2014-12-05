@@ -252,8 +252,8 @@ function postPush(req, res, next)
 {
   
 
-     res.setHeader('Access-Control-Allow-Origin' , '*');
-
+           res.setHeader('Access-Control-Allow-Origin' , '*');
+            var the_post_image = "";
             var title = "GaadiKey News";
             var message = req.body.alert;
             var postid = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
@@ -282,12 +282,16 @@ function postPush(req, res, next)
               var images = $('img') ;
               console.log("images var contains "+images);
               console.log("Length of images is "+images.length);
+              var count = 0;
+              images.forEach( function (img) 
+              {
+                count++;
+                var the_image = $(img).attr('src') ;
+                if(count==1) the_post_image =the_image;
+                console.log("Image is "+the_image) ;
+              });
 
-              // images.forEach( function (img) 
-              // {
-              //   var the_image = $(img).attr('src') ;
-              //   console.log("Image is "+the_image)
-              // })
+                console.log("retrieved image is "+the_image);
 
               });
        
