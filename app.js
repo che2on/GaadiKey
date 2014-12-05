@@ -271,7 +271,7 @@ function postPush(req, res, next)
              request(options, function(error, response, body) {  
              
               var data = body.content;
-              $ = cheerio.load(data);
+              var $ = cheerio.load(data);
               var images = $('img') ;
               images.forEach( function (img) 
               {
