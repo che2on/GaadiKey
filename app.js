@@ -1,5 +1,6 @@
 "use strict";
 var constants = require('constants');
+var cheerio   = require('cheerio'); // Adding Cheerio package to parse the image tag in the data.
 
 var restify = require('restify');
 var mongojs = require("mongojs");
@@ -253,15 +254,35 @@ function postPush(req, res, next)
 
      res.setHeader('Access-Control-Allow-Origin' , '*');
 
-      
             var title = "GaadiKey News";
             var message = req.body.alert;
-            var navigateto = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
+            var postid = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
             console.log("The image url is "+navigateto);
             console.log("Alert is "+req.body.alert);
             console.log("Image url is "+req.body.url);
+             var options = {
 
-            
+                url: "http://blog.gaadikey.com/wp-json/posts/"+postid
+
+              };
+              //
+
+             //Now send the PIN... after update or insert!
+             request(options, function(error, response, body) {  
+              console.log("Body is "+body);
+              console.log("Response is "+response);
+              console.log("Content is "+response.content);
+              var data = response.content;
+              $ = cheerio.load(data);
+              var images = $('img') ;
+              images.forEach( function (img) 
+              {
+                var the_image = $(img).attr('src') ;
+                console.log("Image is "+the_image)
+              })
+                    
+              });
+       
                     // var count = 0 ;
                     // var sentcount = 0;
                     // gaadikey_users.find().sort( { modifiedOn : -1}, function(err, success) {
