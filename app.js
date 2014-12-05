@@ -257,7 +257,7 @@ function postPush(req, res, next)
             var title = "GaadiKey News";
             var message = req.body.alert;
             var postid = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
-            console.log("The image url is "+navigateto);
+            console.log("The image url is "+postid); // The postid is not navigatedto
             console.log("Alert is "+req.body.alert);
             console.log("Image url is "+req.body.url);
              var options = {
@@ -280,7 +280,7 @@ function postPush(req, res, next)
                 var the_image = $(img).attr('src') ;
                 console.log("Image is "+the_image)
               })
-                    
+
               });
        
                     // var count = 0 ;
