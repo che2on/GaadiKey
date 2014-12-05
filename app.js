@@ -283,15 +283,9 @@ function postPush(req, res, next)
               console.log("images var contains "+images);
               console.log("Length of images is "+images.length);
               var count = 0;
-              images.forEach( function (img) 
-              {
-                count++;
-                var the_image = $(img).attr('src') ;
-                if(count==1) the_post_image =the_image;
-                console.log("Image is "+the_image) ;
-              });
 
-                console.log("retrieved image is "+the_image);
+              var first_image = images[0];
+              console.log("The first image is  "+first_image);
 
               });
        
@@ -302,6 +296,7 @@ function postPush(req, res, next)
                     // success.forEach( function (rec)
                     // {
                     //     count++;
+
 
                     //         if(rec.notifyid!=null && rec.notifyid!="")
                     //         {
