@@ -286,6 +286,10 @@ function postPush(req, res, next)
 
               var first_image = images[0];
               console.log("The first image is  "+first_image);
+              console.log("The first image src is "+first_image.src);
+              var $ = cheerio.load(first_image);
+              first_image = $('img').attr('src');
+              console.log("First image through cheerIO way "+first_image);
 
               });
        
