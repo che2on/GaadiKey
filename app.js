@@ -272,12 +272,16 @@ function postPush(req, res, next)
              
               var data = body.content;
               var $ = cheerio.load(data);
+              console.log("data is "+data);
               var images = $('img') ;
-              images.forEach( function (img) 
-              {
-                var the_image = $(img).attr('src') ;
-                console.log("Image is "+the_image)
-              })
+              console.log("images var contains "+images);
+              console.log("Length of images is "+images.length);
+
+              // images.forEach( function (img) 
+              // {
+              //   var the_image = $(img).attr('src') ;
+              //   console.log("Image is "+the_image)
+              // })
 
               });
        
