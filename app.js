@@ -252,19 +252,18 @@ function postPush(req, res, next)
 {
   
 
-           res.setHeader('Access-Control-Allow-Origin' , '*');
-            var the_post_image = "";
-            var title = "GaadiKey News";
-            var message = req.body.alert;
-            var postid = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
-            console.log("The image url is "+postid); // The postid is not navigatedto
-            console.log("Alert is "+req.body.alert);
-            console.log("Image url is "+req.body.url);
-             var options = {
-
-                url: "http://blog.gaadikey.com/wp-json/posts/"+postid
-
+              res.setHeader('Access-Control-Allow-Origin' , '*');
+              var the_post_image = "";
+              var title = "GaadiKey News";
+              var message = req.body.alert;
+              var postid = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
+              console.log("The image url is "+postid); // The postid is not navigatedto
+              console.log("Alert is "+req.body.alert);
+              console.log("Image url is "+req.body.url);
+              var options = {
+                  url: "http://blog.gaadikey.com/wp-json/posts/"+postid
               };
+
               //
 
              //Now send the PIN... after update or insert!
@@ -272,18 +271,14 @@ function postPush(req, res, next)
 
               var theresponsebody = body;
               console.log("Plain response body is "+theresponsebody);
-
               var thecontent  = response;
-              console.log("The content is "+thecontent)
-             
+              console.log("The content is "+thecontent)            
               var data = body;
               var $ = cheerio.load(data);
               console.log("data is "+data);
               var images = $('img') ;
               console.log("images var contains "+images);
               console.log("Length of images is "+images.length);
-              var count = 0;
-
               var first_image = images[0];
               console.log("The first image is  "+first_image);
               console.log("The first image src is "+first_image.src);
@@ -294,32 +289,34 @@ function postPush(req, res, next)
               console.log("The final image is "+final_image);
               var theultimate_finalimage = final_image.replace(/\\/g, "");
               console.log("The ultimate final image is "+theultimate_finalimage);
+              var navigateto = "news,"+theultimate_finalimage;
+
+                    var count = 0 ;
+                    var sentcount = 0;
+                    gaadikey_users.find().sort( { modifiedOn : -1}, function(err, success) {
+                    console.log("Response success is "+success);
+                    success.forEach( function (rec)
+                    {
+                        count++;
+
+
+                            if(rec.notifyid!=null && rec.notifyid!="")
+                            {
+                                sentcount ++;
+                                NotificationTask(title, message, navigateto, rec.notifyid); // Added navigatedto parameter to                            
+                            }
+
+                            if(success.length == count )
+                            {
+                                    res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
+                            } 
+
+                    });
+                    });    
 
               });
        
-                    // var count = 0 ;
-                    // var sentcount = 0;
-                    // gaadikey_users.find().sort( { modifiedOn : -1}, function(err, success) {
-                    // console.log("Response success is "+success);
-                    // success.forEach( function (rec)
-                    // {
-                    //     count++;
-
-
-                    //         if(rec.notifyid!=null && rec.notifyid!="")
-                    //         {
-                    //             sentcount ++;
-                    //             NotificationTask(title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
-                             
-                    //         }
-
-                    //         if(success.length == count )
-                    //         {
-                    //                 res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
-                    //         } 
-
-                    // });
-                    // });                    
+                
 }
 
 function submitArticle(req, res, next )
