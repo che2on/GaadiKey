@@ -269,10 +269,8 @@ function postPush(req, res, next)
 
              //Now send the PIN... after update or insert!
              request(options, function(error, response, body) {  
-              console.log("Body is "+body);
-              console.log("Response is "+response);
-              console.log("Content is "+response.content);
-              var data = response.content;
+             
+              var data = body.content;
               $ = cheerio.load(data);
               var images = $('img') ;
               images.forEach( function (img) 
