@@ -292,6 +292,8 @@ function postPush(req, res, next)
               console.log("First image through cheerIO way "+first_image);
               var final_image = first_image.substr(2,first_image.length-4);
               console.log("The final image is "+final_image);
+              var theultimate_finalimage = final_image.replace(/\\/g, "");
+              console.log("The ultimate final image is "+theultimate_finalimage);
 
               });
        
