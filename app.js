@@ -258,6 +258,8 @@ function postPush(req, res, next)
             var message = req.body.alert;
             var navigateto = req.body.imageurl; //navigateto param! this can be empty too to navigate nowhere!!!!!
             console.log("The image url is "+navigateto);
+            console.log("Alert is "+req.body.alert);
+            console.log("Image url is "+req.body.url);
 
             
                     // var count = 0 ;
@@ -278,7 +280,7 @@ function postPush(req, res, next)
                     //         if(success.length == count )
                     //         {
                     //                 res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
-                    //         }
+                    //         } 
 
                     // });
                     // });                    
