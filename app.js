@@ -346,6 +346,18 @@ function submitArticle(req, res, next )
      {
         _categoryId = 29;
      }
+     else if(_category == "Cabs")
+     {
+        _categoryId = 207;
+     }
+     else if(_categoryId == "Buses")
+     {
+        _categoryId = 206;
+     }
+     else if(_categoryId == "Rickshaws")
+     {
+        _categoryId = 208;
+     }
 
      var wp = wordpress.createClient(
      {
