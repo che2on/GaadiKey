@@ -501,22 +501,20 @@ function NotificationTask(postid, title, msg, navigateto, notify_id)  // Added n
                 console.log("The pushUri is "+pushUri);
                 var windows_navigation_path = "";
                 if(navigateto=="safety")
-                windows_navigation_path = "/SafetyNotification.xaml?msg=";
+                windows_navigation_path = "/SafetyNotification.xaml?msg="+msg;
                 if(navigateto.startsWith("news"))
                 windows_navigation_path = "/NewsDescription.xaml?ID="+postid; 
                 else
                 {
-                  windows_navigation_path = "/StickyHome.xaml?msg=";
+                  windows_navigation_path = "/StickyHome.xaml?msg="+msg;
                 }
-                mpns.sendToast(pushUri, title, msg,'isostore:/Shared/ShellContent/yo.mp3',windows_navigation_path+msg, function back(err,data)
+                mpns.sendToast(pushUri, title, msg,'isostore:/Shared/ShellContent/yo.mp3',windows_navigation_path, function back(err,data)
                 {
                     console.log(data);
                 });
                 console.log("This user is not an android user");
 
-
      }
-
      else
      {
                    
