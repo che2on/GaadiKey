@@ -289,7 +289,7 @@ function postPush(req, res, next)
               console.log("The final image is "+final_image);
               var theultimate_finalimage = final_image.replace(/\\/g, "");
               console.log("The ultimate final image is "+theultimate_finalimage);
-              var navigateto = "news,"+theultimate_finalimage;
+              var navigateto = "news,"+theultimate_finalimage; 
 
                     var count = 0 ;
                     var sentcount = 0;
