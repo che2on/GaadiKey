@@ -303,7 +303,7 @@ function postPush(req, res, next)
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                NotificationTask(title, message, navigateto, rec.notifyid); // Added navigatedto parameter to                            
+                                NotificationTask(postid, title, message, navigateto, rec.notifyid); // Added navigatedto parameter to                            
                             }
 
                             if(success.length == count )
@@ -422,7 +422,7 @@ function pushToAll(req, res, next )
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                NotificationTask(title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
+                                NotificationTask(null, title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
                              
                             }
 
@@ -473,7 +473,7 @@ function pushToOne(req, res, next)
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                NotificationTask(title, message, navigateto, rec.notifyid);
+                                NotificationTask(null, title, message, navigateto, rec.notifyid);
                              
                             }
 
@@ -490,7 +490,7 @@ function pushToOne(req, res, next)
 
 }
 
-function NotificationTask(title, msg, navigateto, notify_id)  // Added navigateto parameter!
+function NotificationTask(postid, title, msg, navigateto, notify_id)  // Added navigateto parameter!
 {
       if(notify_id.startsWith("http://")) 
      {
@@ -502,6 +502,8 @@ function NotificationTask(title, msg, navigateto, notify_id)  // Added navigatet
                 var windows_navigation_path = "";
                 if(navigateto=="safety")
                 windows_navigation_path = "/SafetyNotification.xaml?msg=";
+                if(navigateto.startsWith("news"))
+                windows_navigation_path = "/NewsDescription.xaml?ID="+postid; 
                 else
                 {
                   windows_navigation_path = "/StickyHome.xaml?msg=";
@@ -510,8 +512,8 @@ function NotificationTask(title, msg, navigateto, notify_id)  // Added navigatet
                 {
                     console.log(data);
                 });
-
                 console.log("This user is not an android user");
+
 
      }
 
