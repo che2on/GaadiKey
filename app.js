@@ -25,18 +25,12 @@ var plans  = db.collection("plans");
 var specifications = db.collection("specifications");
 var publicgaadino_directory = db.collection("publicgaadino_directory");
 var wordpress = require("wordpress");
-
-
 // Adding Search API for Gaadi Number should be similar to job search ... 
 // Should list followig things in the order
-
 //
-
     //1. Gaadi Number eg: KA50Q7896 (Main Title)
     //2. Gaadi Model eg: Honda Unicorn (Secondary subtitle )
     //3. Gaai Pic    eg: fetched from gaadikey.com image !
-
-
 //var profiles = db.collection("profiles");
 // var sslOptions = {
 //   key: fs.readFileSync('./ssl/gaadikey_in.key'),
@@ -460,6 +454,7 @@ function pushToOne(req, res, next)
                     var title = req.body.title;
                     var message = req.body.message;
                     var navigateto = req.body.navigateto;
+                    var postid = req.body.postid;
 
 
                     var count = 0 ;
@@ -473,7 +468,7 @@ function pushToOne(req, res, next)
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                NotificationTask(null, title, message, navigateto, rec.notifyid);
+                                NotificationTask(postid, title, message, navigateto, rec.notifyid);
                              
                             }
 
@@ -513,7 +508,6 @@ function NotificationTask(postid, title, msg, navigateto, notify_id)  // Added n
                     console.log(data);
                 });
                 console.log("This user is not an android user");
-
      }
      else
      {
