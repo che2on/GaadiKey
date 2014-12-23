@@ -493,6 +493,8 @@ function NotificationTask(soundpath, postid, title, msg, navigateto, notify_id) 
       if(notify_id.startsWith("http://")) 
      {
                 console.log("startsWith is working ");
+                if(soundpath==null)
+                soundpath = "isostore:/Shared/ShellContent/yo.mp3";
                 if(soundpath.startsWith("http://"))
                 {
                   soundpath = "isostore:/Shared/ShellContent/yo.mp3";
@@ -1897,7 +1899,7 @@ function setTone(req, res, next)
 
       // Update only tone now ie : profilepic!
      var update = { $set: {             
-               profilepic:req.body.tonepath              
+               profilepic:req.body.profilepic              
                  }};
 
 
