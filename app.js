@@ -148,6 +148,9 @@ server.post({path: REGISTER_PATH, version: "0.0.1"}, registerAsVerified);
 var UPDATE_PATH   = "/update"
 server.post({path: UPDATE_PATH, version: "0.0.1"},  updateProfile); // The updateProfile is called!!!
 
+var UPDATE_TONE   = "/updatetone"
+server.post({path: UPDATE_TONE, version: "0.0.1"}, setTone); // The set tone function would be called! 
+
 var DUMMY_CONTACTS_PATH =  "/dummycontacts"
 server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
 server.post({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, postNewDummyContact); 
@@ -297,7 +300,7 @@ function postPush(req, res, next)
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                NotificationTask(postid, title, message, navigateto, rec.notifyid); // Added navigatedto parameter to                            
+                                NotificationTask(rec.profilepic, postid, title, message, navigateto, rec.notifyid); // Added navigatedto parameter to                            
                             }
 
                             if(success.length == count )
@@ -416,7 +419,7 @@ function pushToAll(req, res, next )
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                NotificationTask(null, title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
+                                NotificationTask(rec.profilepic, null, title, message, navigateto, rec.notifyid); // Added navigatedto parameter to
                              
                             }
 
@@ -468,7 +471,7 @@ function pushToOne(req, res, next)
                             if(rec.notifyid!=null && rec.notifyid!="")
                             {
                                 sentcount ++;
-                                NotificationTask(postid, title, message, navigateto, rec.notifyid);
+                                NotificationTask(rec.profilepic, postid, title, message, navigateto, rec.notifyid); // A new profile pic alias sound parameter has been added
                              
                             }
 
@@ -485,11 +488,16 @@ function pushToOne(req, res, next)
 
 }
 
-function NotificationTask(postid, title, msg, navigateto, notify_id)  // Added navigateto parameter!
+function NotificationTask(soundpath, postid, title, msg, navigateto, notify_id)  // Added navigateto parameter!
 {
       if(notify_id.startsWith("http://")) 
      {
                 console.log("startsWith is working ");
+                if(soundpath.startsWith("http://"))
+                {
+                  soundpath = "isostore:/Shared/ShellContent/yo.mp3";
+                }
+
 
                 var mpns = require('mpns');
                 var pushUri = notify_id;
@@ -503,7 +511,7 @@ function NotificationTask(postid, title, msg, navigateto, notify_id)  // Added n
                 {
                   windows_navigation_path = "/StickyHome.xaml?msg="+msg;
                 }
-                mpns.sendToast(pushUri, title, msg,'isostore:/Shared/ShellContent/bow.mp3',windows_navigation_path, function back(err,data)
+                mpns.sendToast(pushUri, title, msg, soundpath, windows_navigation_path, function back(err,data)
                 {
                     console.log(data);
                 });
@@ -1876,7 +1884,39 @@ function updateProfile(req, res, next )
               // console.log("The error is "+err+" throwing it in next");
               // res.send(404);
 }
-               //this user has already been registered.       
+               //this user has already been registered.    
+
+
+function setTone(req, res, next)
+{
+      if (!req.username) { 
+          return res.sendUnauthenticated();
+        // The ERROR response is sent... without upfdating the profile.... because there is not access token sent sent in the request! 
+      }
+
+
+      // Update only tone now ie : profilepic!
+     var update = { $set: {             
+               profilepic:req.body.tonepath              
+                 }};
+
+
+            var query =  { phonenumber: req.body.phonenumber };
+            gaadikey_users.update(query, update, function(err, result)
+                {
+                        if(err) { throw err; }
+                      //  setTimeout(function() {onetimeNotification(req.body.notifyid); }, 30*60*1000); // This function is called after 1 minute
+                      //  Here, one can notify about the change in profile    
+
+                      //  onetimeNotification(req.body.notifyid);
+
+                        res.send(200, result);
+                        return next();
+
+                });
+
+
+}   
         
 
 
