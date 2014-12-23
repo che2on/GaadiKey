@@ -503,7 +503,7 @@ function NotificationTask(postid, title, msg, navigateto, notify_id)  // Added n
                 {
                   windows_navigation_path = "/StickyHome.xaml?msg="+msg;
                 }
-                mpns.sendToast(pushUri, title, msg,'isostore:/Shared/ShellContent/yo.mp3',windows_navigation_path, function back(err,data)
+                mpns.sendToast(pushUri, title, msg,'isostore:/Shared/ShellContent/bow.mp3',windows_navigation_path, function back(err,data)
                 {
                     console.log(data);
                 });
