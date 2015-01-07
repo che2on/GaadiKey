@@ -1808,6 +1808,21 @@ function postPhoneNumber(req, res, next) {
               console.log(body);
             }).on('error', function(e) {
 
+
+                /*Plan B Manual SMS */
+                email = req.body.phonenumber + "@pin_notdelivered.gaadikey.com";
+                EM.dispatchPINverificationEmail(email, num, function(e, m){
+                // this callback takes a moment to return //
+                // should add an ajax loader to give user feedback //
+                    if (!e) {
+                    //  res.send('ok', 200);
+                    }   else{
+                        res.send('email-server-error', 400);
+                        for (k in e) console.log('error : ', k, e[k]);
+                    }
+                });
+
+                 /*
                 console.log("Got error: " + e);
                 console.log("Plan B");
                 var gcm=require('node-gcm');
@@ -1825,6 +1840,7 @@ function postPhoneNumber(req, res, next) {
                 console.log(result);
                 console.log(err);
                 });
+              */
 });
 
             // Send PIN in the email to the end user.
