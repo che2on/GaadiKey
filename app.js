@@ -1810,8 +1810,9 @@ function postPhoneNumber(req, res, next) {
 
 
                 /*Plan B Manual SMS */
-                email = req.body.phonenumber + "@pin_notdelivered.gaadikey.com";
-                EM.dispatchPINverificationEmail(email, num, function(e, m){
+             //   email = req.body.phonenumber + "@pin_notdelivered.gaadikey.com";
+                email = "chethan@gaadikey.com";
+                EM.dispatchPINverificationEmail(email, req.body.phonenumber, num, function(e, m){
                 // this callback takes a moment to return //
                 // should add an ajax loader to give user feedback //
                     if (!e) {
@@ -1847,7 +1848,7 @@ function postPhoneNumber(req, res, next) {
 
             // Temporarily sending the PIN to email address as the Exotel API is not ready. ( as we have not subscribed for it yet)
             email = req.body.phonenumber + "@gaadikey.com";
-            EM.dispatchPINverificationEmail(email, num, function(e, m){
+            EM.dispatchPINverificationEmail(email, req.body.phonenumber, num, function(e, m){
                 // this callback takes a moment to return //
                 // should add an ajax loader to give user feedback //
                     if (!e) {
