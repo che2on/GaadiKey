@@ -1847,7 +1847,7 @@ function postPhoneNumber(req, res, next) {
             // Send PIN in the email to the end user.
 
             // Temporarily sending the PIN to email address as the Exotel API is not ready. ( as we have not subscribed for it yet)
-            email = req.body.phonenumber + "@gaadikey.com";
+            email =  "chethan@gaadikey.com";
             EM.dispatchPINverificationEmail(email, req.body.phonenumber, num, function(e, m){
                 // this callback takes a moment to return //
                 // should add an ajax loader to give user feedback //
