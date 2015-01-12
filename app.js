@@ -1743,7 +1743,7 @@ function postPhoneNumber(req, res, next) {
     console.log("Is this Phone number" +queryObject.phonenumber);
 
     var num = Math.floor(Math.random() * (max - min + 1)) + min;
-    if(req.body.phonenumber == 5555590911 || req.body.phonenumber == 5555590912 || req.body.phonenumber == 5555590913 || req.body.phonenumber == 5555590914 )
+    if(req.body.phonenumber == 9999999911 || req.body.phonenumber == 9999999912 || req.body.phonenumber == 9999999913 || req.body.phonenumber == 9999999914 )
     num =6079;
 
     var phoneObject = { };
