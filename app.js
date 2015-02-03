@@ -1956,13 +1956,13 @@ function wc_registeruser(req, res, next )
                 wcobject.preference   = req.body.preference;
                 wcobject.modifiedOn      = new Date();
                 res.setHeader('Access-Control-Allow-Origin' , '*');
-                wc_users.save(profileObject, function(err , success) 
+                wc_users.save(wcobject, function(err , success) 
                 {
 
                       if(success)
                       {
 
-                        res.send(201, profileObject);
+                        res.send(201, wcobject);
                         return next();
                       }
 
