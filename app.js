@@ -153,7 +153,7 @@ var UPDATE_TONE   = "/updatetone"
 server.post({path: UPDATE_TONE, version: "0.0.1"}, setTone); // The set tone function would be called! 
 
 var WC_REGISTER_PATH = "/wc_registeruser"
-server.post({path: REGISTER_PATH}, wc_registeruser);
+server.post({path: WC_REGISTER_PATH}, wc_registeruser);
 
 var WC_UPDATE_PATH =  "/wc_updateuser"
 server.post({path: WC_UPDATE_PATH }, wc_updateuser);
