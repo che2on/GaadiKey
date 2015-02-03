@@ -25,6 +25,7 @@ var plans  = db.collection("plans");
 var specifications = db.collection("specifications");
 var publicgaadino_directory = db.collection("publicgaadino_directory");
 var wordpress = require("wordpress");
+var wc_users = db.collection("wc_users");
 // Adding Search API for Gaadi Number should be similar to job search ... 
 // Should list followig things in the order
 //
@@ -150,6 +151,12 @@ server.post({path: UPDATE_PATH, version: "0.0.1"},  updateProfile); // The updat
 
 var UPDATE_TONE   = "/updatetone"
 server.post({path: UPDATE_TONE, version: "0.0.1"}, setTone); // The set tone function would be called! 
+
+var WC_REGISTER_PATH = "/wc_registeruser"
+server.post({path: REGISTER_PATH}, wc_registeruser);
+
+var WC_UPDATE_PATH =  "/wc_updateuser"
+server.post({path: WC_UPDATE_PATH }, wc_updateuser);
 
 var DUMMY_CONTACTS_PATH =  "/dummycontacts"
 server.get({path: DUMMY_CONTACTS_PATH, version: "0.0.1"}, dummyContacts );
@@ -1942,7 +1949,53 @@ function setTone(req, res, next)
 }   
         
 
+function wc_registeruser(req, res, next )
+{
+                var wcobject = { };
+                wcobject.notify_id = req.body.notify_id;
+                wcobject.preference   = req.body.preference;
+                wcobject.modifiedOn      = new Date();
+                res.setHeader('Access-Control-Allow-Origin' , '*');
+                wc_users.save(profileObject, function(err , success) 
+                {
 
+                      if(success)
+                      {
+
+                        res.send(201, profileObject);
+                        return next();
+                      }
+
+                });
+
+
+}
+
+
+function wc_updateuser(req, res, next )
+{
+
+   var update = { $set: {             
+               preference:req.body.preference              
+                 }};
+
+
+            var query =  { notify_id: req.body.notify_id };
+            wc_users.update(query, update, function(err, result)
+                {
+                        if(err) { throw err; }
+                      //  setTimeout(function() {onetimeNotification(req.body.notifyid); }, 30*60*1000); // This function is called after 1 minute
+                      //  Here, one can notify about the change in profile    
+
+                      //  onetimeNotification(req.body.notifyid);
+
+                        res.send(200, result);
+                        return next();
+
+                });
+
+
+}
 
 
 
