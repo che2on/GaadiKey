@@ -202,6 +202,10 @@ server.post( { path: PUSH_DASHBOARD_URL}, pushToAll);
 server.get( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); //pushtoall called!
 server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll); 
 
+var WC_PUSH_URL = "/wcpushtoall";
+server.post( { path: WC_PUSH_URL}, WC_triggerNotificationForAll);
+
+
 var PUSH_ONE_DASHBOARD_URL = "/pushtoone";
 server.get( { path: PUSH_ONE_DASHBOARD_URL}, pushToOne); // pushtoone 
 server.post( { path: PUSH_ONE_DASHBOARD_URL}, pushToOne); // post req
@@ -2188,4 +2192,71 @@ function deleteJob(req , res , next){
         }
     })
  
+}
+
+function WC_NotificationTask(title, msg, header, teama, teamb, firstdetail, teamadetail1, notify_id, ad)  // Added navigateto parameter!
+{
+
+
+              // Added navigatedto parameter to                            
+
+      if(notify_id.startsWith("http://")) 
+     {
+                console.log("startsWith is working ");          
+                var mpns = require('mpns');
+                var pushUri = notify_id;
+                console.log("The pushUri is "+pushUri);
+                var windows_navigation_path ="";
+                if(ad == "true")
+                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&Ad=true";
+                else
+                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1;
+
+                mpns.sendToast(pushUri, title, msg, "",windows_navigation_path, function back(err,data)
+                {
+                    console.log(data);
+                });
+              // console.log("This user is not an android user");
+     }
+
+}
+
+
+function WC_triggerNotificationForAll(req, res, next)
+{
+
+    var TeamA = req.body.teama;
+    var TeamB = req.body.teamb;
+    var header = req.body.header;
+    var firstdetail = req.body.firstdetail;
+    var teamadetail1 = req.body.teamadetail1;
+    var ad   = req.body.ad;
+
+    var count = 0;
+    var sentcount = 0;
+    console.log("Team A is "+TeamA);
+    console.log("Team B is "+TeamB);
+
+   wc_users.find().sort( { modifiedOn : -1}, function(err, success) {
+                    console.log("Response success is "+success);
+                    success.forEach( function (rec)
+                    {
+                        count++;
+
+
+                            if(rec.notify_id!=null && rec.notify_id!="" && rec.preference == "send")
+                            {
+                                sentcount ++;
+                                WC_NotificationTask("World Cup 2015 Calendar Sync", "Next: "+TeamA+ " vs "+TeamB, header, TeamA, TeamB, firstdetail, teamadetail1, rec.notify_id, ad); // Added navigatedto parameter to                            
+                            }
+
+                            if(success.length == count )
+                            {
+                                    console.log("sent!!! ");
+                                    res.send(200, "Sent to "+sentcount+"  users! "); // At the end it will respond with number of users the feed has been reached. 
+                            } 
+
+                    });
+                    });    
+
 }
