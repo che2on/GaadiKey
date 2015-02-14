@@ -2216,9 +2216,9 @@ function WC_NotificationTask(title, msg, header, teama, teamb, firstdetail, team
                 // windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1;
 
                 if(ad == "true")
-                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&TeamADetail2="+teamadetail2+"&TeamADetail3="+teamadetail3+"&TeamBDetail1="+teambdetail1+"&TeamBDetail2="+teambdetail2+"&TeamBDetail3="+teambdetail3+"&LastDetail"+lastdetail+"&Ad=true";
+                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&TeamADetail2="+teamadetail2+"&TeamADetail3="+teamadetail3+"&TeamBDetail1="+teambdetail1+"&TeamBDetail2="+teambdetail2+"&TeamBDetail3="+teambdetail3+"&LastDetail="+lastdetail+"&Ad=true";
                 else
-                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&TeamADetail2="+teamadetail2+"&TeamADetail3="+teamadetail3+"&TeamBDetail1="+teambdetail1+"&TeamBDetail2="+teambdetail2+"&TeamBDetail3="+teambdetail3+"&LastDetail"+lastdetail;
+                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&TeamADetail2="+teamadetail2+"&TeamADetail3="+teamadetail3+"&TeamBDetail1="+teambdetail1+"&TeamBDetail2="+teambdetail2+"&TeamBDetail3="+teambdetail3+"&LastDetail="+lastdetail;
 
 
                 mpns.sendToast(pushUri, title, msg, "",windows_navigation_path, function back(err,data)
