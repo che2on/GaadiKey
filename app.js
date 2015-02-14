@@ -2194,7 +2194,10 @@ function deleteJob(req , res , next){
  
 }
 
-function WC_NotificationTask(title, msg, header, teama, teamb, firstdetail, teamadetail1, notify_id, ad)  // Added navigateto parameter!
+
+// For next match information use  the following parameters which are at the start: title, msg
+
+function WC_NotificationTask(title, msg, header, teama, teamb, firstdetail, teamadetail1, teamadetail2, teamadetail3, teambdetail1, teambdetail2, teambdetail3, lastdetail, notify_id, ad)  // Added navigateto parameter!
 {
 
 
@@ -2207,10 +2210,16 @@ function WC_NotificationTask(title, msg, header, teama, teamb, firstdetail, team
                 var pushUri = notify_id;
                 console.log("The pushUri is "+pushUri);
                 var windows_navigation_path ="";
+                // if(ad == "true")
+                // windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&Ad=true";
+                // else
+                // windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1;
+
                 if(ad == "true")
-                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&Ad=true";
+                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&TeamADetail2="+teamadetail2+"&TeamADetail3="+teamadetail3+"&TeamBDetail1="+teambdetail1+"&TeamBDetail2="+teambdetail2+"&TeamBDetail3="+teambdetail3+"&LastDetail"+lastdetail+"&Ad=true";
                 else
-                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1;
+                windows_navigation_path = "/LiveUpdate.xaml?Header="+header+"&Flag1Label="+teama+"&Flag2Label="+teamb+"&FirstDetail="+firstdetail+"&TeamADetail1="+teamadetail1+"&TeamADetail2="+teamadetail2+"&TeamADetail3="+teamadetail3+"&TeamBDetail1="+teambdetail1+"&TeamBDetail2="+teambdetail2+"&TeamBDetail3="+teambdetail3+"&LastDetail"+lastdetail;
+
 
                 mpns.sendToast(pushUri, title, msg, "",windows_navigation_path, function back(err,data)
                 {
@@ -2225,11 +2234,22 @@ function WC_NotificationTask(title, msg, header, teama, teamb, firstdetail, team
 function WC_triggerNotificationForAll(req, res, next)
 {
 
+    var msg =   req.body.msg; 
     var TeamA = req.body.teama;
     var TeamB = req.body.teamb;
     var header = req.body.header;
     var firstdetail = req.body.firstdetail;
     var teamadetail1 = req.body.teamadetail1;
+    var teamadetail2 = req.body.teamadetail2;
+    var teamadetail3 = req.body.teamadetail3;
+
+    var teambdetail1 = req.body.teambdetail1;
+    var teambdetail2 = req.body.teambdetail2;
+    var teambdetail3 = req.body.teambdetail3;
+
+    var lastdetail = req.body.lastdetail; 
+
+
     var ad   = req.body.ad;
 
     var count = 0;
@@ -2247,7 +2267,7 @@ function WC_triggerNotificationForAll(req, res, next)
                             if(rec.notify_id!=null && rec.notify_id!="" && rec.preference == "send")
                             {
                                 sentcount ++;
-                                WC_NotificationTask("World Cup 2015 Calendar Sync", "Next: "+TeamA+ " vs "+TeamB, header, TeamA, TeamB, firstdetail, teamadetail1, rec.notify_id, ad); // Added navigatedto parameter to                            
+                                WC_NotificationTask("World Cup 2015 Calendar Sync", msg, header, TeamA, TeamB, firstdetail, teamadetail1, teamadetail2, teamadetail3, teambdetail1, teambdetail2, teambdetail3, lastdetail, rec.notify_id, ad); // Added navigatedto parameter to                            
                             }
 
                             if(success.length == count )
