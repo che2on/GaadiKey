@@ -2267,7 +2267,7 @@ function WC_triggerNotificationForAll(req, res, next)
                             if(rec.notify_id!=null && rec.notify_id!="" && rec.preference == "send")
                             {
                                 sentcount ++;
-                                WC_NotificationTask("World Cup 2015 Calendar Sync", msg, header, TeamA, TeamB, firstdetail, teamadetail1, teamadetail2, teamadetail3, teambdetail1, teambdetail2, teambdetail3, lastdetail, rec.notify_id, ad); // Added navigatedto parameter to                            
+                                WC_NotificationTask("Wc 2015", msg, header, TeamA, TeamB, firstdetail, teamadetail1, teamadetail2, teamadetail3, teambdetail1, teambdetail2, teambdetail3, lastdetail, rec.notify_id, ad); // Added navigatedto parameter to                            
                             }
 
                             if(success.length == count )
