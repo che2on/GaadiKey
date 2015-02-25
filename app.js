@@ -26,6 +26,7 @@ var specifications = db.collection("specifications");
 var publicgaadino_directory = db.collection("publicgaadino_directory");
 var wordpress = require("wordpress");
 var wc_users = db.collection("wc_users");
+var wcme_users = db.collection("wc_me");
 // Adding Search API for Gaadi Number should be similar to job search ... 
 // Should list followig things in the order
 //
@@ -154,6 +155,9 @@ server.post({path: UPDATE_TONE, version: "0.0.1"}, setTone); // The set tone fun
 
 var WC_REGISTER_PATH = "/wc_registeruser"
 server.post({path: WC_REGISTER_PATH}, wc_registeruser);
+
+var WCME_REGISTER_PATH = "/wcme_registeruser"
+server.post({path: WCME_REGISTER_PATH}, wcme_registeruser);
 
 var WC_UPDATE_PATH =  "/wc_updateuser"
 server.post({path: WC_UPDATE_PATH }, wc_updateuser);
@@ -1961,6 +1965,32 @@ function wc_registeruser(req, res, next )
                 wcobject.modifiedOn      = new Date();
                 res.setHeader('Access-Control-Allow-Origin' , '*');
                 wc_users.save(wcobject, function(err , success) 
+                {
+
+                      if(success)
+                      {
+
+                        res.send(201, wcobject);
+                        return next();
+                      }
+
+                });
+
+
+}
+
+function wcme_registeruser(req, res, next )
+{
+                var wcobject = { };
+                wcobject.first_name = req.body.first_name;
+                wcobject.last_name   = req.body.last_name;
+                wcobject.email      =  req.body.email;
+                wcobject.gender     =  req.body.gender;
+                wcobject.birthday   =  req.body.birthday;
+                wcobject.address    =  req.body.address;
+                wcobject.phone      =  req.body.phone;
+                res.setHeader('Access-Control-Allow-Origin' , '*');
+                wcme_users.save(wcobject, function(err , success) 
                 {
 
                       if(success)
