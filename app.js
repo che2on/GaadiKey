@@ -27,6 +27,11 @@ var publicgaadino_directory = db.collection("publicgaadino_directory");
 var wordpress = require("wordpress");
 var wc_users = db.collection("wc_users");
 var wcme_users = db.collection("wc_me");
+
+//Update to test the setup - Test once it gets synchronized 
+
+
+
 // Adding Search API for Gaadi Number should be similar to job search ... 
 // Should list followig things in the order
 //
