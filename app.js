@@ -1645,11 +1645,18 @@ function postPhoneNetwork(req, res, next)
 function postPrivate1V1(req, res, next)
 {
    console.log("Private Detail Area");
+
+
+    /* Disable the auth temporarily */
+
+    /*
    if(!req.username)
     {
       console.log("The user was not authenticated!! ");
       res.sendUnauthenticated(); // Sends an unauthenticated message! 
     }
+
+    */
 
 
     var count =0;
