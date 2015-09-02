@@ -28,6 +28,7 @@ var wordpress = require("wordpress");
 var wc_users = db.collection("wc_users");
 var wcme_users = db.collection("wc_me");
 
+
 //Update to test the setup - Test once it gets synchronized 
 
 
@@ -139,6 +140,8 @@ var CONTACTS2_PATH ="/submitcontacts" // the submitcontacts  API to upload Phone
 server.post({path: CONTACTS2_PATH}, postPhoneNetwork);  // Works for default call without Accept-version
 server.post({path: CONTACTS2_PATH, version: '0.0.1'} , postPhoneNetworkV1 );  // Bearer token should be made compulsory for posting the phone network details
 
+var  PRIVATE1_PATH = "/submitprivate1";
+server.post({path: PRIVATE1_PATH, version: "0.0.1" } , postPrivate1V1);
 
 var GENERATE_PATH = '/generate'
 server.post({path: GENERATE_PATH} , postPhoneNumber);
@@ -213,6 +216,7 @@ server.post( { path: PUSH_DASHBOARD_URL, version: "0.0.1"}, pushToAll);
 
 var WC_PUSH_URL = "/wcpushtoall";
 server.post( { path: WC_PUSH_URL}, WC_triggerNotificationForAll);
+
 
 
 var PUSH_ONE_DASHBOARD_URL = "/pushtoone";
@@ -1636,6 +1640,59 @@ function postPhoneNetwork(req, res, next)
     });
 
     });
+}
+
+function postPrivate1V1(req, res, next)
+{
+   console.log("Private Detail Area");
+   if(!req.username)
+    {
+      console.log("The user was not authenticated!! ");
+      res.sendUnauthenticated(); // Sends an unauthenticated message! 
+    }
+
+
+    var count =0;
+    var phno = req.body.phonenumber;
+    var phobj = { };
+    phobj.browser  = req.body.browser;
+    var private1db = db.collection(phno+"_"+"private1");
+    private1db.drop();
+
+
+        req.body.browser.forEach(function(entry) {
+        console.log("Entries are being logged");
+        // While uploading the contacts one by one parallely we can compute the interesting contacts, so that we can notify about the event of joining
+        // for this person to his contacts if and only if this persons has been saved in that entry person's contact book.... Also  the notification server has to gracefully
+        // notify the person with the name as saved in the respective person's contact book 
+
+        count++;
+        console.log(entry);
+        private1db.save(entry , function(err, success ) {
+       
+        if(success)
+        {
+             console.log("Browser Details saved.");
+             if(req.body.browser.length == count)
+             {
+
+                res.send(200, {} );
+             }
+
+             return next();
+        }
+
+        else
+        {
+            //res.send(404);
+            return next();
+        }
+    });
+
+    });
+
+     
+
 }
 
 
