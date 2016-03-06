@@ -382,9 +382,9 @@ function submitArticle(req, res, next )
 
      var wp = wordpress.createClient(
      {
-        "url" : "http://blog.gaadikey.com",
-        "username" : "nodepub",
-        "password" : "nodepub@gaadikey"
+        "url" : "---",
+        "username" : "---",
+        "password" : "---"
      });
 
      wp.newPost( {
